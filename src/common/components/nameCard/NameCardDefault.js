@@ -3,8 +3,8 @@ import React from "react";
 import styled from "styled-components";
 
 const StyledNameCardDefault = styled.div`
-  width: 20%;
-  height: 7rem;
+  width: 20rem;
+  height: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
@@ -17,16 +17,23 @@ const StyledNameCardDefault = styled.div`
   }
 `;
 
-function NameCardDefault({ contents }) {
+function NameCardDefault({ children, label }) {
   return (
     <StyledNameCardDefault>
-      <div className="name-card">닉네임 : {contents}</div>
+      <div className="name-card">
+        {label} {children}
+      </div>
     </StyledNameCardDefault>
   );
 }
 
 NameCardDefault.propTypes = {
-  contents: PropTypes.string.isRequired,
+  children: PropTypes.string.isRequired,
+  label: PropTypes.string,
+};
+
+NameCardDefault.defaultProps = {
+  label: "",
 };
 
 export default NameCardDefault;

@@ -15,7 +15,7 @@ const StyledButtonSmall = styled.button`
 
 function ButtonSmall({ onClick, disabled, children }) {
   return (
-    <StyledButtonSmall onClick={onClick} disabled={disabled}>
+    <StyledButtonSmall type="submit" onClick={onClick} disabled={disabled}>
       {children}
     </StyledButtonSmall>
   );
