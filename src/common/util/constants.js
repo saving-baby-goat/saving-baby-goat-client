@@ -5,6 +5,9 @@ export const COLOR = {
   HEAVY_GREY: "#505050",
   BLACK: "#000000",
   WHITE: "#FFFFFF",
+  RED: "#af5a4b",
+  GREEN: "#7fac66",
+  BLUE: "#589f96",
 };
 
 export const LEVEL = {

@@ -1,13 +1,15 @@
 import React, { useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
+import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import ButtonDefault from "../../common/components/buttons/ButtonDefault";
 import Input from "../../common/components/inputs/Input";
 import Modal from "../../common/components/modal/Modal";
-import NameCardDefault from "../../common/components/namsCard/NameCardDefault";
+import NameCardDefault from "../../common/components/nameCard/NameCardDefault";
 import Title from "../../common/components/title/Title";
 import { LEVEL } from "../../common/util/constants";
+import { setGameLevel } from "../game/gameSlice";
 import { setNickname } from "./introSlice";
 
 const StyledIntro = styled.div`
@@ -52,9 +54,17 @@ function Intro() {
 
   const nickname = useSelector((state) => state.intro.nickname);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
 
   function handleIntroStartButtonClick() {
     setStartButtonClick(true);
+
+    if (nickname) {
+      setStartButton(true);
+      setShowNickname(true);
+      return;
+    }
+
     setShowInput(true);
   }
 
@@ -91,6 +101,11 @@ function Intro() {
     setShowModal(false);
   }
 
+  function handleGameLevelClick(level) {
+    dispatch(setGameLevel(level));
+    navigate("/game");
+  }
+
   return (
     <StyledIntro>
       {showModal && (
@@ -103,10 +118,9 @@ function Intro() {
       </div>
       <div className="contents-container">
         {!startButtonClick && (
-          <ButtonDefault
-            contents="드 가 자 ~"
-            onClick={handleIntroStartButtonClick}
-          />
+          <ButtonDefault onClick={handleIntroStartButtonClick}>
+            드 가 자 ~
+          </ButtonDefault>
         )}
         {showInput && (
           <Input
@@ -118,28 +132,34 @@ function Intro() {
         )}
         {showStartButton && (
           <div className="contents-container">
-            <ButtonDefault
-              contents="게임 시작"
-              onClick={handleGameStartButtonClick}
-            />
-            <ButtonDefault
-              contents="Custom Map 제작"
-              onClick={handleCreateCustomMap}
-            />
+            <ButtonDefault onClick={handleGameStartButtonClick}>
+              게임 시작
+            </ButtonDefault>
+            <ButtonDefault onClick={handleCreateCustomMap}>
+              Custom Map 제작
+            </ButtonDefault>
           </div>
         )}
         {showLevelButton && (
           <div className="contents-container">
-            <ButtonDefault contents={LEVEL.EASY} />
-            <ButtonDefault contents={LEVEL.NORMAL} />
-            <ButtonDefault contents={LEVEL.HARD} />
-            <ButtonDefault contents={LEVEL.CUSTOM_MAP} />
+            <ButtonDefault onClick={handleGameLevelClick}>
+              {LEVEL.EASY}
+            </ButtonDefault>
+            <ButtonDefault onClick={handleGameLevelClick}>
+              {LEVEL.NORMAL}
+            </ButtonDefault>
+            <ButtonDefault onClick={handleGameLevelClick}>
+              {LEVEL.HARD}
+            </ButtonDefault>
+            <ButtonDefault onClick={handleGameLevelClick}>
+              {LEVEL.CUSTOM_MAP}
+            </ButtonDefault>
           </div>
         )}
       </div>
       {showNickname && (
         <div className="nickname-container">
-          <NameCardDefault contents={nickname} />
+          <NameCardDefault label="닉네임 : ">{nickname}</NameCardDefault>
         </div>
       )}
     </StyledIntro>

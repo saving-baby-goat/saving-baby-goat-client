@@ -4,43 +4,42 @@ import styled from "styled-components";
 
 import { COLOR } from "../../util/constants";
 
-const StyledButtonDefault = styled.button`
-  width: 20rem;
-  height: 5rem;
+const StyledButtonFluid = styled.button`
+  width: 15rem;
+  height: 3rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  background-color: ${COLOR.BROWN};
-  border: 0.3rem solid black;
+  font-size: 1.2rem;
+  font-weight: bold;
+  background-color: ${(props) => props.color};
   border-radius: 4rem;
   cursor: pointer;
 `;
 
-function ButtonDefault({ onClick, disabled, children }) {
+function ButtonFluid({ onClick, color, disabled, children }) {
   return (
-    <StyledButtonDefault
+    <StyledButtonFluid
       type="button"
+      onClick={onClick}
+      color={color}
       disabled={disabled}
-      onClick={() => {
-        onClick(children);
-      }}
-      onKeyDown={() => {
-        onClick(children);
-      }}
     >
       {children}
-    </StyledButtonDefault>
+    </StyledButtonFluid>
   );
 }
 
-ButtonDefault.propTypes = {
+ButtonFluid.propTypes = {
   children: PropTypes.string.isRequired,
   onClick: PropTypes.func.isRequired,
   disabled: PropTypes.bool,
-};
-ButtonDefault.defaultProps = {
-  disabled: false,
+  color: PropTypes.string,
 };
 
-export default ButtonDefault;
+ButtonFluid.defaultProps = {
+  disabled: false,
+  color: COLOR.RED,
+};
+
+export default ButtonFluid;
