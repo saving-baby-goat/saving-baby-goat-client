@@ -4,7 +4,6 @@ import ButtonDefault from "../common/components/buttons/ButtonDefault";
 import ButtonFluid from "../common/components/buttons/ButtonFluid";
 import Input from "../common/components/inputs/Input";
 import NameCardDefault from "../common/components/nameCard/NameCardDefault";
-// eslint-disable-next-line import/no-unresolved
 import NameCardSmall from "../common/components/nameCard/NameCardSmall";
 import NameCardTiny from "../common/components/nameCard/NameCardTiny";
 import Node from "../common/components/node/Node";
