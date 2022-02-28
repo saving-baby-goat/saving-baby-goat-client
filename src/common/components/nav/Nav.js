@@ -1,8 +1,9 @@
-import React, { useState } from "react";
+import React from "react";
 import Dice from "react-dice-roll";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
+import { onRollDice } from "../../../features/game/gameSlice";
 import ButtonFluid from "../buttons/ButtonFluid";
 import NameCardDefault from "../nameCard/NameCardDefault";
 import NameCardSmall from "../nameCard/NameCardSmall";
@@ -40,9 +41,10 @@ const StyledNav = styled.div`
 `;
 
 function Nav() {
-  const [moveCount, setMoveCount] = useState(0);
+  const dispatch = useDispatch();
   const nickname = useSelector((state) => state.intro.nickname);
   const gameLevel = useSelector((state) => state.game.gameLevel);
+  const currentMoveCount = useSelector((state) => state.game.moveCount);
 
   return (
     <StyledNav>
@@ -51,8 +53,10 @@ function Nav() {
         <ButtonFluid onClick={() => {}}>턴 종 료</ButtonFluid>
       </div>
       <div className="section-two">
-        <Dice size={75} onRoll={(value) => setMoveCount(value)} />
-        <NameCardSmall label="남은 걸음 수 : ">{moveCount}</NameCardSmall>
+        <Dice size={75} onRoll={(value) => dispatch(onRollDice(value))} />
+        <NameCardSmall label="남은 걸음 수 : ">
+          {currentMoveCount}
+        </NameCardSmall>
       </div>
       <div className="section-tree">
         <NameCardDefault>{nickname}</NameCardDefault>

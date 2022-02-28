@@ -16,3 +16,6 @@ export const LEVEL = {
   HARD: "HARD",
   CUSTOM_MAP: "CUSTOM MAP",
 };
+
+export const MINERAL_PERCENTAGE = 0.03;
+export const DECIMAL = 10;
