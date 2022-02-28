@@ -28,12 +28,13 @@ function NameCardSmall({ children, label }) {
 }
 
 NameCardSmall.propTypes = {
-  children: PropTypes.string.isRequired,
+  children: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   label: PropTypes.string,
 };
 
 NameCardSmall.defaultProps = {
   label: "",
+  children: null,
 };
 
 export default NameCardSmall;
