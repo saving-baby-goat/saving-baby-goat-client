@@ -5,7 +5,11 @@ import styled from "styled-components";
 
 import GOAT from "../../../assets/babyGoat.png";
 import MINERAL from "../../../assets/mineral.png";
-import { setNodeState } from "../../../features/game/gameSlice";
+import {
+  currentGameStateOpstion,
+  setNodeState,
+} from "../../../features/game/gameSlice";
+import { socketEmitted } from "../../middlewares/socketMiddleware";
 import { COLOR, DECIMAL } from "../../util/constants";
 import { hasNearPlayerPath } from "../../util/node";
 
@@ -20,9 +24,11 @@ const StyledNode = styled.div`
   align-items: center;
 
   ${({ type }) =>
+    // eslint-disable-next-line no-nested-ternary
     type === "player1Path" || type === "player1Start"
-      ? `
-      background-color: ${COLOR.BLUE};`
+      ? `background-color: ${COLOR.BLUE};`
+      : type === "player2Path" || type === "player2Start"
+      ? ` background-color: ${COLOR.GREEN};`
       : `background-color: ${COLOR.BROWN};`};
 
   .image {
@@ -39,41 +45,91 @@ function Node({ nodeId }) {
   const player1StartNodeId = useSelector(
     (state) => state.game.player1StartNodeId
   );
+  const player2StartNodeId = useSelector(
+    (state) => state.game.player2StartNodeId
+  );
+  const player1SocketId = useSelector((state) => state.game.player1SocketId);
+  const player2SocketId = useSelector((state) => state.game.player2SocketId);
+  const currentPlayerSocketId = useSelector(
+    (state) => state.game.currentPlayerSocketId
+  );
+  const currentGameState = useSelector((state) => state.game.currentGameState);
 
   const currentNode = nodeList.byId[nodeId];
   const currentState = currentNode.nodeState;
 
   function handleNodeClick() {
-    const isStart = !player1StartNodeId;
-    // const rowNumber = nodeId.split("-")[0];
-    const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
+    if (
+      currentPlayerSocketId === player1SocketId &&
+      currentGameState === currentGameStateOpstion.PLAYER_1_TURN
+    ) {
+      // 1p일때
+      const isStart = !player1StartNodeId;
+      const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
 
-    if (!currentMoveCount) {
-      // 주사위 0일때
-      return;
-    }
-
-    if (currentState === "player1Path") {
-      // 이미 지나간 길일때
-      return;
-    }
-
-    if (player1StartNodeId === "") {
-      if (columnNumber !== 0) {
-        // 처음 시작인데, 0번째 아닐때
+      if (!currentMoveCount) {
+        // 주사위 0일때
         return;
       }
-      if (columnNumber === 0) {
-        // 처음 시작 + 0번째 일떼
+
+      if (currentState === "player1Path") {
+        // 이미 지나간 길일때
+        return;
+      }
+
+      if (player1StartNodeId === "") {
+        if (columnNumber !== 0) {
+          // 처음 시작인데, 0번째 아닐때
+          return;
+        }
+        if (columnNumber === 0) {
+          // 처음 시작 + 0번째 일떼
+          dispatch(setNodeState({ nodeId, nodeState: "player1Path", isStart }));
+          return;
+        }
+      }
+
+      if (hasNearPlayerPath(nodeList, nodeId)) {
+        // 주변에 지나온 길이 있을 때
         dispatch(setNodeState({ nodeId, nodeState: "player1Path", isStart }));
+      }
+    } else if (
+      currentPlayerSocketId === player2SocketId &&
+      currentGameState === currentGameStateOpstion.PLAYER_1_TURN
+    ) {
+      // 2p 일때
+      const isStart = !player2StartNodeId;
+      const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
+
+      if (!currentMoveCount) {
+        // 주사위 0일때
         return;
+      }
+
+      if (currentState === "player2Path") {
+        // 이미 지나간 길일때
+        return;
+      }
+
+      if (player1StartNodeId === "") {
+        if (columnNumber !== 30) {
+          // 처음 시작인데, 0번째 아닐때
+          return;
+        }
+        if (columnNumber === 30) {
+          // 처음 시작 + 0번째 일떼
+          dispatch(setNodeState({ nodeId, nodeState: "player2Path", isStart }));
+          return;
+        }
+      }
+
+      if (hasNearPlayerPath(nodeList, nodeId)) {
+        // 주변에 지나온 길이 있을 때
+        dispatch(setNodeState({ nodeId, nodeState: "player2Path", isStart }));
       }
     }
 
-    if (hasNearPlayerPath(nodeList, nodeId)) {
-      // 주변에 지나온 길이 있을 때
-      dispatch(setNodeState({ nodeId, nodeState: "player1Path", isStart }));
-    }
+    dispatch(socketEmitted("sendMap", nodeList));
   }
 
   function renderImgByCurrentNodeState() {
