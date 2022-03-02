@@ -17,5 +17,13 @@ export const LEVEL = {
   CUSTOM_MAP: "CUSTOM MAP",
 };
 
+export const NODE_STATE = {
+  DEFAULT: "default",
+  GOAT: "goat",
+  MINERAL: "mineral",
+  PLAYER_1_PATH: "player1Path",
+  PLAYER_2_PATH: "player2Path",
+};
+
 export const MINERAL_PERCENTAGE = 0.03;
 export const DECIMAL = 10;

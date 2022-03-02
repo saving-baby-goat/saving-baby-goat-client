@@ -3,7 +3,8 @@ import Dice from "react-dice-roll";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import { onRollDice } from "../../../features/game/gameSlice";
+import { changePlayerTurn, onRollDice } from "../../../features/game/gameSlice";
+import { socketEmitted } from "../../middlewares/socketMiddleware";
 import ButtonFluid from "../buttons/ButtonFluid";
 import NameCardDefault from "../nameCard/NameCardDefault";
 import NameCardSmall from "../nameCard/NameCardSmall";
@@ -45,12 +46,28 @@ function Nav() {
   const nickname = useSelector((state) => state.intro.nickname);
   const gameLevel = useSelector((state) => state.game.gameLevel);
   const currentMoveCount = useSelector((state) => state.game.moveCount);
+  const isMyTurn = useSelector((state) => state.game.isMyTurn);
+  const currentGameState = useSelector((state) => state.game.currentGameState);
+  const player1SocketId = useSelector((state) => state.game.player1SocketId);
+  const player2SocketId = useSelector((state) => state.game.player2SocketId);
+  const mySocketId = useSelector((state) => state.game.mySocketId);
+
+  function handleEndOfTrurnClick() {
+    if (!isMyTurn) {
+      return;
+    }
+    const targetId =
+      mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+    dispatch(changePlayerTurn(currentGameState));
+
+    dispatch(socketEmitted("sendEndOfTurn", { currentGameState, targetId }));
+  }
 
   return (
     <StyledNav>
       <div className="section-one">
         <NameCardDefault>{gameLevel}</NameCardDefault>
-        <ButtonFluid onClick={() => {}}>턴 종 료</ButtonFluid>
+        <ButtonFluid onClick={handleEndOfTrurnClick}>턴 종 료</ButtonFluid>
       </div>
       <div className="section-two">
         <Dice size={75} onRoll={(value) => dispatch(onRollDice(value))} />

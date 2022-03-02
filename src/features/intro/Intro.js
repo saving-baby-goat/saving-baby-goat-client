@@ -8,6 +8,7 @@ import Input from "../../common/components/inputs/Input";
 import Modal from "../../common/components/modal/Modal";
 import NameCardDefault from "../../common/components/nameCard/NameCardDefault";
 import Title from "../../common/components/title/Title";
+import { socketConnected } from "../../common/middlewares/socketMiddleware";
 import { LEVEL } from "../../common/util/constants";
 import { setGameLevel } from "../game/gameSlice";
 import { setNickname } from "./introSlice";
@@ -48,7 +49,8 @@ function Intro() {
   const [showInput, setShowInput] = useState(false);
   const [usersInput, setUsersInput] = useState("");
   const [showStartButton, setStartButton] = useState(false);
-  const [showLevelButton, setShowLevelButton] = useState(false);
+  // const [showLevelButton, setShowLevelButton] = useState(false);
+  const [showLevelButton, setShowLevelButton] = useState(true);
   const [showNickname, setShowNickname] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -103,6 +105,7 @@ function Intro() {
 
   function handleGameLevelClick(level) {
     dispatch(setGameLevel(level));
+    dispatch(socketConnected(level, nickname));
     navigate("/game");
   }
 

@@ -1,4 +1,4 @@
-import { DECIMAL, MINERAL_PERCENTAGE } from "./constants";
+import { DECIMAL, MINERAL_PERCENTAGE, NODE_STATE } from "./constants";
 
 export function hasNearPlayerPath(nodeList, nodeId) {
   const rowNumber = parseInt(nodeId.split("-")[0], DECIMAL);
@@ -11,16 +11,29 @@ export function hasNearPlayerPath(nodeList, nodeId) {
     down: `${rowNumber - 1}-${columnNumber}`,
   };
 
-  if (nodeList.byId[direction.left]?.nodeState === "player1Path") {
+  if (nodeList.byId[direction.left]?.nodeState === NODE_STATE.PLAYER_1_PATH) {
     return true;
   }
-  if (nodeList.byId[direction.right]?.nodeState === "player1Path") {
+  if (nodeList.byId[direction.right]?.nodeState === NODE_STATE.PLAYER_1_PATH) {
     return true;
   }
-  if (nodeList.byId[direction.up]?.nodeState === "player1Path") {
+  if (nodeList.byId[direction.up]?.nodeState === NODE_STATE.PLAYER_1_PATH) {
     return true;
   }
-  if (nodeList.byId[direction.down]?.nodeState === "player1Path") {
+  if (nodeList.byId[direction.down]?.nodeState === NODE_STATE.PLAYER_1_PATH) {
+    return true;
+  }
+
+  if (nodeList.byId[direction.left]?.nodeState === NODE_STATE.PLAYER_2_PATH) {
+    return true;
+  }
+  if (nodeList.byId[direction.right]?.nodeState === NODE_STATE.PLAYER_2_PATH) {
+    return true;
+  }
+  if (nodeList.byId[direction.up]?.nodeState === NODE_STATE.PLAYER_2_PATH) {
+    return true;
+  }
+  if (nodeList.byId[direction.down]?.nodeState === NODE_STATE.PLAYER_2_PATH) {
     return true;
   }
 
@@ -44,10 +57,10 @@ export function createNodelist(heightCount, widthCount) {
 
       const newNode = {
         id: newNodeId,
-        nodeState: "default",
+        nodeState: NODE_STATE.DEFAULT,
       };
       if (j === heightCenter && i === widthCenter) {
-        newNode.nodeState = "goat";
+        newNode.nodeState = NODE_STATE.GOAT;
       }
 
       nodeList.byId[newNodeId] = newNode;
@@ -117,7 +130,7 @@ function setMineralNodeList(
       count++;
       if (count === randomNumerList[randomNumerList.length - 1]) {
         randomNumerList.pop();
-        nodeList.byId[`${j}-${i}`].nodeState = "mineral";
+        nodeList.byId[`${j}-${i}`].nodeState = NODE_STATE.MINERAL;
       }
     }
   }

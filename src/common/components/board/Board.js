@@ -27,9 +27,11 @@ const StyledBoard = styled.div`
 
 function Board() {
   const nodeList = useSelector((state) => state.game.nodeList);
+  const player1Nickname = useSelector((state) => state.game.player1Nickname);
+  const player2Nickname = useSelector((state) => state.game.player2Nickname);
   return (
     <StyledBoard>
-      <NameCardTiny color={COLOR.BLUE}>1p</NameCardTiny>
+      <NameCardTiny color={COLOR.BLUE}>{player1Nickname}</NameCardTiny>
       <div className="nodeList">
         {nodeList.allIds.map((row, index) => (
           // eslint-disable-next-line react/no-array-index-key
@@ -40,7 +42,7 @@ function Board() {
           </div>
         ))}
       </div>
-      <NameCardTiny color={COLOR.GREEN}>2p</NameCardTiny>
+      <NameCardTiny color={COLOR.GREEN}>{player2Nickname}</NameCardTiny>
     </StyledBoard>
   );
 }
