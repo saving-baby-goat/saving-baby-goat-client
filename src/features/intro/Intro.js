@@ -49,7 +49,8 @@ function Intro() {
   const [showInput, setShowInput] = useState(false);
   const [usersInput, setUsersInput] = useState("");
   const [showStartButton, setStartButton] = useState(false);
-  const [showLevelButton, setShowLevelButton] = useState(false);
+  // const [showLevelButton, setShowLevelButton] = useState(false);
+  const [showLevelButton, setShowLevelButton] = useState(true);
   const [showNickname, setShowNickname] = useState(false);
   const [showModal, setShowModal] = useState(false);
 

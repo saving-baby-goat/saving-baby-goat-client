@@ -38,20 +38,15 @@ function Game() {
   const [hasCreateGame, setHasCreateGame] = useState(false);
   // const player1Nickname = useSelector((state) => state.game.player1Nickname);
   // const player2Nickname = useSelector((state) => state.game.player2Nickname);
-  const currentGameRoomId = useSelector(
-    (state) => state.game.currentGameRoomId
-  );
+
   const currentGameState = useSelector((state) => state.game.currentGameState);
-  const currentPlayerSocketId = useSelector(
-    (state) => state.game.currentPlayerSocketId
-  );
+  const mySocketId = useSelector((state) => state.game.mySocketId);
   const nodeList = useSelector((state) => state.game.nodeList);
+  const player1SocketId = useSelector((state) => state.game.player1SocketId);
+  const player2SocketId = useSelector((state) => state.game.player2SocketId);
 
   useEffect(() => {
-    if (
-      currentGameState === "start" &&
-      currentGameRoomId === currentPlayerSocketId
-    ) {
+    if (currentGameState === "start" && player1SocketId === mySocketId) {
       dispatch(createGame());
       setHasCreateGame(true);
     }
@@ -60,11 +55,9 @@ function Game() {
   }, [currentGameState]);
 
   useEffect(() => {
-    if (
-      currentGameState === "start" &&
-      currentGameRoomId === currentPlayerSocketId
-    ) {
-      dispatch(socketEmitted("sendMap", nodeList));
+    if (currentGameState === "start" && player1SocketId === mySocketId) {
+      const targetId = player2SocketId;
+      dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       dispatch(changeCurrentGameState(currentGameStateOpstion.PLAYER_1_TURN));
     }
   }, [hasCreateGame]);

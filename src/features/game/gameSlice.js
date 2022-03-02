@@ -17,15 +17,21 @@ export const initialState = {
     allIds: [[]],
   },
   moveCount: 0,
+  isMyTurn: false,
+  mySocketId: "",
   player1StartNodeId: "",
   player2StartNodeId: "",
-  currentGameRoomId: "",
   player1Nickname: "",
   player2Nickname: "",
+  currentGameRoomId: "",
   player1SocketId: "",
   player2SocketId: "",
   currentGameState: "",
-  currentPlayerSocketId: "",
+  // PLAYER_1_TURN: "plyaer1Turn",
+  // PLAYER_2_TURN: "plyaer2Turn",
+  // WAITING: "waiting",
+  // START: "start",
+  // currentPlayerSocketId: "",
 };
 
 export const gameSlice = createSlice({
@@ -41,12 +47,18 @@ export const gameSlice = createSlice({
       state.nodeList = createNodelist(heightCount, widthCount);
     },
     setNodeState: (state, action) => {
-      const { nodeId, nodeState, isStart } = action.payload;
+      const { nodeId, nodeState, isStart, currentGameState } = action.payload;
 
       state.nodeList.byId[nodeId].nodeState = nodeState;
       state.moveCount--;
+
       if (isStart) {
-        state.player1StartNodeId = nodeId;
+        if (currentGameState === currentGameStateOpstion.PLAYER_1_TURN) {
+          state.player1StartNodeId = nodeId;
+        }
+        if (currentGameState === currentGameStateOpstion.PLAYER_2_TURN) {
+          state.player2StartNodeId = nodeId;
+        }
       }
     },
     onRollDice: (state, action) => {
@@ -54,8 +66,8 @@ export const gameSlice = createSlice({
         state.moveCount = action.payload;
       }
     },
-    setCurrentPlayerSocketId: (state, action) => {
-      state.currentPlayerSocketId = action.payload;
+    setMySocketId: (state, action) => {
+      state.mySocketId = action.payload;
     },
     setGameInfo: (state, action) => {
       const {
@@ -64,6 +76,7 @@ export const gameSlice = createSlice({
         player2Nickname,
         player1SocketId,
         player2SocketId,
+        currnetPlayerSocketId,
       } = action.payload;
 
       state.currentGameRoomId = currentGameRoomId;
@@ -72,15 +85,43 @@ export const gameSlice = createSlice({
       state.player1SocketId = player1SocketId;
       state.player2SocketId = player2SocketId;
       state.currentGameState = currentGameStateOpstion.START;
+
+      if (currentGameRoomId.split("-")[1] === currnetPlayerSocketId) {
+        state.isMyTurn = true;
+      }
     },
     setWaitingStatus: (state) => {
       state.currentGameState = currentGameStateOpstion.WAITING;
     },
     setMapEqual: (state, action) => {
-      state.nodeList = action.payload;
+      const { nodeList, currentSocketId } = action.payload;
+      if (state.currentGameState === currentGameStateOpstion.START) {
+        state.currentGameState = currentGameStateOpstion.PLAYER_1_TURN;
+      }
+
+      if (state.currentGameState === currentGameStateOpstion.PLAYER_1_TURN) {
+        if (currentSocketId === state.player2SocketId) {
+          state.nodeList = nodeList;
+        }
+      }
+
+      if (state.currentGameState === currentGameStateOpstion.PLAYER_2_TURN) {
+        if (currentSocketId === state.player1SocketId) {
+          state.nodeList = nodeList;
+        }
+      }
     },
     changeCurrentGameState: (state, action) => {
       state.currentGameState = action.payload;
+    },
+    changePlayerTurn: (state, action) => {
+      state.isMyTurn = !state.isMyTurn;
+
+      if (action.payload === currentGameStateOpstion.PLAYER_1_TURN) {
+        state.currentGameState = currentGameStateOpstion.PLAYER_2_TURN;
+      } else {
+        state.currentGameState = currentGameStateOpstion.PLAYER_1_TURN;
+      }
     },
   },
 });
@@ -92,9 +133,10 @@ export const {
   onRollDice,
   setGameInfo,
   setWaitingStatus,
-  setCurrentPlayerSocketId,
+  setMySocketId,
   setMapEqual,
   changeCurrentGameState,
+  changePlayerTurn,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

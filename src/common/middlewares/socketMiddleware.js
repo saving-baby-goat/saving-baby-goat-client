@@ -3,8 +3,9 @@ import { io } from "socket.io-client";
 import {
   setGameInfo,
   setWaitingStatus,
-  setCurrentPlayerSocketId,
+  setMySocketId,
   setMapEqual,
+  changePlayerTurn,
 } from "../../features/game/gameSlice";
 
 const socketActionType = {
@@ -47,19 +48,24 @@ const socketMiddleware = () => {
 
       socket.on("joinGameRoom", (gameRoomInfo) => {
         const currnetPlayerSocketId = socket.id;
-
         if (
           Object.prototype.hasOwnProperty.call(gameRoomInfo, "player2Nickname")
         ) {
+          gameRoomInfo.currnetPlayerSocketId = currnetPlayerSocketId;
           storeAPI.dispatch(setGameInfo(gameRoomInfo));
         } else {
           storeAPI.dispatch(setWaitingStatus());
         }
-        storeAPI.dispatch(setCurrentPlayerSocketId(currnetPlayerSocketId));
+        storeAPI.dispatch(setMySocketId(currnetPlayerSocketId));
       });
 
-      socket.on("sendMap", (NodeList) => {
-        storeAPI.dispatch(setMapEqual(NodeList));
+      socket.on("receiveNodeList", (nodeList) => {
+        const currentSocketId = socket.id;
+        storeAPI.dispatch(setMapEqual({ nodeList, currentSocketId }));
+      });
+
+      socket.on("receiveEndOfTurn", (currentGameState) => {
+        storeAPI.dispatch(changePlayerTurn(currentGameState));
       });
     }
 
