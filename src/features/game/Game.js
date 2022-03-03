@@ -41,6 +41,7 @@ function Game() {
   const nodeList = useSelector((state) => state.game.nodeList);
   const player1SocketId = useSelector((state) => state.game.player1SocketId);
   const player2SocketId = useSelector((state) => state.game.player2SocketId);
+  const isGameOver = useSelector((state) => state.game.isGameOver);
 
   useEffect(() => {
     if (currentGameState === "start" && player1SocketId === mySocketId) {
@@ -74,6 +75,15 @@ function Game() {
   }
   return (
     <StyledGame>
+      {isGameOver && (
+        <Modal
+          onModalCloseClick={handleModalCloseClick}
+          onModalOkButtonClick={handleModalOkButtonClick}
+          onModalCancelButtonClick={handleModalCloseClick}
+        >
+          GAME OVER
+        </Modal>
+      )}
       {showModal && (
         <Modal
           onModalCloseClick={handleModalCloseClick}

@@ -8,6 +8,7 @@ import {
   setMapEqual,
   changePlayerTurn,
   updateMineralCount,
+  updateCurrnetGameOver,
 } from "../../features/game/gameSlice";
 
 const socketActionType = {
@@ -72,6 +73,10 @@ const socketMiddleware = () => {
 
       socket.on("receiveMineralCount", (currentGameState) => {
         storeAPI.dispatch(updateMineralCount(currentGameState));
+      });
+
+      socket.on("receiveGameOver", (currentGameState) => {
+        storeAPI.dispatch(updateCurrnetGameOver(currentGameState));
       });
     }
 

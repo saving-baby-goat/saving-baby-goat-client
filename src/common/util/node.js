@@ -19,7 +19,8 @@ export function clickedDefaultNode(
   player1StartNodeId,
   player2StartNodeId,
   nodeList,
-  nodeId
+  nodeId,
+  setIsCurrnetNodeChange
 ) {
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
     console.log("1P 시작");
@@ -30,7 +31,7 @@ export function clickedDefaultNode(
       if (columnNumber !== 0) {
         console.log("1p// 처음 시작인데, 0번째 아닐때");
         // 처음 시작인데, 0번째 아닐때
-        return false;
+        return;
       }
       if (columnNumber === 0) {
         console.log("1p// 처음 시작 + 0번째 일떼");
@@ -43,7 +44,8 @@ export function clickedDefaultNode(
             currentGameState,
           })
         );
-        return true;
+        setIsCurrnetNodeChange(true);
+        return;
       }
     }
 
@@ -59,7 +61,8 @@ export function clickedDefaultNode(
           currentGameState,
         })
       );
-      return true;
+      setIsCurrnetNodeChange(true);
+      return;
     }
   }
 
@@ -72,7 +75,7 @@ export function clickedDefaultNode(
       if (columnNumber !== 30) {
         console.log("2p// 처음 시작인데, 0번째 아닐때");
         // 처음 시작인데, 0번째 아닐때
-        return false;
+        return;
       }
       if (columnNumber === 30) {
         console.log("2p// 처음 시작 + 0번째 일떼");
@@ -85,7 +88,8 @@ export function clickedDefaultNode(
             currentGameState,
           })
         );
-        return true;
+        setIsCurrnetNodeChange(true);
+        return;
       }
     }
 
@@ -100,10 +104,9 @@ export function clickedDefaultNode(
           currentGameState,
         })
       );
-      return true;
+      setIsCurrnetNodeChange(true);
     }
   }
-  return false;
 }
 
 export function clickedMineralNode(

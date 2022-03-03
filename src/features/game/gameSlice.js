@@ -6,6 +6,7 @@ import { createNodelist } from "../../common/util/node";
 
 export const initialState = {
   gameLevel: LEVEL.EASY,
+  isGameOver: false,
   nodeList: {
     byId: {},
     allIds: [[]],
@@ -45,7 +46,10 @@ export const gameSlice = createSlice({
       const { nodeId, nodeState, isStart, currentGameState } = action.payload;
 
       state.nodeList.byId[nodeId].nodeState = nodeState;
-      state.moveCount--;
+
+      if (state.moveCount > 0) {
+        state.moveCount--;
+      }
 
       if (isStart) {
         if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
@@ -126,6 +130,16 @@ export const gameSlice = createSlice({
         state.player2MineralCount++;
       }
     },
+    updateCurrnetGameOver: (state, action) => {
+      const currentGameState = action.payload;
+      state.isGameOver = !state.isGameOver;
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_1_WIN;
+      }
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN;
+      }
+    },
   },
 });
 
@@ -141,6 +155,7 @@ export const {
   changeCurrentGameState,
   changePlayerTurn,
   updateMineralCount,
+  updateCurrnetGameOver,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

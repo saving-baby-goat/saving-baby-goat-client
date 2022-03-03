@@ -53,7 +53,8 @@ function Nav() {
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const player1Nickname = useSelector((state) => state.game.player1Nickname);
   const player2Nickname = useSelector((state) => state.game.player2Nickname);
-  const [displayName, setDisplayName] = useState("염소야~");
+  const [displayName, setDisplayName] = useState("");
+  const [isClickedDice, setIsClickedDice] = useState(false);
 
   useEffect(() => {
     switch (currentGameState) {
@@ -77,6 +78,12 @@ function Nav() {
     }
   }, [currentGameState]);
 
+  useEffect(() => {
+    if (isMyTurn) {
+      setIsClickedDice(false);
+    }
+  }, [isMyTurn]);
+
   function handleEndOfTrurnClick() {
     if (!isMyTurn) {
       return;
@@ -88,6 +95,11 @@ function Nav() {
     dispatch(socketEmitted("sendEndOfTurn", { currentGameState, targetId }));
   }
 
+  function handleDiceClicked(value) {
+    setIsClickedDice(true);
+    dispatch(onRollDice(value));
+  }
+
   return (
     <StyledNav>
       <div className="section-one">
@@ -95,7 +107,13 @@ function Nav() {
         <ButtonFluid onClick={handleEndOfTrurnClick}>턴 종 료</ButtonFluid>
       </div>
       <div className="section-two">
-        <Dice size={75} onRoll={(value) => dispatch(onRollDice(value))} />
+        <Dice
+          size={75}
+          onRoll={(value) => {
+            handleDiceClicked(value);
+          }}
+          disabled={isClickedDice}
+        />
         <NameCardSmall label="남은 걸음 수 : ">
           {currentMoveCount}
         </NameCardSmall>

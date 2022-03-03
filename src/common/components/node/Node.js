@@ -6,8 +6,13 @@ import styled from "styled-components";
 
 import GOAT from "../../../assets/babyGoat.png";
 import MINERAL from "../../../assets/mineral.png";
+import { updateCurrnetGameOver } from "../../../features/game/gameSlice";
 import { socketEmitted } from "../../middlewares/socketMiddleware";
-import { COLOR, NODE_STATE } from "../../util/constants";
+import {
+  COLOR,
+  CURRNET_GAME_STATE_OPTIONS,
+  NODE_STATE,
+} from "../../util/constants";
 import { clickedDefaultNode, clickedMineralNode } from "../../util/node";
 
 const StyledNode = styled.div`
@@ -50,12 +55,12 @@ function Node({ nodeId }) {
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const isMyTurn = useSelector((state) => state.game.isMyTurn);
-  // const player1MineralCount = useSelector(
-  //   (state) => state.game.player1MineralCount
-  // );
-  // const player2MineralCount = useSelector(
-  //   (state) => state.game.player2MineralCount
-  // );
+  const player1MineralCount = useSelector(
+    (state) => state.game.player1MineralCount
+  );
+  const player2MineralCount = useSelector(
+    (state) => state.game.player2MineralCount
+  );
 
   const [isCurrnetNodeChange, setIsCurrnetNodeChange] = useState(false);
 
@@ -85,17 +90,19 @@ function Node({ nodeId }) {
       return;
     }
 
-    if (
-      currentNodeState === NODE_STATE.PLAYER_1_PATH ||
-      currentNodeState === NODE_STATE.PLAYER_2_PATH
-    ) {
+    if (currentNodeState === NODE_STATE.PLAYER_1_PATH) {
       // 이미 지나간 길일때
       return;
     }
 
+    if (currentNodeState === NODE_STATE.PLAYER_2_PATH) {
+      // 이미 지나간 길일때
+      return;
+    }
     if (currentNodeState === NODE_STATE.MINERAL) {
       // 미네랄 밟았을때
       const isStart = !player1StartNodeId;
+
       const targetId =
         mySocketId === player1SocketId ? player2SocketId : player1SocketId;
       clickedMineralNode(
@@ -109,16 +116,36 @@ function Node({ nodeId }) {
       setIsCurrnetNodeChange(true);
     }
 
-    setIsCurrnetNodeChange(
+    if (currentNodeState === NODE_STATE.DEFAULT) {
+      // 기본 노드
       clickedDefaultNode(
         dispatch,
         currentGameState,
         player1StartNodeId,
         player2StartNodeId,
         nodeList,
-        nodeId
-      )
-    );
+        nodeId,
+        setIsCurrnetNodeChange
+      );
+    }
+
+    if (currentNodeState === NODE_STATE.GOAT) {
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        if (player1MineralCount < 3) {
+          return;
+        }
+      }
+
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+        if (player2MineralCount < 3) {
+          return;
+        }
+      }
+      dispatch(updateCurrnetGameOver(currentGameState));
+      const targetId =
+        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+      dispatch(socketEmitted("sendGameOver", { currentGameState, targetId }));
+    }
   }
 
   function renderImgByCurrentNodeState() {
