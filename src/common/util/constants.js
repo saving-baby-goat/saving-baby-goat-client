@@ -27,3 +27,12 @@ export const NODE_STATE = {
 
 export const MINERAL_PERCENTAGE = 0.03;
 export const DECIMAL = 10;
+
+export const CURRNET_GAME_STATE_OPTIONS = {
+  PLAYER_1_TURN: "player1Turn",
+  PLAYER_2_TURN: "player2Turn",
+  WAITING: "waiting",
+  START: "start",
+  PLAYER_1_WIN: "player1Win",
+  PLAYER_2_WIN: "player2Win",
+};

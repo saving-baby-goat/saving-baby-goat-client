@@ -1,17 +1,12 @@
+/* eslint-disable import/no-cycle */
 import { createSlice } from "@reduxjs/toolkit";
 
-import { LEVEL } from "../../common/util/constants";
+import { CURRNET_GAME_STATE_OPTIONS, LEVEL } from "../../common/util/constants";
 import { createNodelist } from "../../common/util/node";
-
-export const currentGameStateOpstion = {
-  PLAYER_1_TURN: "plyaer1Turn",
-  PLAYER_2_TURN: "plyaer2Turn",
-  WAITING: "waiting",
-  START: "start",
-};
 
 export const initialState = {
   gameLevel: LEVEL.EASY,
+  isGameOver: false,
   nodeList: {
     byId: {},
     allIds: [[]],
@@ -31,7 +26,8 @@ export const initialState = {
   // PLAYER_2_TURN: "plyaer2Turn",
   // WAITING: "waiting",
   // START: "start",
-  // currentPlayerSocketId: "",
+  player1MineralCount: 0,
+  player2MineralCount: 0,
 };
 
 export const gameSlice = createSlice({
@@ -50,13 +46,16 @@ export const gameSlice = createSlice({
       const { nodeId, nodeState, isStart, currentGameState } = action.payload;
 
       state.nodeList.byId[nodeId].nodeState = nodeState;
-      state.moveCount--;
+
+      if (state.moveCount > 0) {
+        state.moveCount--;
+      }
 
       if (isStart) {
-        if (currentGameState === currentGameStateOpstion.PLAYER_1_TURN) {
+        if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
           state.player1StartNodeId = nodeId;
         }
-        if (currentGameState === currentGameStateOpstion.PLAYER_2_TURN) {
+        if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
           state.player2StartNodeId = nodeId;
         }
       }
@@ -84,28 +83,28 @@ export const gameSlice = createSlice({
       state.player2Nickname = player2Nickname;
       state.player1SocketId = player1SocketId;
       state.player2SocketId = player2SocketId;
-      state.currentGameState = currentGameStateOpstion.START;
+      state.currentGameState = CURRNET_GAME_STATE_OPTIONS.START;
 
       if (currentGameRoomId.split("-")[1] === currnetPlayerSocketId) {
         state.isMyTurn = true;
       }
     },
     setWaitingStatus: (state) => {
-      state.currentGameState = currentGameStateOpstion.WAITING;
+      state.currentGameState = CURRNET_GAME_STATE_OPTIONS.WAITING;
     },
     setMapEqual: (state, action) => {
       const { nodeList, currentSocketId } = action.payload;
-      if (state.currentGameState === currentGameStateOpstion.START) {
-        state.currentGameState = currentGameStateOpstion.PLAYER_1_TURN;
+      if (state.currentGameState === CURRNET_GAME_STATE_OPTIONS.START) {
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN;
       }
 
-      if (state.currentGameState === currentGameStateOpstion.PLAYER_1_TURN) {
+      if (state.currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
         if (currentSocketId === state.player2SocketId) {
           state.nodeList = nodeList;
         }
       }
 
-      if (state.currentGameState === currentGameStateOpstion.PLAYER_2_TURN) {
+      if (state.currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
         if (currentSocketId === state.player1SocketId) {
           state.nodeList = nodeList;
         }
@@ -117,10 +116,28 @@ export const gameSlice = createSlice({
     changePlayerTurn: (state, action) => {
       state.isMyTurn = !state.isMyTurn;
 
-      if (action.payload === currentGameStateOpstion.PLAYER_1_TURN) {
-        state.currentGameState = currentGameStateOpstion.PLAYER_2_TURN;
+      if (action.payload === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN;
       } else {
-        state.currentGameState = currentGameStateOpstion.PLAYER_1_TURN;
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN;
+      }
+    },
+    updateMineralCount: (state, action) => {
+      if (action.payload === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        state.player1MineralCount++;
+      }
+      if (action.payload === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+        state.player2MineralCount++;
+      }
+    },
+    updateCurrnetGameOver: (state, action) => {
+      const currentGameState = action.payload;
+      state.isGameOver = !state.isGameOver;
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_1_WIN;
+      }
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN;
       }
     },
   },
@@ -137,6 +154,8 @@ export const {
   setMapEqual,
   changeCurrentGameState,
   changePlayerTurn,
+  updateMineralCount,
+  updateCurrnetGameOver,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

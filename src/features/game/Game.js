@@ -11,11 +11,8 @@ import {
   socketDisconnected,
   socketEmitted,
 } from "../../common/middlewares/socketMiddleware";
-import {
-  changeCurrentGameState,
-  createGame,
-  currentGameStateOpstion,
-} from "./gameSlice";
+import { CURRNET_GAME_STATE_OPTIONS } from "../../common/util/constants";
+import { changeCurrentGameState, createGame } from "./gameSlice";
 
 const StyledGame = styled.div`
   width: 100%;
@@ -44,13 +41,13 @@ function Game() {
   const nodeList = useSelector((state) => state.game.nodeList);
   const player1SocketId = useSelector((state) => state.game.player1SocketId);
   const player2SocketId = useSelector((state) => state.game.player2SocketId);
+  const isGameOver = useSelector((state) => state.game.isGameOver);
 
   useEffect(() => {
     if (currentGameState === "start" && player1SocketId === mySocketId) {
       dispatch(createGame());
       setHasCreateGame(true);
     }
-
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentGameState]);
 
@@ -58,7 +55,9 @@ function Game() {
     if (currentGameState === "start" && player1SocketId === mySocketId) {
       const targetId = player2SocketId;
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
-      dispatch(changeCurrentGameState(currentGameStateOpstion.PLAYER_1_TURN));
+      dispatch(
+        changeCurrentGameState(CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN)
+      );
     }
   }, [hasCreateGame]);
 
@@ -76,6 +75,15 @@ function Game() {
   }
   return (
     <StyledGame>
+      {isGameOver && (
+        <Modal
+          onModalCloseClick={handleModalCloseClick}
+          onModalOkButtonClick={handleModalOkButtonClick}
+          onModalCancelButtonClick={handleModalCloseClick}
+        >
+          GAME OVER
+        </Modal>
+      )}
       {showModal && (
         <Modal
           onModalCloseClick={handleModalCloseClick}

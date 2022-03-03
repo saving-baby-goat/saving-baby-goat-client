@@ -1,3 +1,4 @@
+/* eslint-disable import/no-cycle */
 import { io } from "socket.io-client";
 
 import {
@@ -6,6 +7,8 @@ import {
   setMySocketId,
   setMapEqual,
   changePlayerTurn,
+  updateMineralCount,
+  updateCurrnetGameOver,
 } from "../../features/game/gameSlice";
 
 const socketActionType = {
@@ -66,6 +69,14 @@ const socketMiddleware = () => {
 
       socket.on("receiveEndOfTurn", (currentGameState) => {
         storeAPI.dispatch(changePlayerTurn(currentGameState));
+      });
+
+      socket.on("receiveMineralCount", (currentGameState) => {
+        storeAPI.dispatch(updateMineralCount(currentGameState));
+      });
+
+      socket.on("receiveGameOver", (currentGameState) => {
+        storeAPI.dispatch(updateCurrnetGameOver(currentGameState));
       });
     }
 

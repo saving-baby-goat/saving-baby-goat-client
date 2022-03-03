@@ -6,13 +6,14 @@ import styled from "styled-components";
 
 import GOAT from "../../../assets/babyGoat.png";
 import MINERAL from "../../../assets/mineral.png";
-import {
-  currentGameStateOpstion,
-  setNodeState,
-} from "../../../features/game/gameSlice";
+import { updateCurrnetGameOver } from "../../../features/game/gameSlice";
 import { socketEmitted } from "../../middlewares/socketMiddleware";
-import { COLOR, DECIMAL, NODE_STATE } from "../../util/constants";
-import { hasNearPlayerPath } from "../../util/node";
+import {
+  COLOR,
+  CURRNET_GAME_STATE_OPTIONS,
+  NODE_STATE,
+} from "../../util/constants";
+import { clickedDefaultNode, clickedMineralNode } from "../../util/node";
 
 const StyledNode = styled.div`
   min-width: 40px;
@@ -54,6 +55,12 @@ function Node({ nodeId }) {
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const isMyTurn = useSelector((state) => state.game.isMyTurn);
+  const player1MineralCount = useSelector(
+    (state) => state.game.player1MineralCount
+  );
+  const player2MineralCount = useSelector(
+    (state) => state.game.player2MineralCount
+  );
 
   const [isCurrnetNodeChange, setIsCurrnetNodeChange] = useState(false);
 
@@ -64,9 +71,11 @@ function Node({ nodeId }) {
     if (isCurrnetNodeChange) {
       const targetId =
         mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       setIsCurrnetNodeChange(false);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMoveCount]);
 
   function handleNodeClick() {
@@ -81,101 +90,62 @@ function Node({ nodeId }) {
       return;
     }
 
-    if (
-      currentNodeState === NODE_STATE.PLAYER_1_PATH ||
-      currentNodeState === NODE_STATE.PLAYER_2_PATH
-    ) {
+    if (currentNodeState === NODE_STATE.PLAYER_1_PATH) {
       // 이미 지나간 길일때
       return;
     }
 
-    if (currentGameState === currentGameStateOpstion.PLAYER_1_TURN) {
-      console.log("1P 시작");
+    if (currentNodeState === NODE_STATE.PLAYER_2_PATH) {
+      // 이미 지나간 길일때
+      return;
+    }
+    if (currentNodeState === NODE_STATE.MINERAL) {
+      // 미네랄 밟았을때
       const isStart = !player1StartNodeId;
-      const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
 
-      if (player1StartNodeId === "") {
-        if (columnNumber !== 0) {
-          console.log("1p// 처음 시작인데, 0번째 아닐때");
-          // 처음 시작인데, 0번째 아닐때
-          return;
-        }
-        if (columnNumber === 0) {
-          console.log("1p// 처음 시작 + 0번째 일떼");
-          // 처음 시작 + 0번째 일떼
-          dispatch(
-            setNodeState({
-              nodeId,
-              nodeState: NODE_STATE.PLAYER_1_PATH,
-              isStart,
-              currentGameState,
-            })
-          );
-          setIsCurrnetNodeChange(true);
-          return;
-        }
-      }
-
-      if (hasNearPlayerPath(nodeList, nodeId)) {
-        console.log("1p// 주변에 지나온 길이 있을 때");
-
-        // 주변에 지나온 길이 있을 때
-        dispatch(
-          setNodeState({
-            nodeId,
-            nodeState: NODE_STATE.PLAYER_1_PATH,
-            isStart,
-            currentGameState,
-          })
-        );
-        setIsCurrnetNodeChange(true);
-        return;
-      }
+      const targetId =
+        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+      clickedMineralNode(
+        dispatch,
+        nodeList,
+        nodeId,
+        isStart,
+        currentGameState,
+        targetId
+      );
+      setIsCurrnetNodeChange(true);
     }
 
-    if (currentGameState === currentGameStateOpstion.PLAYER_2_TURN) {
-      console.log("2P 시작");
-      const isStart = !player2StartNodeId;
-      const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
-
-      if (player2StartNodeId === "") {
-        if (columnNumber !== 30) {
-          console.log("2p// 처음 시작인데, 0번째 아닐때");
-          // 처음 시작인데, 0번째 아닐때
-          return;
-        }
-        if (columnNumber === 30) {
-          console.log("2p// 처음 시작 + 0번째 일떼");
-          // 처음 시작 + 0번째 일떼
-          dispatch(
-            setNodeState({
-              nodeId,
-              nodeState: NODE_STATE.PLAYER_2_PATH,
-              isStart,
-              currentGameState,
-            })
-          );
-          setIsCurrnetNodeChange(true);
-          return;
-        }
-      }
-
-      if (hasNearPlayerPath(nodeList, nodeId)) {
-        console.log("2p// 주변에 지나온 길이 있을 때");
-        // 주변에 지나온 길이 있을 때
-        dispatch(
-          setNodeState({
-            nodeId,
-            nodeState: NODE_STATE.PLAYER_2_PATH,
-            isStart,
-            currentGameState,
-          })
-        );
-        setIsCurrnetNodeChange(true);
-        return;
-      }
+    if (currentNodeState === NODE_STATE.DEFAULT) {
+      // 기본 노드
+      clickedDefaultNode(
+        dispatch,
+        currentGameState,
+        player1StartNodeId,
+        player2StartNodeId,
+        nodeList,
+        nodeId,
+        setIsCurrnetNodeChange
+      );
     }
-    console.log("꽝!!!");
+
+    if (currentNodeState === NODE_STATE.GOAT) {
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        if (player1MineralCount < 3) {
+          return;
+        }
+      }
+
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+        if (player2MineralCount < 3) {
+          return;
+        }
+      }
+      dispatch(updateCurrnetGameOver(currentGameState));
+      const targetId =
+        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+      dispatch(socketEmitted("sendGameOver", { currentGameState, targetId }));
+    }
   }
 
   function renderImgByCurrentNodeState() {
