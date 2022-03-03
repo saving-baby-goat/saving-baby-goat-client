@@ -4,8 +4,8 @@ import ButtonDefault from "../common/components/buttons/ButtonDefault";
 import ButtonFluid from "../common/components/buttons/ButtonFluid";
 import Input from "../common/components/inputs/Input";
 import NameCardDefault from "../common/components/nameCard/NameCardDefault";
+import NameCardPlayerInfo from "../common/components/nameCard/NameCardPlayerInfo";
 import NameCardSmall from "../common/components/nameCard/NameCardSmall";
-import NameCardTiny from "../common/components/nameCard/NameCardTiny";
 import Node from "../common/components/node/Node";
 // import Modal from "../common/components/modal/Modal";
 import Title from "../common/components/title/Title";
@@ -23,8 +23,8 @@ function sample() {
       <ButtonFluid>칠드론</ButtonFluid>
       <Node />
       <NameCardSmall>스몰</NameCardSmall>
-      <NameCardTiny color={COLOR.BLUE}>타이니</NameCardTiny>
-      <NameCardTiny color={COLOR.GREEN}>타이니</NameCardTiny>
+      <NameCardPlayerInfo color={COLOR.BLUE}>타이니</NameCardPlayerInfo>
+      <NameCardPlayerInfo color={COLOR.GREEN}>타이니</NameCardPlayerInfo>
     </div>
   );
 }
