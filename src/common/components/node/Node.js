@@ -25,14 +25,18 @@ const StyledNode = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${({ type }) =>
-    // eslint-disable-next-line no-nested-ternary
-    type === "player1Path" || type === "player1Start"
-      ? `background-color: ${COLOR.BLUE};`
-      : type === "player2Path" || type === "player2Start"
-      ? ` background-color: ${COLOR.GREEN};`
-      : `background-color: ${COLOR.BROWN};`};
-
+  ${({ type }) => {
+    switch (type) {
+      case "player1Path":
+      case "player1Start":
+        return `background-color: ${COLOR.BLUE};`;
+      case "player2Path":
+      case "player2Start":
+        return `background-color: ${COLOR.GREEN};`;
+      default:
+        return `background-color: ${COLOR.BROWN};`;
+    }
+  }}
   .image {
     max-width: 40px;
     max-height: 40px;
