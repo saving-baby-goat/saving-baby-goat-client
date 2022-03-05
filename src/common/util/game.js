@@ -1,6 +1,20 @@
-import { NODE_STATE } from "./constants";
+import { BOARD_SIZE, NODE_STATE } from "./constants";
 
-export default function findShortestPath(nodeList, startNodeId, endNodeId) {
+export function findMineralNodeId(nodeList) {
+  const mineralNodeList = [];
+
+  for (let j = 0; j < BOARD_SIZE.HEIGHT_COUNT; j++) {
+    for (let i = 0; i < BOARD_SIZE.WIDTH_COUNT; i++) {
+      if (nodeList.byId[`${j}-${i}`].nodeState === NODE_STATE.MINERAL) {
+        mineralNodeList.push(`${j}-${i}`);
+      }
+    }
+  }
+
+  return mineralNodeList;
+}
+
+export function findShortestPath(nodeList, startNodeId, endNodeId) {
   const nodeListSetNeighborList = setNeighborList(nodeList);
   const startNode = nodeListSetNeighborList.byId[startNodeId];
   const endNode = nodeListSetNeighborList.byId[endNodeId];

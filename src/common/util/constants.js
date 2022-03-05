@@ -38,3 +38,8 @@ export const CURRNET_GAME_STATE_OPTIONS = {
   PLAYER_1_WIN: "player1Win",
   PLAYER_2_WIN: "player2Win",
 };
+
+export const BOARD_SIZE = {
+  HEIGHT_COUNT: 15,
+  WIDTH_COUNT: 31,
+};
