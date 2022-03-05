@@ -20,7 +20,9 @@ export function clickedDefaultNode(
   player2StartNodeId,
   nodeList,
   nodeId,
-  setIsCurrnetNodeChange
+  setIsCurrnetNodeChange,
+  targetId,
+  goatNodeId
 ) {
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
     console.log("1P 시작");
@@ -44,6 +46,14 @@ export function clickedDefaultNode(
             currentGameState,
           })
         );
+        dispatch(
+          socketEmitted("sendPlayerStartNodeIdAndGoatId", {
+            nodeId,
+            goatNodeId,
+            targetId,
+          })
+        );
+
         setIsCurrnetNodeChange(true);
         return;
       }
@@ -86,6 +96,13 @@ export function clickedDefaultNode(
             nodeState: NODE_STATE.PLAYER_2_PATH,
             isStart,
             currentGameState,
+          })
+        );
+        dispatch(
+          socketEmitted("sendPlayerStartNodeIdAndGoatId", {
+            nodeId,
+            goatNodeId,
+            targetId,
           })
         );
         setIsCurrnetNodeChange(true);
@@ -213,10 +230,6 @@ export function createNodelist(heightCount, widthCount) {
       const newNode = {
         id: newNodeId,
         nodeState: NODE_STATE.DEFAULT,
-        // previousNodeId: null,
-        // distance: null,
-        // fDistance: null,
-        // hDistance: null,
       };
       if (j === heightCenter && i === widthCenter) {
         newNode.nodeState = NODE_STATE.GOAT;

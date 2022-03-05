@@ -41,6 +41,8 @@ const StyledNode = styled.div`
       case "player2Path":
       case "player2Start":
         return `background-color: ${COLOR.GREEN};`;
+      case "shortestPath":
+        return `background-color: ${COLOR.YELLOW};`;
       default:
         return `background-color: ${COLOR.BROWN};`;
     }
@@ -74,17 +76,18 @@ function Node({ nodeId }) {
   const player2MineralCount = useSelector(
     (state) => state.game.player2MineralCount
   );
+  const goatNodeId = useSelector((state) => state.game.goatNodeId);
 
   const [isCurrnetNodeChange, setIsCurrnetNodeChange] = useState(false);
 
   const currentNode = nodeList.byId[nodeId];
   const currentNodeState = currentNode.nodeState;
 
+  const targetId =
+    mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+
   useEffect(() => {
     if (isCurrnetNodeChange) {
-      const targetId =
-        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
-
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       setIsCurrnetNodeChange(false);
     }
@@ -112,12 +115,11 @@ function Node({ nodeId }) {
       // 이미 지나간 길일때
       return;
     }
+
     if (currentNodeState === NODE_STATE.MINERAL) {
       // 미네랄 밟았을때
       const isStart = !player1StartNodeId;
 
-      const targetId =
-        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
       clickedMineralNode(
         dispatch,
         nodeList,
@@ -138,9 +140,12 @@ function Node({ nodeId }) {
         player2StartNodeId,
         nodeList,
         nodeId,
-        setIsCurrnetNodeChange
+        setIsCurrnetNodeChange,
+        targetId,
+        goatNodeId
       );
     }
+
     if (currentNodeState === NODE_STATE.GOAT) {
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
         if (player1MineralCount < 3) {
@@ -155,8 +160,7 @@ function Node({ nodeId }) {
       }
 
       dispatch(updateCurrnetGameOver(currentGameState));
-      const targetId =
-        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+
       dispatch(socketEmitted("sendGameOver", { currentGameState, targetId }));
     }
   }

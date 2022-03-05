@@ -94,7 +94,7 @@ function Nav() {
 
     dispatch(socketEmitted("sendEndOfTurn", { currentGameState, targetId }));
   }
-
+  // 여기
   // function handleDiceClicked(value) {
   function handleDiceClicked() {
     setIsClickedDice(true);

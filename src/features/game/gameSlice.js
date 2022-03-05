@@ -1,7 +1,12 @@
 /* eslint-disable import/no-cycle */
 import { createSlice } from "@reduxjs/toolkit";
 
-import { CURRNET_GAME_STATE_OPTIONS, LEVEL } from "../../common/util/constants";
+import {
+  CURRNET_GAME_STATE_OPTIONS,
+  LEVEL,
+  NODE_STATE,
+} from "../../common/util/constants";
+import findShortestPath from "../../common/util/game";
 import { createNodelist } from "../../common/util/node";
 
 export const initialState = {
@@ -26,6 +31,7 @@ export const initialState = {
   // PLAYER_2_TURN: "plyaer2Turn",
   // WAITING: "waiting",
   // START: "start",
+  // SHORTEST_PATH:"shortestPath";
   player1MineralCount: 0,
   player2MineralCount: 0,
   goatNodeId: "",
@@ -64,6 +70,19 @@ export const gameSlice = createSlice({
           state.player2StartNodeId = nodeId;
         }
       }
+    },
+    setStartNodeAndGoatId: (state, action) => {
+      const { nodeId, goatNodeId, currentSocketId } = action.payload;
+
+      if (currentSocketId === state.player1SocketId) {
+        state.player2StartNodeId = nodeId;
+      }
+
+      if (currentSocketId === state.player2SocketId) {
+        state.player1StartNodeId = nodeId;
+      }
+
+      state.goatNodeId = goatNodeId;
     },
     onRollDice: (state, action) => {
       if (!state.moveCount) {
@@ -145,6 +164,32 @@ export const gameSlice = createSlice({
         state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN;
       }
     },
+    setShortestPath: (state, action) => {
+      const currentGameState = action.payload;
+
+      let path = {};
+
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_WIN) {
+        path = findShortestPath(
+          state.nodeList,
+          state.player1StartNodeId,
+          state.goatNodeId
+        );
+      }
+
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN) {
+        path = findShortestPath(
+          state.nodeList,
+          state.player2StartNodeId,
+          state.goatNodeId
+        );
+      }
+
+      for (let i = 0; i < path.length; i++) {
+        const targetId = path[i].id;
+        state.nodeList.byId[targetId].nodeState = NODE_STATE.SHORTEST_PATH;
+      }
+    },
   },
 });
 
@@ -161,7 +206,8 @@ export const {
   changePlayerTurn,
   updateMineralCount,
   updateCurrnetGameOver,
-  updateShortestPath,
+  setShortestPath,
+  setStartNodeAndGoatId,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

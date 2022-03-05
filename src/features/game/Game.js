@@ -15,7 +15,7 @@ import { CURRNET_GAME_STATE_OPTIONS } from "../../common/util/constants";
 import {
   changeCurrentGameState,
   createGame,
-  updateShortestPath,
+  setShortestPath,
 } from "./gameSlice";
 
 const StyledGame = styled.div`
@@ -49,8 +49,7 @@ function Game() {
 
   useEffect(() => {
     if (isGameOver) {
-      dispatch(updateShortestPath(currentGameState));
-      // 디스패치
+      dispatch(setShortestPath(currentGameState));
     }
   }, [isGameOver]);
 
