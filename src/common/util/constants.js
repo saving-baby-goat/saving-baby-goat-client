@@ -8,6 +8,7 @@ export const COLOR = {
   RED: "#af5a4b",
   GREEN: "#7fac66",
   BLUE: "#589f96",
+  YELLOW: "#edd500",
 };
 
 export const LEVEL = {
@@ -23,6 +24,7 @@ export const NODE_STATE = {
   MINERAL: "mineral",
   PLAYER_1_PATH: "player1Path",
   PLAYER_2_PATH: "player2Path",
+  SHORTEST_PATH: "shortestPath",
 };
 
 export const MINERAL_PERCENTAGE = 0.03;

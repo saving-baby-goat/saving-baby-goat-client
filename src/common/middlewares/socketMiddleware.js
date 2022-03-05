@@ -9,6 +9,7 @@ import {
   changePlayerTurn,
   updateMineralCount,
   updateCurrnetGameOver,
+  setStartNodeAndGoatId,
 } from "../../features/game/gameSlice";
 
 const socketActionType = {
@@ -66,6 +67,16 @@ const socketMiddleware = () => {
         const currentSocketId = socket.id;
         storeAPI.dispatch(setMapEqual({ nodeList, currentSocketId }));
       });
+
+      socket.on(
+        "receivePlayerStartNodeIdAndGoatId",
+        ({ nodeId, goatNodeId }) => {
+          const currentSocketId = socket.id;
+          storeAPI.dispatch(
+            setStartNodeAndGoatId({ nodeId, goatNodeId, currentSocketId })
+          );
+        }
+      );
 
       socket.on("receiveEndOfTurn", (currentGameState) => {
         storeAPI.dispatch(changePlayerTurn(currentGameState));

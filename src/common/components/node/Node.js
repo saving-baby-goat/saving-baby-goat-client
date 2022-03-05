@@ -25,13 +25,28 @@ const StyledNode = styled.div`
   justify-content: center;
   align-items: center;
 
-  ${({ type }) =>
-    // eslint-disable-next-line no-nested-ternary
-    type === "player1Path" || type === "player1Start"
-      ? `background-color: ${COLOR.BLUE};`
-      : type === "player2Path" || type === "player2Start"
-      ? ` background-color: ${COLOR.GREEN};`
-      : `background-color: ${COLOR.BROWN};`};
+  &:hover {
+    background-color: ${COLOR.LIGHT_GREY};
+  }
+
+  &:active {
+    background-color: ${COLOR.HEAVY_GREY};
+  }
+
+  ${({ type }) => {
+    switch (type) {
+      case "player1Path":
+      case "player1Start":
+        return `background-color: ${COLOR.BLUE};`;
+      case "player2Path":
+      case "player2Start":
+        return `background-color: ${COLOR.GREEN};`;
+      case "shortestPath":
+        return `background-color: ${COLOR.YELLOW};`;
+      default:
+        return `background-color: ${COLOR.BROWN};`;
+    }
+  }}
 
   .image {
     max-width: 40px;
@@ -61,17 +76,18 @@ function Node({ nodeId }) {
   const player2MineralCount = useSelector(
     (state) => state.game.player2MineralCount
   );
+  const goatNodeId = useSelector((state) => state.game.goatNodeId);
 
   const [isCurrnetNodeChange, setIsCurrnetNodeChange] = useState(false);
 
   const currentNode = nodeList.byId[nodeId];
   const currentNodeState = currentNode.nodeState;
 
+  const targetId =
+    mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+
   useEffect(() => {
     if (isCurrnetNodeChange) {
-      const targetId =
-        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
-
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       setIsCurrnetNodeChange(false);
     }
@@ -99,12 +115,11 @@ function Node({ nodeId }) {
       // 이미 지나간 길일때
       return;
     }
+
     if (currentNodeState === NODE_STATE.MINERAL) {
       // 미네랄 밟았을때
       const isStart = !player1StartNodeId;
 
-      const targetId =
-        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
       clickedMineralNode(
         dispatch,
         nodeList,
@@ -125,7 +140,9 @@ function Node({ nodeId }) {
         player2StartNodeId,
         nodeList,
         nodeId,
-        setIsCurrnetNodeChange
+        setIsCurrnetNodeChange,
+        targetId,
+        goatNodeId
       );
     }
 
@@ -141,9 +158,9 @@ function Node({ nodeId }) {
           return;
         }
       }
+
       dispatch(updateCurrnetGameOver(currentGameState));
-      const targetId =
-        mySocketId === player1SocketId ? player2SocketId : player1SocketId;
+
       dispatch(socketEmitted("sendGameOver", { currentGameState, targetId }));
     }
   }

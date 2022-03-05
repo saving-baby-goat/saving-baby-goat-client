@@ -1,7 +1,12 @@
 /* eslint-disable import/no-cycle */
 import { createSlice } from "@reduxjs/toolkit";
 
-import { CURRNET_GAME_STATE_OPTIONS, LEVEL } from "../../common/util/constants";
+import {
+  CURRNET_GAME_STATE_OPTIONS,
+  LEVEL,
+  NODE_STATE,
+} from "../../common/util/constants";
+import findShortestPath from "../../common/util/game";
 import { createNodelist } from "../../common/util/node";
 
 export const initialState = {
@@ -26,8 +31,10 @@ export const initialState = {
   // PLAYER_2_TURN: "plyaer2Turn",
   // WAITING: "waiting",
   // START: "start",
+  // SHORTEST_PATH:"shortestPath";
   player1MineralCount: 0,
   player2MineralCount: 0,
+  goatNodeId: "",
 };
 
 export const gameSlice = createSlice({
@@ -37,10 +44,14 @@ export const gameSlice = createSlice({
     setGameLevel: (state, action) => {
       state.gameLevel = action.payload;
     },
+    // 여기 바꿨음
     createGame: (state) => {
       const heightCount = 15;
       const widthCount = 31;
       state.nodeList = createNodelist(heightCount, widthCount);
+      state.goatNodeId = `${Math.floor(heightCount / 2)}-${Math.floor(
+        widthCount / 2
+      )}`;
     },
     setNodeState: (state, action) => {
       const { nodeId, nodeState, isStart, currentGameState } = action.payload;
@@ -59,6 +70,19 @@ export const gameSlice = createSlice({
           state.player2StartNodeId = nodeId;
         }
       }
+    },
+    setStartNodeAndGoatId: (state, action) => {
+      const { nodeId, goatNodeId, currentSocketId } = action.payload;
+
+      if (currentSocketId === state.player1SocketId) {
+        state.player2StartNodeId = nodeId;
+      }
+
+      if (currentSocketId === state.player2SocketId) {
+        state.player1StartNodeId = nodeId;
+      }
+
+      state.goatNodeId = goatNodeId;
     },
     onRollDice: (state, action) => {
       if (!state.moveCount) {
@@ -140,6 +164,32 @@ export const gameSlice = createSlice({
         state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN;
       }
     },
+    setShortestPath: (state, action) => {
+      const currentGameState = action.payload;
+
+      let path = {};
+
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_WIN) {
+        path = findShortestPath(
+          state.nodeList,
+          state.player1StartNodeId,
+          state.goatNodeId
+        );
+      }
+
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN) {
+        path = findShortestPath(
+          state.nodeList,
+          state.player2StartNodeId,
+          state.goatNodeId
+        );
+      }
+
+      for (let i = 0; i < path.length; i++) {
+        const targetId = path[i].id;
+        state.nodeList.byId[targetId].nodeState = NODE_STATE.SHORTEST_PATH;
+      }
+    },
   },
 });
 
@@ -156,6 +206,8 @@ export const {
   changePlayerTurn,
   updateMineralCount,
   updateCurrnetGameOver,
+  setShortestPath,
+  setStartNodeAndGoatId,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
