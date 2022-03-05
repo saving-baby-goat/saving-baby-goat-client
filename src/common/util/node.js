@@ -213,6 +213,10 @@ export function createNodelist(heightCount, widthCount) {
       const newNode = {
         id: newNodeId,
         nodeState: NODE_STATE.DEFAULT,
+        // previousNodeId: null,
+        // distance: null,
+        // fDistance: null,
+        // hDistance: null,
       };
       if (j === heightCenter && i === widthCenter) {
         newNode.nodeState = NODE_STATE.GOAT;
@@ -268,6 +272,7 @@ function createRandomMineral(nodeList, heightCount, widthCount) {
     RandomNumberListRightSide,
     nodeList
   );
+
   return nodeList;
 }
 

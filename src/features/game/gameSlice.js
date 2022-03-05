@@ -28,6 +28,7 @@ export const initialState = {
   // START: "start",
   player1MineralCount: 0,
   player2MineralCount: 0,
+  goatNodeId: "",
 };
 
 export const gameSlice = createSlice({
@@ -37,10 +38,14 @@ export const gameSlice = createSlice({
     setGameLevel: (state, action) => {
       state.gameLevel = action.payload;
     },
+    // 여기 바꿨음
     createGame: (state) => {
       const heightCount = 15;
       const widthCount = 31;
       state.nodeList = createNodelist(heightCount, widthCount);
+      state.goatNodeId = `${Math.floor(heightCount / 2)}-${Math.floor(
+        widthCount / 2
+      )}`;
     },
     setNodeState: (state, action) => {
       const { nodeId, nodeState, isStart, currentGameState } = action.payload;
@@ -156,6 +161,7 @@ export const {
   changePlayerTurn,
   updateMineralCount,
   updateCurrnetGameOver,
+  updateShortestPath,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

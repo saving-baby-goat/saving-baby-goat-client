@@ -12,7 +12,11 @@ import {
   socketEmitted,
 } from "../../common/middlewares/socketMiddleware";
 import { CURRNET_GAME_STATE_OPTIONS } from "../../common/util/constants";
-import { changeCurrentGameState, createGame } from "./gameSlice";
+import {
+  changeCurrentGameState,
+  createGame,
+  updateShortestPath,
+} from "./gameSlice";
 
 const StyledGame = styled.div`
   width: 100%;
@@ -42,6 +46,13 @@ function Game() {
   const player1SocketId = useSelector((state) => state.game.player1SocketId);
   const player2SocketId = useSelector((state) => state.game.player2SocketId);
   const isGameOver = useSelector((state) => state.game.isGameOver);
+
+  useEffect(() => {
+    if (isGameOver) {
+      dispatch(updateShortestPath(currentGameState));
+      // 디스패치
+    }
+  }, [isGameOver]);
 
   useEffect(() => {
     if (currentGameState === "start" && player1SocketId === mySocketId) {
@@ -75,7 +86,7 @@ function Game() {
   }
   return (
     <StyledGame>
-      {isGameOver && (
+      {/* {isGameOver && (
         <Modal
           onModalCloseClick={handleModalCloseClick}
           onModalOkButtonClick={handleModalOkButtonClick}
@@ -83,7 +94,7 @@ function Game() {
         >
           GAME OVER
         </Modal>
-      )}
+      )} */}
       {showModal && (
         <Modal
           onModalCloseClick={handleModalCloseClick}

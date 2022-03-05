@@ -42,6 +42,7 @@ function Board() {
   const player2MineralCount = useSelector(
     (state) => state.game.player2MineralCount
   );
+
   return (
     <StyledBoard>
       <div className="playerInfo">

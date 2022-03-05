@@ -24,8 +24,9 @@ export const NODE_STATE = {
   PLAYER_1_PATH: "player1Path",
   PLAYER_2_PATH: "player2Path",
 };
-
-export const MINERAL_PERCENTAGE = 0.03;
+// 여기
+// export const MINERAL_PERCENTAGE = 0.03;
+export const MINERAL_PERCENTAGE = 0.5;
 export const DECIMAL = 10;
 
 export const CURRNET_GAME_STATE_OPTIONS = {

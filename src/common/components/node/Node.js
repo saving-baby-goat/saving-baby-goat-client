@@ -25,6 +25,14 @@ const StyledNode = styled.div`
   justify-content: center;
   align-items: center;
 
+  &:hover {
+    background-color: ${COLOR.LIGHT_GREY};
+  }
+
+  &:active {
+    background-color: ${COLOR.HEAVY_GREY};
+  }
+
   ${({ type }) => {
     switch (type) {
       case "player1Path":
@@ -37,6 +45,7 @@ const StyledNode = styled.div`
         return `background-color: ${COLOR.BROWN};`;
     }
   }}
+
   .image {
     max-width: 40px;
     max-height: 40px;
@@ -132,7 +141,6 @@ function Node({ nodeId }) {
         setIsCurrnetNodeChange
       );
     }
-
     if (currentNodeState === NODE_STATE.GOAT) {
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
         if (player1MineralCount < 3) {
@@ -145,6 +153,7 @@ function Node({ nodeId }) {
           return;
         }
       }
+
       dispatch(updateCurrnetGameOver(currentGameState));
       const targetId =
         mySocketId === player1SocketId ? player2SocketId : player1SocketId;
