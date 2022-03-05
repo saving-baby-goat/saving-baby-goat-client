@@ -2,11 +2,12 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
+  BOARD_SIZE,
   CURRNET_GAME_STATE_OPTIONS,
   LEVEL,
   NODE_STATE,
 } from "../../common/util/constants";
-import findShortestPath from "../../common/util/game";
+import { findShortestPath, findMineralNodeId } from "../../common/util/game";
 import { createNodelist } from "../../common/util/node";
 
 export const initialState = {
@@ -35,6 +36,7 @@ export const initialState = {
   player1MineralCount: 0,
   player2MineralCount: 0,
   goatNodeId: "",
+  mineralNodeIdList: [],
 };
 
 export const gameSlice = createSlice({
@@ -44,14 +46,16 @@ export const gameSlice = createSlice({
     setGameLevel: (state, action) => {
       state.gameLevel = action.payload;
     },
-    // 여기 바꿨음
     createGame: (state) => {
-      const heightCount = 15;
-      const widthCount = 31;
+      const heightCount = BOARD_SIZE.HEIGHT_COUNT;
+      const widthCount = BOARD_SIZE.WIDTH_COUNT;
+
       state.nodeList = createNodelist(heightCount, widthCount);
       state.goatNodeId = `${Math.floor(heightCount / 2)}-${Math.floor(
         widthCount / 2
       )}`;
+
+      state.mineralNodeIdList = findMineralNodeId(state.nodeList);
     },
     setNodeState: (state, action) => {
       const { nodeId, nodeState, isStart, currentGameState } = action.payload;
