@@ -7,6 +7,7 @@ import {
   LEVEL,
   NODE_STATE,
 } from "../../common/util/constants";
+
 import { findShortestPath, findMineralNodeId } from "../../common/util/game";
 import { createNodelist } from "../../common/util/node";
 
@@ -46,6 +47,7 @@ export const gameSlice = createSlice({
     setGameLevel: (state, action) => {
       state.gameLevel = action.payload;
     },
+    // 여기 바꿨음
     createGame: (state) => {
       const heightCount = BOARD_SIZE.HEIGHT_COUNT;
       const widthCount = BOARD_SIZE.WIDTH_COUNT;
@@ -56,6 +58,7 @@ export const gameSlice = createSlice({
       )}`;
 
       state.mineralNodeIdList = findMineralNodeId(state.nodeList);
+
     },
     setNodeState: (state, action) => {
       const { nodeId, nodeState, isStart, currentGameState } = action.payload;
