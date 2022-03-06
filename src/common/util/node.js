@@ -20,12 +20,9 @@ export function clickedDefaultNode(
   player2StartNodeId,
   nodeList,
   nodeId,
-  setIsCurrnetNodeChange,
-  targetId,
-  goatNodeId
+  setIsCurrnetNodeChange
 ) {
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
-    console.log("1P 시작");
     const isStart = !player1StartNodeId;
     const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
 
@@ -41,16 +38,8 @@ export function clickedDefaultNode(
         dispatch(
           setNodeState({
             nodeId,
-            nodeState: NODE_STATE.PLAYER_1_PATH,
             isStart,
             currentGameState,
-          })
-        );
-        dispatch(
-          socketEmitted("sendPlayerStartNodeIdAndGoatId", {
-            nodeId,
-            goatNodeId,
-            targetId,
           })
         );
 
@@ -58,7 +47,7 @@ export function clickedDefaultNode(
         return;
       }
     }
-
+    console.log("여긴가?");
     if (hasNearPlayerPath(nodeList, nodeId, currentGameState)) {
       console.log("1p// 주변에 지나온 길이 있을 때");
 
@@ -66,7 +55,6 @@ export function clickedDefaultNode(
       dispatch(
         setNodeState({
           nodeId,
-          nodeState: NODE_STATE.PLAYER_1_PATH,
           isStart,
           currentGameState,
         })
@@ -77,7 +65,6 @@ export function clickedDefaultNode(
   }
 
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
-    console.log("2P 시작");
     const isStart = !player2StartNodeId;
     const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
 
@@ -93,18 +80,11 @@ export function clickedDefaultNode(
         dispatch(
           setNodeState({
             nodeId,
-            nodeState: NODE_STATE.PLAYER_2_PATH,
             isStart,
             currentGameState,
           })
         );
-        dispatch(
-          socketEmitted("sendPlayerStartNodeIdAndGoatId", {
-            nodeId,
-            goatNodeId,
-            targetId,
-          })
-        );
+
         setIsCurrnetNodeChange(true);
         return;
       }
@@ -116,7 +96,6 @@ export function clickedDefaultNode(
       dispatch(
         setNodeState({
           nodeId,
-          nodeState: NODE_STATE.PLAYER_2_PATH,
           isStart,
           currentGameState,
         })
@@ -142,7 +121,6 @@ export function clickedMineralNode(
     dispatch(
       setNodeState({
         nodeId,
-        nodeState: NODE_STATE.PLAYER_1_PATH,
         isStart,
         currentGameState,
       })
@@ -155,7 +133,6 @@ export function clickedMineralNode(
     dispatch(
       setNodeState({
         nodeId,
-        nodeState: NODE_STATE.PLAYER_2_PATH,
         isStart,
         currentGameState,
       })
@@ -177,34 +154,23 @@ export function hasNearPlayerPath(nodeList, nodeId, currentGameState) {
   };
 
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
-    if (nodeList.byId[direction.left]?.nodeState === NODE_STATE.PLAYER_1_PATH) {
-      return true;
-    }
     if (
-      nodeList.byId[direction.right]?.nodeState === NODE_STATE.PLAYER_1_PATH
+      nodeList.byId[direction.left]?.nodeState === NODE_STATE.PLAYER_1_PATH ||
+      nodeList.byId[direction.right]?.nodeState === NODE_STATE.PLAYER_1_PATH ||
+      nodeList.byId[direction.up]?.nodeState === NODE_STATE.PLAYER_1_PATH ||
+      nodeList.byId[direction.down]?.nodeState === NODE_STATE.PLAYER_1_PATH
     ) {
-      return true;
-    }
-    if (nodeList.byId[direction.up]?.nodeState === NODE_STATE.PLAYER_1_PATH) {
-      return true;
-    }
-    if (nodeList.byId[direction.down]?.nodeState === NODE_STATE.PLAYER_1_PATH) {
       return true;
     }
   }
+
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
-    if (nodeList.byId[direction.left]?.nodeState === NODE_STATE.PLAYER_2_PATH) {
-      return true;
-    }
     if (
-      nodeList.byId[direction.right]?.nodeState === NODE_STATE.PLAYER_2_PATH
+      nodeList.byId[direction.left]?.nodeState === NODE_STATE.PLAYER_2_PATH ||
+      nodeList.byId[direction.right]?.nodeState === NODE_STATE.PLAYER_2_PATH ||
+      nodeList.byId[direction.up]?.nodeState === NODE_STATE.PLAYER_2_PATH ||
+      nodeList.byId[direction.down]?.nodeState === NODE_STATE.PLAYER_2_PATH
     ) {
-      return true;
-    }
-    if (nodeList.byId[direction.up]?.nodeState === NODE_STATE.PLAYER_2_PATH) {
-      return true;
-    }
-    if (nodeList.byId[direction.down]?.nodeState === NODE_STATE.PLAYER_2_PATH) {
       return true;
     }
   }
@@ -230,7 +196,9 @@ export function createNodelist(heightCount, widthCount) {
       const newNode = {
         id: newNodeId,
         nodeState: NODE_STATE.DEFAULT,
+        isStartPath: false,
       };
+
       if (j === heightCenter && i === widthCenter) {
         newNode.nodeState = NODE_STATE.GOAT;
       }
@@ -240,6 +208,7 @@ export function createNodelist(heightCount, widthCount) {
     }
     nodeList.allIds.push(newRowIds);
   }
+
   const applyRandomMineralNodeList = createRandomMineral(
     nodeList,
     heightCount,
@@ -258,23 +227,11 @@ function createRandomMineral(nodeList, heightCount, widthCount) {
   const mineralCount = calculateMineralCount > 3 ? calculateMineralCount : 3;
   const nodeCount = heightCount * widthCenter;
 
-  const RandomNumberListLeftSide = getRandomNumberList(
-    0,
-    nodeCount,
-    mineralCount
-  );
-
-  const RandomNumberListRightSide = getRandomNumberList(
-    0,
-    nodeCount,
-    mineralCount
-  );
-
   nodeList = setMineralNodeList(
     heightCount,
     0,
     widthCenter,
-    RandomNumberListLeftSide,
+    getRandomNumberList(0, nodeCount, mineralCount),
     nodeList
   );
 
@@ -282,7 +239,7 @@ function createRandomMineral(nodeList, heightCount, widthCount) {
     heightCount,
     widthCenter + 1,
     widthCount,
-    RandomNumberListRightSide,
+    getRandomNumberList(0, nodeCount, mineralCount),
     nodeList
   );
 
