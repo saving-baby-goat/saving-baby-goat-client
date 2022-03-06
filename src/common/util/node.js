@@ -6,12 +6,7 @@ import {
   updateMineralCount,
 } from "../../features/game/gameSlice";
 import { socketEmitted } from "../middlewares/socketMiddleware";
-import {
-  CURRNET_GAME_STATE_OPTIONS,
-  DECIMAL,
-  MINERAL_PERCENTAGE,
-  NODE_STATE,
-} from "./constants";
+import { CURRNET_GAME_STATE_OPTIONS, DECIMAL, NODE_STATE } from "./constants";
 
 export function clickedDefaultNode(
   dispatch,
@@ -176,109 +171,4 @@ export function hasNearPlayerPath(nodeList, nodeId, currentGameState) {
   }
 
   return false;
-}
-
-export function createNodelist(heightCount, widthCount) {
-  const heightCenter = parseInt(heightCount / 2, DECIMAL);
-  const widthCenter = parseInt(widthCount / 2, DECIMAL);
-
-  const nodeList = {
-    byId: {},
-    allIds: [],
-  };
-
-  for (let j = 0; j < heightCount; j++) {
-    const newRowIds = [];
-
-    for (let i = 0; i < widthCount; i++) {
-      const newNodeId = `${j}-${i}`;
-
-      const newNode = {
-        id: newNodeId,
-        nodeState: NODE_STATE.DEFAULT,
-        isStartPath: false,
-      };
-
-      if (j === heightCenter && i === widthCenter) {
-        newNode.nodeState = NODE_STATE.GOAT;
-      }
-
-      nodeList.byId[newNodeId] = newNode;
-      newRowIds.push(newNodeId);
-    }
-    nodeList.allIds.push(newRowIds);
-  }
-
-  const applyRandomMineralNodeList = createRandomMineral(
-    nodeList,
-    heightCount,
-    widthCount
-  );
-
-  return applyRandomMineralNodeList;
-}
-
-function createRandomMineral(nodeList, heightCount, widthCount) {
-  const widthCenter = parseInt(widthCount / 2, DECIMAL);
-  const calculateMineralCount = parseInt(
-    heightCount * widthCenter * MINERAL_PERCENTAGE,
-    DECIMAL
-  );
-  const mineralCount = calculateMineralCount > 3 ? calculateMineralCount : 3;
-  const nodeCount = heightCount * widthCenter;
-
-  nodeList = setMineralNodeList(
-    heightCount,
-    0,
-    widthCenter,
-    getRandomNumberList(0, nodeCount, mineralCount),
-    nodeList
-  );
-
-  nodeList = setMineralNodeList(
-    heightCount,
-    widthCenter + 1,
-    widthCount,
-    getRandomNumberList(0, nodeCount, mineralCount),
-    nodeList
-  );
-
-  return nodeList;
-}
-
-function setMineralNodeList(
-  heightCount,
-  widthStart,
-  widthEnd,
-  randomNumerList,
-  nodeList
-) {
-  let count = 0;
-
-  for (let j = 0; j < heightCount; j++) {
-    for (let i = widthStart; i < widthEnd; i++) {
-      count++;
-      if (count === randomNumerList[randomNumerList.length - 1]) {
-        randomNumerList.pop();
-        nodeList.byId[`${j}-${i}`].nodeState = NODE_STATE.MINERAL;
-      }
-    }
-  }
-  return nodeList;
-}
-
-function getRandomNumberList(min, max, count) {
-  const numberList = [];
-
-  for (let i = 0; i < count; i++) {
-    const newRandomNumber = Math.floor(Math.random() * (max - min)) + min;
-
-    if (numberList.includes(newRandomNumber)) {
-      i--;
-      continue;
-    }
-    numberList.push(newRandomNumber);
-  }
-
-  return numberList.sort((a, b) => b - a);
 }

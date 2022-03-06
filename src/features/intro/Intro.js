@@ -106,7 +106,7 @@ function Intro() {
   function handleGameLevelClick(level) {
     dispatch(setGameLevel(level));
     dispatch(socketConnected(level, nickname));
-    navigate("/game");
+    navigate(`/game/${level}`);
   }
 
   return (

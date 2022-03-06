@@ -12,8 +12,8 @@ import {
   findStartNodeId,
   findMineralNodeIdList,
   findShortestPath,
+  createNodelist,
 } from "../../common/util/game";
-import { createNodelist } from "../../common/util/node";
 
 export const initialState = {
   gameLevel: LEVEL.EASY,
@@ -45,11 +45,12 @@ export const gameSlice = createSlice({
     setGameLevel: (state, action) => {
       state.gameLevel = action.payload;
     },
-    createGame: (state) => {
+    createGame: (state, action) => {
       const heightCount = BOARD_SIZE.HEIGHT_COUNT;
       const widthCount = BOARD_SIZE.WIDTH_COUNT;
+      const level = action.payload;
 
-      state.nodeList = createNodelist(heightCount, widthCount);
+      state.nodeList = createNodelist(heightCount, widthCount, level);
 
       state.mineralNodeIdList = findMineralNodeIdList(state.nodeList);
     },

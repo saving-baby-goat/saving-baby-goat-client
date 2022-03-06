@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import Board from "../../common/components/board/Board";
@@ -35,6 +35,8 @@ const StyledGame = styled.div`
 function Game() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
+  const { level } = useParams();
+
   const [showModal, setShowModal] = useState(false);
   const [hasCreateGame, setHasCreateGame] = useState(false);
   const currentGameState = useSelector((state) => state.game.currentGameState);
@@ -55,10 +57,9 @@ function Game() {
 
   useEffect(() => {
     if (currentGameState === "start" && player1SocketId === mySocketId) {
-      dispatch(createGame());
+      dispatch(createGame(level));
       setHasCreateGame(true);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentGameState]);
 
   useEffect(() => {
