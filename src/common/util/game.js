@@ -1,7 +1,11 @@
 import {
   BOARD_SIZE,
   CURRNET_GAME_STATE_OPTIONS,
+  DECIMAL,
+  LEVEL,
+  MINERAL_PERCENTAGE,
   NODE_STATE,
+  ROCK_PERCENTAGE,
 } from "./constants";
 
 // 여기 삭제
@@ -151,7 +155,7 @@ export function aStarAlgorithm(nodeList, startNodeId, endNodeId) {
       if (!closedSet.includes(currentNeighborNode)) {
         const newG = currentNeighborNode.g + 1;
         let newNeighborAccepted = false;
-        if (currentNeighborNode.nodeState === NODE_STATE.ROCKS) {
+        if (currentNeighborNode.nodeState === NODE_STATE.ROCK) {
           continue;
         }
         if (openSet.includes(currentNeighborNode)) {
@@ -207,4 +211,149 @@ function setNeighborList(nodeList) {
     }
   }
   return nodeList;
+}
+
+export function createNodelist(heightCount, widthCount, level) {
+  const heightCenter = parseInt(heightCount / 2, DECIMAL);
+  const widthCenter = parseInt(widthCount / 2, DECIMAL);
+
+  let nodeList = {
+    byId: {},
+    allIds: [],
+  };
+
+  for (let j = 0; j < heightCount; j++) {
+    const newRowIds = [];
+
+    for (let i = 0; i < widthCount; i++) {
+      const newNodeId = `${j}-${i}`;
+
+      const newNode = {
+        id: newNodeId,
+        nodeState: NODE_STATE.DEFAULT,
+        isStartPath: false,
+      };
+
+      nodeList.byId[newNodeId] = newNode;
+      newRowIds.push(newNodeId);
+    }
+    nodeList.allIds.push(newRowIds);
+  }
+
+  //  Bomb
+  if (level === LEVEL.HARD) {
+    //
+  }
+
+  // Rock
+  if (level === LEVEL.NORMAL) {
+    nodeList = createRandomRock(nodeList, heightCount, widthCount);
+  }
+
+  // Mineral
+  nodeList = createRandomMineral(nodeList, heightCount, widthCount);
+
+  // Goat
+  nodeList.byId[`${heightCenter}-${widthCenter}`].nodeState = NODE_STATE.GOAT;
+
+  return nodeList;
+}
+
+function createRandomRock(nodeList, heightCount, widthCount) {
+  const calculateRock = parseInt(
+    heightCount * widthCount * ROCK_PERCENTAGE,
+    DECIMAL
+  );
+  const nodeCount = heightCount * widthCount;
+
+  nodeList = setRockNodeList(
+    heightCount,
+    widthCount,
+    getRandomNumberList(0, nodeCount, calculateRock),
+    nodeList
+  );
+
+  return nodeList;
+}
+
+function createRandomMineral(nodeList, heightCount, widthCount) {
+  const widthCenter = parseInt(widthCount / 2, DECIMAL);
+  const calculateMineralCount = parseInt(
+    heightCount * widthCenter * MINERAL_PERCENTAGE,
+    DECIMAL
+  );
+
+  const mineralCount = calculateMineralCount > 3 ? calculateMineralCount : 3;
+  const nodeCount = heightCount * widthCenter;
+
+  nodeList = setMineralNodeList(
+    heightCount,
+    0,
+    widthCenter,
+    getRandomNumberList(0, nodeCount, mineralCount),
+    nodeList
+  );
+
+  nodeList = setMineralNodeList(
+    heightCount,
+    widthCenter + 1,
+    widthCount,
+    getRandomNumberList(0, nodeCount, mineralCount),
+    nodeList
+  );
+
+  return nodeList;
+}
+function setRockNodeList(heightCount, widthCount, randomNumberList, nodeList) {
+  let count = 0;
+
+  for (let j = 0; j < heightCount; j++) {
+    for (let i = 0; i < widthCount; i++) {
+      count++;
+
+      if (count === randomNumberList[randomNumberList.length - 1]) {
+        randomNumberList.pop();
+        nodeList.byId[`${j}-${i}`].nodeState = NODE_STATE.ROCK;
+      }
+    }
+  }
+
+  return nodeList;
+}
+
+function setMineralNodeList(
+  heightCount,
+  widthStart,
+  widthEnd,
+  randomNumberList,
+  nodeList
+) {
+  let count = 0;
+
+  for (let j = 0; j < heightCount; j++) {
+    for (let i = widthStart; i < widthEnd; i++) {
+      count++;
+      if (count === randomNumberList[randomNumberList.length - 1]) {
+        randomNumberList.pop();
+        nodeList.byId[`${j}-${i}`].nodeState = NODE_STATE.MINERAL;
+      }
+    }
+  }
+  return nodeList;
+}
+
+function getRandomNumberList(min, max, count) {
+  const numberList = [];
+
+  for (let i = 0; i < count; i++) {
+    const newRandomNumber = Math.floor(Math.random() * (max - min)) + min;
+
+    if (numberList.includes(newRandomNumber)) {
+      i--;
+      continue;
+    }
+    numberList.push(newRandomNumber);
+  }
+
+  return numberList.sort((a, b) => b - a);
 }

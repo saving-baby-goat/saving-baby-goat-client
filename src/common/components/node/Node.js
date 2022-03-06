@@ -6,6 +6,7 @@ import styled from "styled-components";
 
 import GOAT from "../../../assets/babyGoat.png";
 import MINERAL from "../../../assets/mineral.png";
+import ROCK from "../../../assets/rocks.svg";
 import { updateCurrnetGameOver } from "../../../features/game/gameSlice";
 import { socketEmitted } from "../../middlewares/socketMiddleware";
 import {
@@ -175,8 +176,8 @@ function Node({ nodeId }) {
         return <img className="image" src={GOAT} alt="goat" />;
       case NODE_STATE.MINERAL:
         return <img className="image" src={MINERAL} alt="mineral" />;
-      // case NODE_STATE.ROCK:
-      //   return <img className="image" src={MINERAL} alt="mineral" />;
+      case NODE_STATE.ROCK:
+        return <img className="image" src={ROCK} alt="mineral" />;
       default:
         return null;
     }

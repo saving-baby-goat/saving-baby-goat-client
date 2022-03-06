@@ -16,7 +16,7 @@ ReactDOM.render(
       <BrowserRouter>
         <Routes>
           <Route path="/" element={<Intro />} />
-          <Route path="/game" element={<Game />} />
+          <Route path="/game/:level" element={<Game />} />
           <Route path="/UI" element={<Sample />} />
         </Routes>
       </BrowserRouter>

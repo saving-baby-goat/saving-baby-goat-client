@@ -1,4 +1,5 @@
 export const MINERAL_PERCENTAGE = 0.02;
+export const ROCK_PERCENTAGE = 0.3;
 export const DECIMAL = 10;
 
 export const COLOR = {
