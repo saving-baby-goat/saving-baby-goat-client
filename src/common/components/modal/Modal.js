@@ -8,7 +8,7 @@ import { COLOR } from "../../util/constants";
 import ButtonSmall from "../buttons/ButtonSmall";
 
 const ModalWrapper = styled.div`
-  z-index: 3;
+  z-index: 5;
   position: absolute;
   top: 50%;
   left: 50%;

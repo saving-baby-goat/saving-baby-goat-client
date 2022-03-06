@@ -6,6 +6,7 @@ import styled from "styled-components";
 import Board from "../../common/components/board/Board";
 import ButtonFluid from "../../common/components/buttons/ButtonFluid";
 import Modal from "../../common/components/modal/Modal";
+import NameCardLarge from "../../common/components/nameCard/NameCardLarge";
 import Nav from "../../common/components/nav/Nav";
 import {
   socketDisconnected,
@@ -30,6 +31,11 @@ const StyledGame = styled.div`
     align-items: center;
     margin: 1rem 0;
   }
+
+  .NameCardLargeContainer {
+    display: flex;
+    justify-content: center;
+  }
 `;
 
 function Game() {
@@ -44,13 +50,16 @@ function Game() {
   const nodeList = useSelector((state) => state.game.nodeList);
   const player1SocketId = useSelector((state) => state.game.player1SocketId);
   const player2SocketId = useSelector((state) => state.game.player2SocketId);
+  const player1Nickname = useSelector((state) => state.game.player1Nickname);
+  const player2Nickname = useSelector((state) => state.game.player2Nickname);
   const isGameOver = useSelector((state) => state.game.isGameOver);
+  const isGameConnected = useSelector((state) => state.game.isGameConnected);
   const mineralNodeIdList = useSelector(
     (state) => state.game.mineralNodeIdList
   );
 
   useEffect(() => {
-    if (isGameOver) {
+    if (isGameOver && mySocketId) {
       dispatch(setShortestPath(currentGameState));
     }
   }, [isGameOver]);
@@ -92,15 +101,24 @@ function Game() {
   }
   return (
     <StyledGame>
-      {/* {isGameOver && (
+      <div className="NameCardLargeContainer">
+        {isGameOver && (
+          <NameCardLarge>
+            {currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_WIN
+              ? `${player1Nickname} WIN`
+              : `${player2Nickname} WIN`}
+          </NameCardLarge>
+        )}
+      </div>
+
+      {!isGameConnected && (
         <Modal
-          onModalCloseClick={handleModalCloseClick}
+          onModalCloseClick={handleModalOkButtonClick}
           onModalOkButtonClick={handleModalOkButtonClick}
-          onModalCancelButtonClick={handleModalCloseClick}
         >
-          GAME OVER
+          상대방이 게임을 떠났습니다.
         </Modal>
-      )} */}
+      )}
       {showModal && (
         <Modal
           onModalCloseClick={handleModalCloseClick}

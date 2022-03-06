@@ -1,5 +1,6 @@
 import {
   BOARD_SIZE,
+  BOMB_PERCENTAGE,
   CURRNET_GAME_STATE_OPTIONS,
   DECIMAL,
   LEVEL,
@@ -239,17 +240,14 @@ export function createNodelist(heightCount, widthCount, level) {
     }
     nodeList.allIds.push(newRowIds);
   }
-
   //  Bomb
   if (level === LEVEL.HARD) {
-    //
+    nodeList = createRandomBomb(nodeList, heightCount, widthCount);
   }
-
   // Rock
-  if (level === LEVEL.NORMAL) {
+  if (level === LEVEL.NORMAL || level === LEVEL.HARD) {
     nodeList = createRandomRock(nodeList, heightCount, widthCount);
   }
-
   // Mineral
   nodeList = createRandomMineral(nodeList, heightCount, widthCount);
 
@@ -259,18 +257,39 @@ export function createNodelist(heightCount, widthCount, level) {
   return nodeList;
 }
 
+function createRandomBomb(nodeList, heightCount, widthCount) {
+  const obstacle = NODE_STATE.BOMB;
+  const calculateBomb = parseInt(
+    heightCount * widthCount * BOMB_PERCENTAGE,
+    DECIMAL
+  );
+
+  const nodeCount = heightCount * widthCount;
+
+  nodeList = setObstacleNodeList(
+    heightCount,
+    widthCount,
+    getRandomNumberList(0, nodeCount, calculateBomb),
+    nodeList,
+    obstacle
+  );
+  return nodeList;
+}
+
 function createRandomRock(nodeList, heightCount, widthCount) {
+  const obstacle = NODE_STATE.ROCK;
   const calculateRock = parseInt(
     heightCount * widthCount * ROCK_PERCENTAGE,
     DECIMAL
   );
   const nodeCount = heightCount * widthCount;
 
-  nodeList = setRockNodeList(
+  nodeList = setObstacleNodeList(
     heightCount,
     widthCount,
     getRandomNumberList(0, nodeCount, calculateRock),
-    nodeList
+    nodeList,
+    obstacle
   );
 
   return nodeList;
@@ -304,7 +323,14 @@ function createRandomMineral(nodeList, heightCount, widthCount) {
 
   return nodeList;
 }
-function setRockNodeList(heightCount, widthCount, randomNumberList, nodeList) {
+
+function setObstacleNodeList(
+  heightCount,
+  widthCount,
+  randomNumberList,
+  nodeList,
+  obstacle
+) {
   let count = 0;
 
   for (let j = 0; j < heightCount; j++) {
@@ -313,7 +339,7 @@ function setRockNodeList(heightCount, widthCount, randomNumberList, nodeList) {
 
       if (count === randomNumberList[randomNumberList.length - 1]) {
         randomNumberList.pop();
-        nodeList.byId[`${j}-${i}`].nodeState = NODE_STATE.ROCK;
+        nodeList.byId[`${j}-${i}`].nodeState = obstacle;
       }
     }
   }

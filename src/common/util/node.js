@@ -108,7 +108,7 @@ export function clickedMineralNode(
   currentGameState,
   targetId
 ) {
-  if (!hasNearPlayerPath(nodeList, nodeId, currentGameState)) {
+  if (!hasNearPlayerPath(nodeList, nodeId, currentGameState) && !isStart) {
     return;
   }
 
