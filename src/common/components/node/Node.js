@@ -46,6 +46,8 @@ const StyledNode = styled.div`
         return `background-color: ${COLOR.YELLOW};`;
       case NODE_STATE.EXPLODED_BOMB:
         return `background-color: ${COLOR.RED};`;
+      case NODE_STATE.BOMB:
+        return `background-color: ${COLOR.YELLOW};`;
       default:
         return `background-color: ${COLOR.BROWN};`;
     }
@@ -132,7 +134,12 @@ function Node({ nodeId }) {
         currentGameState,
         targetId
       );
+
       setIsCurrnetNodeChange(true);
+    }
+
+    if (currentNodeState === NODE_STATE.BOMB) {
+      //
     }
 
     if (currentNodeState === NODE_STATE.DEFAULT) {

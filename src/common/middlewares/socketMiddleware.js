@@ -10,6 +10,7 @@ import {
   updateMineralCount,
   updateCurrnetGameOver,
   setMineralNodeIdList,
+  userLeftGame,
 } from "../../features/game/gameSlice";
 
 const socketActionType = {
@@ -68,16 +69,6 @@ const socketMiddleware = () => {
         storeAPI.dispatch(setMapEqual({ nodeList, currentSocketId }));
       });
 
-      // socket.on(
-      //   "receivePlayerStartNodeIdAndGoatId",
-      //   ({ nodeId, goatNodeId }) => {
-      //     const currentSocketId = socket.id;
-      //     storeAPI.dispatch(
-      //       setStartNodeAndGoatId({ nodeId, goatNodeId, currentSocketId })
-      //     );
-      //   }
-      // );
-
       socket.on("receiveMineralNodeIdList", (mineralNodeIdList) => {
         storeAPI.dispatch(setMineralNodeIdList(mineralNodeIdList));
       });
@@ -92,6 +83,16 @@ const socketMiddleware = () => {
 
       socket.on("receiveGameOver", (currentGameState) => {
         storeAPI.dispatch(updateCurrnetGameOver(currentGameState));
+      });
+
+      socket.on("leaveGame", () => {
+        socket.disconnect();
+      });
+
+      socket.on("disconnect", () => {
+        // eslint-disable-next-line no-console
+        console.log(`client socketid ${socket.id} is disconnected`);
+        storeAPI.dispatch(userLeftGame());
       });
     }
 

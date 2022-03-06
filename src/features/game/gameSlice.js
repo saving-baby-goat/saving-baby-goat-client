@@ -18,6 +18,7 @@ import {
 export const initialState = {
   gameLevel: LEVEL.EASY,
   isGameOver: false,
+  isGameConnected: false,
   nodeList: {
     byId: {},
     allIds: [[]],
@@ -44,6 +45,7 @@ export const gameSlice = createSlice({
   reducers: {
     setGameLevel: (state, action) => {
       state.gameLevel = action.payload;
+      state.isGameConnected = true;
     },
     createGame: (state, action) => {
       const heightCount = BOARD_SIZE.HEIGHT_COUNT;
@@ -107,6 +109,7 @@ export const gameSlice = createSlice({
       state.player1SocketId = player1SocketId;
       state.player2SocketId = player2SocketId;
       state.currentGameState = CURRNET_GAME_STATE_OPTIONS.START;
+      state.isGameOver = false;
 
       if (currentGameRoomId.split("-")[1] === currnetPlayerSocketId) {
         state.isMyTurn = true;
@@ -181,6 +184,29 @@ export const gameSlice = createSlice({
         state.nodeList.byId[targetId].nodeState = NODE_STATE.SHORTEST_PATH;
       }
     },
+    userLeftGame: (state) => {
+      state.gameLevel = LEVEL.EASY;
+      state.isGameConnected = false;
+      state.nodeList = {
+        byId: {},
+        allIds: [[]],
+      };
+      state.isGameOver = false;
+      state.moveCount = 0;
+      state.isMyTurn = false;
+      state.mySocketId = "";
+      state.player1StartNodeId = "";
+      state.player2StartNodeId = "";
+      state.player1Nickname = "";
+      state.player2Nickname = "";
+      state.currentGameRoomId = "";
+      state.player1SocketId = "";
+      state.player2SocketId = "";
+      state.currentGameState = "";
+      state.player1MineralCount = 0;
+      state.player2MineralCount = 0;
+      state.mineralNodeIdList = [];
+    },
   },
 });
 
@@ -200,6 +226,7 @@ export const {
   setShortestPath,
   setStartNodeAndGoatId,
   setMineralNodeIdList,
+  userLeftGame,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
