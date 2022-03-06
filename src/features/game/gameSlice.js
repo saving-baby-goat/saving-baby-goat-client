@@ -7,8 +7,12 @@ import {
   LEVEL,
   NODE_STATE,
 } from "../../common/util/constants";
-
-import { findShortestPath, findMineralNodeId } from "../../common/util/game";
+import {
+  findGoatNodeId,
+  findStartNodeId,
+  findMineralNodeIdList,
+  findShortestPath,
+} from "../../common/util/game";
 import { createNodelist } from "../../common/util/node";
 
 export const initialState = {
@@ -29,14 +33,8 @@ export const initialState = {
   player1SocketId: "",
   player2SocketId: "",
   currentGameState: "",
-  // PLAYER_1_TURN: "plyaer1Turn",
-  // PLAYER_2_TURN: "plyaer2Turn",
-  // WAITING: "waiting",
-  // START: "start",
-  // SHORTEST_PATH:"shortestPath";
   player1MineralCount: 0,
   player2MineralCount: 0,
-  goatNodeId: "",
   mineralNodeIdList: [],
 };
 
@@ -47,49 +45,42 @@ export const gameSlice = createSlice({
     setGameLevel: (state, action) => {
       state.gameLevel = action.payload;
     },
-    // 여기 바꿨음
     createGame: (state) => {
       const heightCount = BOARD_SIZE.HEIGHT_COUNT;
       const widthCount = BOARD_SIZE.WIDTH_COUNT;
 
       state.nodeList = createNodelist(heightCount, widthCount);
-      state.goatNodeId = `${Math.floor(heightCount / 2)}-${Math.floor(
-        widthCount / 2
-      )}`;
 
-      state.mineralNodeIdList = findMineralNodeId(state.nodeList);
-
+      state.mineralNodeIdList = findMineralNodeIdList(state.nodeList);
+    },
+    setMineralNodeIdList: (state, action) => {
+      state.mineralNodeIdList = action.payload;
     },
     setNodeState: (state, action) => {
-      const { nodeId, nodeState, isStart, currentGameState } = action.payload;
+      const { nodeId, isStart, currentGameState } = action.payload;
 
-      state.nodeList.byId[nodeId].nodeState = nodeState;
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        if (isStart) {
+          state.player1StartNodeId = nodeId;
+          state.nodeList.byId[nodeId].isStartPath = true;
+        }
 
+        state.nodeList.byId[nodeId].nodeState = NODE_STATE.PLAYER_1_PATH;
+      }
+
+      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+        if (isStart) {
+          state.player2StartNodeId = nodeId;
+          state.nodeList.byId[nodeId].isStartPath = true;
+        }
+
+        state.nodeList.byId[nodeId].nodeState = NODE_STATE.PLAYER_2_PATH;
+      }
+
+      // 확인 : 0초과 아니어도 되는지
       if (state.moveCount > 0) {
         state.moveCount--;
       }
-
-      if (isStart) {
-        if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
-          state.player1StartNodeId = nodeId;
-        }
-        if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
-          state.player2StartNodeId = nodeId;
-        }
-      }
-    },
-    setStartNodeAndGoatId: (state, action) => {
-      const { nodeId, goatNodeId, currentSocketId } = action.payload;
-
-      if (currentSocketId === state.player1SocketId) {
-        state.player2StartNodeId = nodeId;
-      }
-
-      if (currentSocketId === state.player2SocketId) {
-        state.player1StartNodeId = nodeId;
-      }
-
-      state.goatNodeId = goatNodeId;
     },
     onRollDice: (state, action) => {
       if (!state.moveCount) {
@@ -174,26 +165,18 @@ export const gameSlice = createSlice({
     setShortestPath: (state, action) => {
       const currentGameState = action.payload;
 
-      let path = {};
+      const startNodeId = findStartNodeId(state.nodeList, currentGameState);
+      const goatNodeId = findGoatNodeId(state.nodeList);
 
-      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_WIN) {
-        path = findShortestPath(
-          state.nodeList,
-          state.player1StartNodeId,
-          state.goatNodeId
-        );
-      }
+      const shortestPath = findShortestPath(
+        state.nodeList,
+        state.mineralNodeIdList,
+        startNodeId,
+        goatNodeId
+      ).flat();
 
-      if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN) {
-        path = findShortestPath(
-          state.nodeList,
-          state.player2StartNodeId,
-          state.goatNodeId
-        );
-      }
-
-      for (let i = 0; i < path.length; i++) {
-        const targetId = path[i].id;
+      for (let i = 0; i < shortestPath.length; i++) {
+        const targetId = shortestPath[i].id;
         state.nodeList.byId[targetId].nodeState = NODE_STATE.SHORTEST_PATH;
       }
     },
@@ -215,6 +198,7 @@ export const {
   updateCurrnetGameOver,
   setShortestPath,
   setStartNodeAndGoatId,
+  setMineralNodeIdList,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;

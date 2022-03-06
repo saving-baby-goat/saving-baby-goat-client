@@ -1,3 +1,6 @@
+export const MINERAL_PERCENTAGE = 0.02;
+export const DECIMAL = 10;
+
 export const COLOR = {
   BROWN: "#b47535",
   GREY: "#C0C0C0",
@@ -20,15 +23,17 @@ export const LEVEL = {
 
 export const NODE_STATE = {
   DEFAULT: "default",
-  GOAT: "goat",
   MINERAL: "mineral",
+  GOAT: "goat",
+  ROCK: "rock",
+  BOMB: "bomb",
+  EXPLODED_BOMB: "explodedBomb",
   PLAYER_1_PATH: "player1Path",
   PLAYER_2_PATH: "player2Path",
+  PLAYER_1_START_PATH: "player1StartPath",
+  PLAYER_2_START_PATH: "player2StartPath",
   SHORTEST_PATH: "shortestPath",
 };
-
-export const MINERAL_PERCENTAGE = 0.03;
-export const DECIMAL = 10;
 
 export const CURRNET_GAME_STATE_OPTIONS = {
   PLAYER_1_TURN: "player1Turn",

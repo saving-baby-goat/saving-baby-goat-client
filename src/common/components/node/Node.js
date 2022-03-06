@@ -35,14 +35,16 @@ const StyledNode = styled.div`
 
   ${({ type }) => {
     switch (type) {
-      case "player1Path":
-      case "player1Start":
+      case NODE_STATE.PLAYER_1_PATH:
+      case NODE_STATE.PLAYER_1_START_PATH:
         return `background-color: ${COLOR.BLUE};`;
-      case "player2Path":
-      case "player2Start":
+      case NODE_STATE.PLAYER_2_PATH:
+      case NODE_STATE.PLAYER_2_START_PATH:
         return `background-color: ${COLOR.GREEN};`;
-      case "shortestPath":
+      case NODE_STATE.SHORTEST_PATH:
         return `background-color: ${COLOR.YELLOW};`;
+      case NODE_STATE.EXPLODED_BOMB:
+        return `background-color: ${COLOR.RED};`;
       default:
         return `background-color: ${COLOR.BROWN};`;
     }
@@ -117,6 +119,7 @@ function Node({ nodeId }) {
     }
 
     if (currentNodeState === NODE_STATE.MINERAL) {
+      console.log("미네랄!");
       // 미네랄 밟았을때
       const isStart = !player1StartNodeId;
 
@@ -132,6 +135,7 @@ function Node({ nodeId }) {
     }
 
     if (currentNodeState === NODE_STATE.DEFAULT) {
+      console.log("기본노드");
       // 기본 노드
       clickedDefaultNode(
         dispatch,
@@ -148,13 +152,13 @@ function Node({ nodeId }) {
 
     if (currentNodeState === NODE_STATE.GOAT) {
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
-        if (player1MineralCount < 3) {
+        if (player1MineralCount < 2) {
           return;
         }
       }
 
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
-        if (player2MineralCount < 3) {
+        if (player2MineralCount < 2) {
           return;
         }
       }
@@ -171,6 +175,8 @@ function Node({ nodeId }) {
         return <img className="image" src={GOAT} alt="goat" />;
       case NODE_STATE.MINERAL:
         return <img className="image" src={MINERAL} alt="mineral" />;
+      // case NODE_STATE.ROCK:
+      //   return <img className="image" src={MINERAL} alt="mineral" />;
       default:
         return null;
     }

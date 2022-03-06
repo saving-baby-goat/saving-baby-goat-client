@@ -1,6 +1,102 @@
-import { BOARD_SIZE, NODE_STATE } from "./constants";
+import {
+  BOARD_SIZE,
+  CURRNET_GAME_STATE_OPTIONS,
+  NODE_STATE,
+} from "./constants";
 
-export function findMineralNodeId(nodeList) {
+// 여기 삭제
+function proxy(list) {
+  const result = [];
+  for (let i = 0; i < list; i++) {
+    result.push(list[i]);
+  }
+}
+
+export function findShortestPath(
+  nodeList,
+  mineralNodeIdList,
+  startNodeId,
+  goatNodeId
+) {
+  proxy(mineralNodeIdList);
+  const permutedList = getPermutations(mineralNodeIdList, 2);
+
+  for (let i = 0; i < permutedList.length; i++) {
+    permutedList[i].unshift(startNodeId);
+    permutedList[i].push(goatNodeId);
+  }
+
+  let path = [];
+  for (let i = 0; i < permutedList.length; i++) {
+    let tempPath = [];
+    for (let j = 0; j < permutedList[i].length - 1; j++) {
+      tempPath = tempPath.concat(
+        aStarAlgorithm(nodeList, permutedList[i][j], permutedList[i][j + 1])
+      );
+    }
+
+    if (!i) {
+      path = tempPath;
+    }
+
+    if (path.length >= tempPath.length) {
+      path = tempPath;
+    }
+  }
+
+  return path;
+}
+
+export function getPermutations(list, maxLength) {
+  if (maxLength === 0) {
+    return [[]];
+  }
+
+  const result = [];
+
+  for (let i = 0; i < list.length; i++) {
+    const copy = [...list];
+    const head = copy.splice(i, 1);
+    const rest = getPermutations(copy, maxLength - 1);
+    for (let j = 0; j < rest.length; j++) {
+      const next = head.concat(rest[j]);
+      result.push(next);
+    }
+  }
+
+  return result;
+}
+
+export function findStartNodeId(nodeList, currentGameState) {
+  if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_WIN) {
+    for (let j = 0; j < BOARD_SIZE.HEIGHT_COUNT; j++) {
+      if (nodeList.byId[`${j}-0`].isStartPath) {
+        return `${j}-0`;
+      }
+    }
+  }
+  if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_WIN) {
+    for (let j = 0; j < BOARD_SIZE.HEIGHT_COUNT; j++) {
+      if (nodeList.byId[`${j}-${BOARD_SIZE.WIDTH_COUNT - 1}`].isStartPath) {
+        return `${j}-${BOARD_SIZE.WIDTH_COUNT - 1}`;
+      }
+    }
+  }
+  return null;
+}
+
+export function findGoatNodeId(nodeList) {
+  for (let j = 0; j < BOARD_SIZE.HEIGHT_COUNT; j++) {
+    for (let i = 0; i < BOARD_SIZE.WIDTH_COUNT; i++) {
+      if (nodeList.byId[`${j}-${i}`].nodeState === NODE_STATE.GOAT) {
+        return `${j}-${i}`;
+      }
+    }
+  }
+  return null;
+}
+
+export function findMineralNodeIdList(nodeList) {
   const mineralNodeList = [];
 
   for (let j = 0; j < BOARD_SIZE.HEIGHT_COUNT; j++) {
@@ -14,7 +110,7 @@ export function findMineralNodeId(nodeList) {
   return mineralNodeList;
 }
 
-export function findShortestPath(nodeList, startNodeId, endNodeId) {
+export function aStarAlgorithm(nodeList, startNodeId, endNodeId) {
   const nodeListSetNeighborList = setNeighborList(nodeList);
   const startNode = nodeListSetNeighborList.byId[startNodeId];
   const endNode = nodeListSetNeighborList.byId[endNodeId];
@@ -23,7 +119,6 @@ export function findShortestPath(nodeList, startNodeId, endNodeId) {
   let openSet = [];
   const closedSet = [];
   const path = [];
-  // const visitedNodeList = [];
 
   openSet.push(startNode);
   while (openSet.length > 0) {
@@ -78,7 +173,6 @@ export function findShortestPath(nodeList, startNodeId, endNodeId) {
       }
     }
   }
-  // return { path, visitedNodeList, error: "NONO" };
   return null;
 }
 

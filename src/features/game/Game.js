@@ -37,15 +37,15 @@ function Game() {
   const dispatch = useDispatch();
   const [showModal, setShowModal] = useState(false);
   const [hasCreateGame, setHasCreateGame] = useState(false);
-  // const player1Nickname = useSelector((state) => state.game.player1Nickname);
-  // const player2Nickname = useSelector((state) => state.game.player2Nickname);
-
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const nodeList = useSelector((state) => state.game.nodeList);
   const player1SocketId = useSelector((state) => state.game.player1SocketId);
   const player2SocketId = useSelector((state) => state.game.player2SocketId);
   const isGameOver = useSelector((state) => state.game.isGameOver);
+  const mineralNodeIdList = useSelector(
+    (state) => state.game.mineralNodeIdList
+  );
 
   useEffect(() => {
     if (isGameOver) {
@@ -67,6 +67,12 @@ function Game() {
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       dispatch(
         changeCurrentGameState(CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN)
+      );
+      dispatch(
+        socketEmitted("sendMineralNodeIdList", {
+          mineralNodeIdList,
+          targetId,
+        })
       );
     }
   }, [hasCreateGame]);
