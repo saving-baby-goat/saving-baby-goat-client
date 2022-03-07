@@ -13,8 +13,14 @@ import {
   COLOR,
   CURRNET_GAME_STATE_OPTIONS,
   NODE_STATE,
+  VICTORY_MINERAL_COUNT,
 } from "../../util/constants";
-import { clickedDefaultNode, clickedMineralNode } from "../../util/node";
+import {
+  clickedBombNode,
+  clickedDefaultNode,
+  clickedMineralNode,
+  hasNearPlayerPath,
+} from "../../util/node";
 
 const StyledNode = styled.div`
   min-width: 40px;
@@ -121,6 +127,11 @@ function Node({ nodeId }) {
       return;
     }
 
+    if (currentGameState === NODE_STATE.EXPLODED_BOMB) {
+      // 이미 터진 길 일때
+      return;
+    }
+
     if (currentNodeState === NODE_STATE.MINERAL) {
       console.log("미네랄!");
       // 미네랄 밟았을때
@@ -139,10 +150,26 @@ function Node({ nodeId }) {
     }
 
     if (currentNodeState === NODE_STATE.BOMB) {
-      //
+      console.log("폭탄!!!");
+
+      const isStart = !player1StartNodeId;
+
+      clickedBombNode(
+        dispatch,
+        nodeList,
+        nodeId,
+        isStart,
+        currentGameState,
+        targetId
+      );
+
+      setIsCurrnetNodeChange(true);
     }
 
-    if (currentNodeState === NODE_STATE.DEFAULT) {
+    if (
+      currentNodeState === NODE_STATE.DEFAULT ||
+      currentNodeState === NODE_STATE.EXPLODED_BOMB
+    ) {
       console.log("기본노드");
       // 기본 노드
       clickedDefaultNode(
@@ -152,21 +179,25 @@ function Node({ nodeId }) {
         player2StartNodeId,
         nodeList,
         nodeId,
-        setIsCurrnetNodeChange,
         targetId,
         goatNodeId
       );
+      setIsCurrnetNodeChange(true);
     }
 
     if (currentNodeState === NODE_STATE.GOAT) {
+      if (!hasNearPlayerPath(nodeList, nodeId, currentGameState)) {
+        return;
+      }
+
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
-        if (player1MineralCount < 2) {
+        if (player1MineralCount < VICTORY_MINERAL_COUNT) {
           return;
         }
       }
 
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
-        if (player2MineralCount < 2) {
+        if (player2MineralCount < VICTORY_MINERAL_COUNT) {
           return;
         }
       }

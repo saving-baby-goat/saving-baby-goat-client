@@ -60,7 +60,7 @@ export const gameSlice = createSlice({
       state.mineralNodeIdList = action.payload;
     },
     setNodeState: (state, action) => {
-      const { nodeId, isStart, currentGameState } = action.payload;
+      const { nodeId, isStart, currentGameState, option } = action.payload;
 
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
         if (isStart) {
@@ -68,7 +68,11 @@ export const gameSlice = createSlice({
           state.nodeList.byId[nodeId].isStartPath = true;
         }
 
-        state.nodeList.byId[nodeId].nodeState = NODE_STATE.PLAYER_1_PATH;
+        if (option === NODE_STATE.BOMB) {
+          state.nodeList.byId[nodeId].nodeState = NODE_STATE.EXPLODED_BOMB;
+        } else {
+          state.nodeList.byId[nodeId].nodeState = NODE_STATE.PLAYER_1_PATH;
+        }
       }
 
       if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
@@ -77,7 +81,11 @@ export const gameSlice = createSlice({
           state.nodeList.byId[nodeId].isStartPath = true;
         }
 
-        state.nodeList.byId[nodeId].nodeState = NODE_STATE.PLAYER_2_PATH;
+        if (option === NODE_STATE.BOMB) {
+          state.nodeList.byId[nodeId].nodeState = NODE_STATE.EXPLODED_BOMB;
+        } else {
+          state.nodeList.byId[nodeId].nodeState = NODE_STATE.PLAYER_2_PATH;
+        }
       }
 
       // 확인 : 0초과 아니어도 되는지
@@ -111,7 +119,7 @@ export const gameSlice = createSlice({
       state.currentGameState = CURRNET_GAME_STATE_OPTIONS.START;
       state.isGameOver = false;
 
-      if (currentGameRoomId.split("-")[1] === currnetPlayerSocketId) {
+      if (currentGameRoomId.slice(5) === currnetPlayerSocketId) {
         state.isMyTurn = true;
       }
     },

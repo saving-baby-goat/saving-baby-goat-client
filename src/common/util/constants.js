@@ -1,7 +1,9 @@
-export const MINERAL_PERCENTAGE = 0.02;
+export const MINERAL_PERCENTAGE = 0.025;
 export const ROCK_PERCENTAGE = 0.3;
 export const BOMB_PERCENTAGE = 0.1;
 export const DECIMAL = 10;
+
+export const VICTORY_MINERAL_COUNT = 2;
 
 export const COLOR = {
   BROWN: "#b47535",

@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 /* eslint-disable no-console */
 
 import {
@@ -8,20 +7,34 @@ import {
 import { socketEmitted } from "../middlewares/socketMiddleware";
 import { CURRNET_GAME_STATE_OPTIONS, DECIMAL, NODE_STATE } from "./constants";
 
+export function clickedBombNode(
+  dispatch,
+  nodeList,
+  nodeId,
+  isStart,
+  currentGameState
+) {
+  if (!hasNearPlayerPath(nodeList, nodeId, currentGameState) && !isStart) {
+    return;
+  }
+  const option = NODE_STATE.BOMB;
+  dispatch(setNodeState({ nodeId, isStart, currentGameState, option }));
+}
+
 export function clickedDefaultNode(
   dispatch,
   currentGameState,
   player1StartNodeId,
   player2StartNodeId,
   nodeList,
-  nodeId,
-  setIsCurrnetNodeChange
+  nodeId
 ) {
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
     const isStart = !player1StartNodeId;
     const columnNumber = parseInt(nodeId.split("-")[1], DECIMAL);
 
     if (player1StartNodeId === "") {
+      console.log("111");
       if (columnNumber !== 0) {
         console.log("1p// 처음 시작인데, 0번째 아닐때");
         // 처음 시작인데, 0번째 아닐때
@@ -38,11 +51,10 @@ export function clickedDefaultNode(
           })
         );
 
-        setIsCurrnetNodeChange(true);
         return;
       }
     }
-    console.log("여긴가?");
+
     if (hasNearPlayerPath(nodeList, nodeId, currentGameState)) {
       console.log("1p// 주변에 지나온 길이 있을 때");
 
@@ -54,7 +66,17 @@ export function clickedDefaultNode(
           currentGameState,
         })
       );
-      setIsCurrnetNodeChange(true);
+      return;
+    }
+
+    if (nodeList.byId[nodeId].nodeState === NODE_STATE.EXPLODED_BOMB) {
+      dispatch(
+        setNodeState({
+          nodeId,
+          isStart,
+          currentGameState,
+        })
+      );
       return;
     }
   }
@@ -80,7 +102,6 @@ export function clickedDefaultNode(
           })
         );
 
-        setIsCurrnetNodeChange(true);
         return;
       }
     }
@@ -95,7 +116,17 @@ export function clickedDefaultNode(
           currentGameState,
         })
       );
-      setIsCurrnetNodeChange(true);
+      return;
+    }
+
+    if (nodeList.byId[nodeId].nodeState === NODE_STATE.EXPLODED_BOMB) {
+      dispatch(
+        setNodeState({
+          nodeId,
+          isStart,
+          currentGameState,
+        })
+      );
     }
   }
 }
@@ -108,11 +139,14 @@ export function clickedMineralNode(
   currentGameState,
   targetId
 ) {
+  console.log("isStart", isStart);
+
   if (!hasNearPlayerPath(nodeList, nodeId, currentGameState) && !isStart) {
     return;
   }
 
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+    console.log("=====1P");
     dispatch(
       setNodeState({
         nodeId,
@@ -125,6 +159,7 @@ export function clickedMineralNode(
   }
 
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+    console.log("=====2P");
     dispatch(
       setNodeState({
         nodeId,
