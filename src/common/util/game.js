@@ -277,6 +277,7 @@ function createRandomBomb(nodeList, heightCount, widthCount) {
     nodeList,
     obstacle
   );
+
   return nodeList;
 }
 
@@ -336,15 +337,16 @@ function setObstacleNodeList(
   obstacle
 ) {
   let count = 0;
+  let randomNumberListIndex = 0;
 
   for (let j = 0; j < heightCount; j++) {
     for (let i = 0; i < widthCount; i++) {
-      count++;
-
-      if (count === randomNumberList[randomNumberList.length - 1]) {
-        randomNumberList.pop();
+      if (count === randomNumberList[randomNumberListIndex]) {
         nodeList.byId[`${j}-${i}`].nodeState = obstacle;
+        randomNumberListIndex++;
       }
+
+      count++;
     }
   }
 
@@ -359,14 +361,15 @@ function setMineralNodeList(
   nodeList
 ) {
   let count = 0;
+  let randomNumberListIndex = 0;
 
   for (let j = 0; j < heightCount; j++) {
     for (let i = widthStart; i < widthEnd; i++) {
-      count++;
-      if (count === randomNumberList[randomNumberList.length - 1]) {
-        randomNumberList.pop();
+      if (count === randomNumberList[randomNumberListIndex]) {
         nodeList.byId[`${j}-${i}`].nodeState = NODE_STATE.MINERAL;
+        randomNumberListIndex++;
       }
+      count++;
     }
   }
   return nodeList;
@@ -385,5 +388,5 @@ function getRandomNumberList(min, max, count) {
     numberList.push(newRandomNumber);
   }
 
-  return numberList.sort((a, b) => b - a);
+  return numberList.sort((a, b) => a - b);
 }
