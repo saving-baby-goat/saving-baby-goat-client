@@ -11,6 +11,7 @@ import {
   updateCurrnetGameOver,
   setMineralNodeIdList,
   userLeftGame,
+  setStartNodeId,
 } from "../../features/game/gameSlice";
 
 const socketActionType = {
@@ -71,6 +72,10 @@ const socketMiddleware = () => {
 
       socket.on("receiveMineralNodeIdList", (mineralNodeIdList) => {
         storeAPI.dispatch(setMineralNodeIdList(mineralNodeIdList));
+      });
+
+      socket.on("receiveStartNodeId", (nodeId) => {
+        storeAPI.dispatch(setStartNodeId(nodeId));
       });
 
       socket.on("receiveEndOfTurn", (currentGameState) => {

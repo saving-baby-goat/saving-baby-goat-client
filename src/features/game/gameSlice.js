@@ -56,6 +56,15 @@ export const gameSlice = createSlice({
 
       state.mineralNodeIdList = findMineralNodeIdList(state.nodeList);
     },
+    setStartNodeId: (state, action) => {
+      if (state.currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+        state.player1StartNodeId = action.payload;
+      }
+
+      if (state.currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+        state.player2StartNodeId = action.payload;
+      }
+    },
     setMineralNodeIdList: (state, action) => {
       state.mineralNodeIdList = action.payload;
     },
@@ -235,6 +244,7 @@ export const {
   setStartNodeAndGoatId,
   setMineralNodeIdList,
   userLeftGame,
+  setStartNodeId,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
