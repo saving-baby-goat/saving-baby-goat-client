@@ -49,6 +49,7 @@ function Intro() {
   const [showInput, setShowInput] = useState(false);
   const [usersInput, setUsersInput] = useState("");
   const [showStartButton, setStartButton] = useState(false);
+  // 여기
   // const [showLevelButton, setShowLevelButton] = useState(false);
   const [showLevelButton, setShowLevelButton] = useState(true);
   const [showNickname, setShowNickname] = useState(false);

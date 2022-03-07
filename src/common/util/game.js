@@ -7,6 +7,7 @@ import {
   MINERAL_PERCENTAGE,
   NODE_STATE,
   ROCK_PERCENTAGE,
+  VICTORY_MINERAL_COUNT,
 } from "./constants";
 
 // 여기 삭제
@@ -24,7 +25,10 @@ export function findShortestPath(
   goatNodeId
 ) {
   proxy(mineralNodeIdList);
-  const permutedList = getPermutations(mineralNodeIdList, 2);
+  const permutedList = getPermutations(
+    mineralNodeIdList,
+    VICTORY_MINERAL_COUNT
+  );
 
   for (let i = 0; i < permutedList.length; i++) {
     permutedList[i].unshift(startNodeId);

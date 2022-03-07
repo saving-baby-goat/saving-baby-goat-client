@@ -66,7 +66,7 @@ function Nav() {
         break;
 
       case CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN:
-        setDisplayName(`${player1Nickname} TRUN`);
+        setDisplayName(`${player1Nickname} TURN`);
         break;
 
       case CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN:

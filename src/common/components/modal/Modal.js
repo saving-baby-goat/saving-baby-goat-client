@@ -73,7 +73,7 @@ const Backdrop = styled.div`
   left: 0;
   width: 100vw;
   height: 100vh;
-  background-color: rgba(72, 72, 72, 0.46);
+  background-color: rgba(72, 72, 72, 0.95);
   z-index: 2;
   cursor: default;
 `;
