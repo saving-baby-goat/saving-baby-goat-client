@@ -87,7 +87,6 @@ function Node({ nodeId }) {
   const player2MineralCount = useSelector(
     (state) => state.game.player2MineralCount
   );
-  const goatNodeId = useSelector((state) => state.game.goatNodeId);
 
   const [isCurrnetNodeChange, setIsCurrnetNodeChange] = useState(false);
 
@@ -106,6 +105,7 @@ function Node({ nodeId }) {
   }, [currentMoveCount]);
 
   function handleNodeClick() {
+    console.log("|||||currentNodeState", currentNodeState);
     if (!isMyTurn) {
       console.log("니차례 아니다");
       return;
@@ -127,15 +127,22 @@ function Node({ nodeId }) {
       return;
     }
 
-    if (currentGameState === NODE_STATE.EXPLODED_BOMB) {
-      // 이미 터진 길 일때
-      return;
+    let isStart = false;
+
+    if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
+      if (!player1StartNodeId) {
+        isStart = true;
+      }
     }
 
+    if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
+      if (!player2StartNodeId) {
+        isStart = true;
+      }
+    }
+    console.log("popopopoppo", isStart);
     if (currentNodeState === NODE_STATE.MINERAL) {
       console.log("미네랄!");
-      // 미네랄 밟았을때
-      const isStart = !player1StartNodeId;
 
       clickedMineralNode(
         dispatch,
@@ -151,8 +158,6 @@ function Node({ nodeId }) {
 
     if (currentNodeState === NODE_STATE.BOMB) {
       console.log("폭탄!!!");
-
-      const isStart = !player1StartNodeId;
 
       clickedBombNode(
         dispatch,
@@ -171,18 +176,22 @@ function Node({ nodeId }) {
       currentNodeState === NODE_STATE.EXPLODED_BOMB
     ) {
       console.log("기본노드");
-      // 기본 노드
+
       clickedDefaultNode(
         dispatch,
-        currentGameState,
-        player1StartNodeId,
-        player2StartNodeId,
         nodeList,
         nodeId,
-        targetId,
-        goatNodeId
+        isStart,
+        currentGameState,
+        player1StartNodeId,
+        player2StartNodeId
       );
       setIsCurrnetNodeChange(true);
+    }
+
+    if (isStart) {
+      console.log("currentGameState", currentGameState);
+      dispatch(socketEmitted("sendStartNodeId", { nodeId, targetId }));
     }
 
     if (currentNodeState === NODE_STATE.GOAT) {
