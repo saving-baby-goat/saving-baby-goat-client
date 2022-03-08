@@ -5,6 +5,7 @@ import styled from "styled-components";
 
 import Board from "../../common/components/board/Board";
 import ButtonFluid from "../../common/components/buttons/ButtonFluid";
+import ButtonSmall from "../../common/components/buttons/ButtonSmall";
 import Modal from "../../common/components/modal/Modal";
 import NameCardLarge from "../../common/components/nameCard/NameCardLarge";
 import Nav from "../../common/components/nav/Nav";
@@ -36,6 +37,13 @@ const StyledGame = styled.div`
     display: flex;
     justify-content: center;
   }
+
+  .buttonsContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
 `;
 
 function Game() {
@@ -45,6 +53,8 @@ function Game() {
 
   const [showModal, setShowModal] = useState(false);
   const [hasCreateGame, setHasCreateGame] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const nodeList = useSelector((state) => state.game.nodeList);
@@ -87,10 +97,6 @@ function Game() {
     }
   }, [hasCreateGame]);
 
-  function handleGGButtonClick() {
-    setShowModal(true);
-  }
-
   function handleModalOkButtonClick() {
     dispatch(socketDisconnected());
     navigate(-1);
@@ -99,6 +105,28 @@ function Game() {
   function handleModalCloseClick() {
     setShowModal(false);
   }
+
+  function setContentAndShowModal(content) {
+    setShowModal(true);
+    setModalContent(content);
+  }
+
+  function handleGGButtonClick() {
+    setContentAndShowModal(
+      <>
+        <div>정말로 나가시겠습니까?</div>
+        <div className="buttonsContainer">
+          <ButtonSmall type="button" onClick={handleModalOkButtonClick}>
+            나가기
+          </ButtonSmall>
+          <ButtonSmall type="button" onClick={handleModalCloseClick}>
+            취소
+          </ButtonSmall>
+        </div>
+      </>
+    );
+  }
+
   return (
     <StyledGame>
       <div className="NameCardLargeContainer">
@@ -112,21 +140,15 @@ function Game() {
       </div>
 
       {!isGameConnected && (
-        <Modal
-          onModalCloseClick={handleModalOkButtonClick}
-          onModalOkButtonClick={handleModalOkButtonClick}
-        >
+        <Modal onModalCloseClick={handleModalOkButtonClick}>
           상대방이 게임을 떠났습니다.
+          <ButtonSmall type="button" onClick={handleModalOkButtonClick}>
+            나가기
+          </ButtonSmall>
         </Modal>
       )}
       {showModal && (
-        <Modal
-          onModalCloseClick={handleModalCloseClick}
-          onModalOkButtonClick={handleModalOkButtonClick}
-          onModalCancelButtonClick={handleModalCloseClick}
-        >
-          정말로 나가시겠습니까?
-        </Modal>
+        <Modal onModalCloseClick={handleModalCloseClick}>{modalContent}</Modal>
       )}
       <Nav />
       <Board />

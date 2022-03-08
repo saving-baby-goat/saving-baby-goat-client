@@ -10,6 +10,7 @@ const StyledButtonSmall = styled.button`
   padding: 0.2rem 0.5rem;
   border-radius: 1rem;
   font-size: 1rem;
+  margin: 1rem;
   cursor: pointer;
 `;
 

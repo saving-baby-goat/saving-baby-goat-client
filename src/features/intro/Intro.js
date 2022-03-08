@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import ButtonDefault from "../../common/components/buttons/ButtonDefault";
+import ButtonSmall from "../../common/components/buttons/ButtonSmall";
 import Input from "../../common/components/inputs/Input";
 import Modal from "../../common/components/modal/Modal";
 import NameCardDefault from "../../common/components/nameCard/NameCardDefault";
@@ -97,7 +98,7 @@ function Intro() {
   }
 
   function handleCreateCustomMap() {
-    // 커스텀맵 이동 추가
+    navigate("/custom");
   }
 
   function handleModalCloseClick() {
@@ -115,6 +116,9 @@ function Intro() {
       {showModal && (
         <Modal onModalCloseClick={handleModalCloseClick}>
           닉네임은 1 ~ 8자 입니다.
+          <ButtonSmall type="button" onClick={handleModalCloseClick}>
+            확인
+          </ButtonSmall>
         </Modal>
       )}
       <div className="title">
