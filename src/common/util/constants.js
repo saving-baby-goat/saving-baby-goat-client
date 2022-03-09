@@ -16,13 +16,14 @@ export const COLOR = {
   GREEN: "#7fac66",
   BLUE: "#589f96",
   YELLOW: "#edd500",
+  DARK_BROWN: "#805a3f",
 };
 
 export const LEVEL = {
   EASY: "EASY",
   NORMAL: "NORMAL",
   HARD: "HARD",
-  CUSTOM_MAP: "CUSTOM MAP",
+  CUSTOM_MAP: "CUSTOM_MAP",
 };
 
 export const NODE_STATE = {

@@ -5,7 +5,6 @@ import styled from "styled-components";
 
 import icon from "../../../assets/icon-close.svg";
 import { COLOR } from "../../util/constants";
-import ButtonSmall from "../buttons/ButtonSmall";
 
 const ModalWrapper = styled.div`
   z-index: 5;
@@ -15,7 +14,7 @@ const ModalWrapper = styled.div`
   transform: translate(-50%, -50%);
   width: 100%;
 
-  max-width: 390px;
+  max-width: 50rem;
   height: fit-content;
   background-color: ${COLOR.BROWN};
   border-radius: 0.5rem;
@@ -57,14 +56,6 @@ const ModalWrapper = styled.div`
     align-items: center;
     gap: 1.5rem;
   }
-
-  .option-buttons {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-evenly;
-    margin-bottom: 1.5rem;
-  }
 `;
 
 const Backdrop = styled.div`
@@ -78,12 +69,7 @@ const Backdrop = styled.div`
   cursor: default;
 `;
 
-function Modal({
-  children,
-  onModalCloseClick,
-  onModalOkButtonClick,
-  onModalCancelButtonClick,
-}) {
+function Modal({ children, onModalCloseClick }) {
   const $rootElement = document.querySelector("#root");
 
   function handleCloseClick() {
@@ -106,14 +92,6 @@ function Modal({
           </div>
         </div>
         <div className="body">{children}</div>
-        <div className="option-buttons">
-          {onModalOkButtonClick && (
-            <ButtonSmall onClick={onModalOkButtonClick}>확인</ButtonSmall>
-          )}
-          {onModalCancelButtonClick && (
-            <ButtonSmall onClick={onModalCancelButtonClick}>취소</ButtonSmall>
-          )}
-        </div>
       </ModalWrapper>
     </>,
     $rootElement

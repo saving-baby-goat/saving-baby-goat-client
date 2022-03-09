@@ -12,17 +12,18 @@ const StyledBoard = styled.div`
   justify-content: space-around;
 
   .nodeList {
-    width: 80%;
     height: 100%;
     display: flex;
     flex-direction: column;
   }
+
   .nodeListRow {
     display: flex;
     justify-content: center;
     align-items: center;
     width: 100%;
   }
+
   .playerInfo {
     height: 100%;
     display: flex;

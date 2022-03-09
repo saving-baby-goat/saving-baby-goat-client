@@ -10,21 +10,12 @@ import {
   VICTORY_MINERAL_COUNT,
 } from "./constants";
 
-// 여기 삭제
-function proxy(list) {
-  const result = [];
-  for (let i = 0; i < list; i++) {
-    result.push(list[i]);
-  }
-}
-
 export function findShortestPath(
   nodeList,
   mineralNodeIdList,
   startNodeId,
   goatNodeId
 ) {
-  proxy(mineralNodeIdList);
   const permutedList = getPermutations(
     mineralNodeIdList,
     VICTORY_MINERAL_COUNT
@@ -138,7 +129,6 @@ export function aStarAlgorithm(nodeList, startNodeId, endNodeId) {
       }
     }
     const currentNode = openSet[leastIndex];
-    // visitedNodeList.push(currentNode);
     if (currentNode === endNode) {
       let temp = currentNode;
       path.push(temp);
@@ -146,7 +136,6 @@ export function aStarAlgorithm(nodeList, startNodeId, endNodeId) {
         temp = temp.parents;
         path.push(temp);
       }
-      // return { path, visitedNodeList };
       return path;
     }
 

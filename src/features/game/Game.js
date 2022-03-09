@@ -1,10 +1,11 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import Board from "../../common/components/board/Board";
 import ButtonFluid from "../../common/components/buttons/ButtonFluid";
+import ButtonSmall from "../../common/components/buttons/ButtonSmall";
 import Modal from "../../common/components/modal/Modal";
 import NameCardLarge from "../../common/components/nameCard/NameCardLarge";
 import Nav from "../../common/components/nav/Nav";
@@ -12,10 +13,11 @@ import {
   socketDisconnected,
   socketEmitted,
 } from "../../common/middlewares/socketMiddleware";
-import { CURRNET_GAME_STATE_OPTIONS } from "../../common/util/constants";
+import { CURRNET_GAME_STATE_OPTIONS, LEVEL } from "../../common/util/constants";
 import {
   changeCurrentGameState,
   createGame,
+  setCustomNodeList,
   setShortestPath,
 } from "./gameSlice";
 
@@ -36,15 +38,26 @@ const StyledGame = styled.div`
     display: flex;
     justify-content: center;
   }
+
+  .buttonsContainer {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-evenly;
+  }
 `;
 
 function Game() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { level } = useParams();
+  const location = useLocation();
 
   const [showModal, setShowModal] = useState(false);
   const [hasCreateGame, setHasCreateGame] = useState(false);
+  const [modalContent, setModalContent] = useState("");
+  const [customMapStart, setCustomMapStart] = useState(false);
+
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const nodeList = useSelector((state) => state.game.nodeList);
@@ -65,14 +78,31 @@ function Game() {
   }, [isGameOver]);
 
   useEffect(() => {
-    if (currentGameState === "start" && player1SocketId === mySocketId) {
+    if (
+      level === LEVEL.CUSTOM_MAP &&
+      player1SocketId === mySocketId &&
+      !customMapStart
+    ) {
+      const customMapNodeList = location.state;
+      dispatch(setCustomNodeList(customMapNodeList));
+      setHasCreateGame(true);
+      setCustomMapStart(true);
+      return;
+    }
+    if (
+      currentGameState === CURRNET_GAME_STATE_OPTIONS.START &&
+      player1SocketId === mySocketId
+    ) {
       dispatch(createGame(level));
       setHasCreateGame(true);
     }
   }, [currentGameState]);
 
   useEffect(() => {
-    if (currentGameState === "start" && player1SocketId === mySocketId) {
+    if (
+      currentGameState === CURRNET_GAME_STATE_OPTIONS.START &&
+      player1SocketId === mySocketId
+    ) {
       const targetId = player2SocketId;
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       dispatch(
@@ -87,10 +117,6 @@ function Game() {
     }
   }, [hasCreateGame]);
 
-  function handleGGButtonClick() {
-    setShowModal(true);
-  }
-
   function handleModalOkButtonClick() {
     dispatch(socketDisconnected());
     navigate(-1);
@@ -99,6 +125,28 @@ function Game() {
   function handleModalCloseClick() {
     setShowModal(false);
   }
+
+  function setContentAndShowModal(content) {
+    setShowModal(true);
+    setModalContent(content);
+  }
+
+  function handleGGButtonClick() {
+    setContentAndShowModal(
+      <>
+        <div>정말로 나가시겠습니까?</div>
+        <div className="buttonsContainer">
+          <ButtonSmall type="button" onClick={handleModalOkButtonClick}>
+            나가기
+          </ButtonSmall>
+          <ButtonSmall type="button" onClick={handleModalCloseClick}>
+            취소
+          </ButtonSmall>
+        </div>
+      </>
+    );
+  }
+
   return (
     <StyledGame>
       <div className="NameCardLargeContainer">
@@ -112,21 +160,15 @@ function Game() {
       </div>
 
       {!isGameConnected && (
-        <Modal
-          onModalCloseClick={handleModalOkButtonClick}
-          onModalOkButtonClick={handleModalOkButtonClick}
-        >
+        <Modal onModalCloseClick={handleModalOkButtonClick}>
           상대방이 게임을 떠났습니다.
+          <ButtonSmall type="button" onClick={handleModalOkButtonClick}>
+            나가기
+          </ButtonSmall>
         </Modal>
       )}
       {showModal && (
-        <Modal
-          onModalCloseClick={handleModalCloseClick}
-          onModalOkButtonClick={handleModalOkButtonClick}
-          onModalCancelButtonClick={handleModalCloseClick}
-        >
-          정말로 나가시겠습니까?
-        </Modal>
+        <Modal onModalCloseClick={handleModalCloseClick}>{modalContent}</Modal>
       )}
       <Nav />
       <Board />
