@@ -4,6 +4,7 @@ import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
 import ButtonDefault from "../../common/components/buttons/ButtonDefault";
+import ButtonSmall from "../../common/components/buttons/ButtonSmall";
 import Input from "../../common/components/inputs/Input";
 import Modal from "../../common/components/modal/Modal";
 import NameCardDefault from "../../common/components/nameCard/NameCardDefault";
@@ -49,9 +50,7 @@ function Intro() {
   const [showInput, setShowInput] = useState(false);
   const [usersInput, setUsersInput] = useState("");
   const [showStartButton, setStartButton] = useState(false);
-  // 여기
-  // const [showLevelButton, setShowLevelButton] = useState(false);
-  const [showLevelButton, setShowLevelButton] = useState(true);
+  const [showLevelButton, setShowLevelButton] = useState(false);
   const [showNickname, setShowNickname] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -97,7 +96,7 @@ function Intro() {
   }
 
   function handleCreateCustomMap() {
-    // 커스텀맵 이동 추가
+    navigate("/customMapCreate");
   }
 
   function handleModalCloseClick() {
@@ -105,6 +104,10 @@ function Intro() {
   }
 
   function handleGameLevelClick(level) {
+    if (level === LEVEL.CUSTOM_MAP) {
+      navigate("/customMapList");
+      return;
+    }
     dispatch(setGameLevel(level));
     dispatch(socketConnected(level, nickname));
     navigate(`/game/${level}`);
@@ -115,6 +118,9 @@ function Intro() {
       {showModal && (
         <Modal onModalCloseClick={handleModalCloseClick}>
           닉네임은 1 ~ 8자 입니다.
+          <ButtonSmall type="button" onClick={handleModalCloseClick}>
+            확인
+          </ButtonSmall>
         </Modal>
       )}
       <div className="title">

@@ -21,11 +21,12 @@ const socketActionType = {
 };
 
 const socketActionCreators = {
-  socketConnected: (level, nickname) => ({
+  socketConnected: (level, nickname, customMapId) => ({
     type: socketActionType.connected,
     payload: {
       level,
       nickname,
+      customMapId,
     },
   }),
   socketDisconnected: (payload) => ({
@@ -46,11 +47,11 @@ const socketMiddleware = () => {
 
   return (storeAPI) => (next) => (action) => {
     if (action.type === socketActionType.connected) {
-      const { level, nickname } = action.payload;
+      const { level, nickname, customMapId } = action.payload;
 
       socket = io.connect(process.env.REACT_APP_AXIOS_BASE_URL);
 
-      socket.emit("joinGameRoom", { level, nickname });
+      socket.emit("joinGameRoom", { level, nickname, customMapId });
 
       socket.on("joinGameRoom", (gameRoomInfo) => {
         const currnetPlayerSocketId = socket.id;

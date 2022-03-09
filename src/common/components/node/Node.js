@@ -53,7 +53,7 @@ const StyledNode = styled.div`
       case NODE_STATE.EXPLODED_BOMB:
         return `background-color: ${COLOR.RED};`;
       case NODE_STATE.BOMB:
-        return `background-color: ${COLOR.YELLOW};`;
+        return `background-color: ${COLOR.BROWN};`;
       default:
         return `background-color: ${COLOR.BROWN};`;
     }
@@ -105,14 +105,13 @@ function Node({ nodeId }) {
   }, [currentMoveCount]);
 
   function handleNodeClick() {
-    console.log("|||||currentNodeState", currentNodeState);
     if (!isMyTurn) {
-      console.log("니차례 아니다");
+      console.log("Not my turn");
       return;
     }
 
     if (!currentMoveCount) {
-      console.log("주사위 0 이다!!");
+      console.log("주사위 0");
       // 주사위 0일때
       return;
     }
@@ -224,7 +223,7 @@ function Node({ nodeId }) {
       case NODE_STATE.MINERAL:
         return <img className="image" src={MINERAL} alt="mineral" />;
       case NODE_STATE.ROCK:
-        return <img className="image" src={ROCK} alt="mineral" />;
+        return <img className="image" src={ROCK} alt="rock" />;
       default:
         return null;
     }

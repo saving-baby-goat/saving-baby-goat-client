@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { createSlice } from "@reduxjs/toolkit";
 
 import {
@@ -118,6 +117,7 @@ export const gameSlice = createSlice({
         player1SocketId,
         player2SocketId,
         currnetPlayerSocketId,
+        level,
       } = action.payload;
 
       state.currentGameRoomId = currentGameRoomId;
@@ -131,12 +131,21 @@ export const gameSlice = createSlice({
       if (currentGameRoomId.slice(5) === currnetPlayerSocketId) {
         state.isMyTurn = true;
       }
+
+      if (
+        level === LEVEL.CUSTOM_MAP &&
+        player1SocketId === currnetPlayerSocketId
+      ) {
+        state.isMyTurn = true;
+        state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN;
+      }
     },
     setWaitingStatus: (state) => {
       state.currentGameState = CURRNET_GAME_STATE_OPTIONS.WAITING;
     },
     setMapEqual: (state, action) => {
       const { nodeList, currentSocketId } = action.payload;
+
       if (state.currentGameState === CURRNET_GAME_STATE_OPTIONS.START) {
         state.currentGameState = CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN;
       }
@@ -224,6 +233,10 @@ export const gameSlice = createSlice({
       state.player2MineralCount = 0;
       state.mineralNodeIdList = [];
     },
+    setCustomNodeList: (state, action) => {
+      state.nodeList = action.payload;
+      state.mineralNodeIdList = findMineralNodeIdList(state.nodeList);
+    },
   },
 });
 
@@ -245,6 +258,7 @@ export const {
   setMineralNodeIdList,
   userLeftGame,
   setStartNodeId,
+  setCustomNodeList,
 } = gameSlice.actions;
 
 export default gameSlice.reducer;
