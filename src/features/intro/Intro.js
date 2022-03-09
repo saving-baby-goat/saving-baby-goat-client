@@ -50,9 +50,7 @@ function Intro() {
   const [showInput, setShowInput] = useState(false);
   const [usersInput, setUsersInput] = useState("");
   const [showStartButton, setStartButton] = useState(false);
-  // 여기
-  // const [showLevelButton, setShowLevelButton] = useState(false);
-  const [showLevelButton, setShowLevelButton] = useState(true);
+  const [showLevelButton, setShowLevelButton] = useState(false);
   const [showNickname, setShowNickname] = useState(false);
   const [showModal, setShowModal] = useState(false);
 
@@ -98,7 +96,7 @@ function Intro() {
   }
 
   function handleCreateCustomMap() {
-    navigate("/custom");
+    navigate("/customMapCreate");
   }
 
   function handleModalCloseClick() {
@@ -106,6 +104,10 @@ function Intro() {
   }
 
   function handleGameLevelClick(level) {
+    if (level === LEVEL.CUSTOM_MAP) {
+      navigate("/customMapList");
+      return;
+    }
     dispatch(setGameLevel(level));
     dispatch(socketConnected(level, nickname));
     navigate(`/game/${level}`);

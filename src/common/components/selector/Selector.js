@@ -10,7 +10,7 @@ import { COLOR, NODE_STATE } from "../../util/constants";
 
 const StyledSelector = styled.div`
   width: 40rem;
-  height: 10rem;
+  height: 7rem;
   display: flex;
   justify-content: space-around;
   align-items: center;

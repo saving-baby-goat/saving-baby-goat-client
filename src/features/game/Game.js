@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import styled from "styled-components";
 
 import Board from "../../common/components/board/Board";
@@ -13,10 +13,11 @@ import {
   socketDisconnected,
   socketEmitted,
 } from "../../common/middlewares/socketMiddleware";
-import { CURRNET_GAME_STATE_OPTIONS } from "../../common/util/constants";
+import { CURRNET_GAME_STATE_OPTIONS, LEVEL } from "../../common/util/constants";
 import {
   changeCurrentGameState,
   createGame,
+  setCustomNodeList,
   setShortestPath,
 } from "./gameSlice";
 
@@ -50,10 +51,12 @@ function Game() {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const { level } = useParams();
+  const location = useLocation();
 
   const [showModal, setShowModal] = useState(false);
   const [hasCreateGame, setHasCreateGame] = useState(false);
   const [modalContent, setModalContent] = useState("");
+  const [customMapStart, setCustomMapStart] = useState(false);
 
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const mySocketId = useSelector((state) => state.game.mySocketId);
@@ -75,14 +78,31 @@ function Game() {
   }, [isGameOver]);
 
   useEffect(() => {
-    if (currentGameState === "start" && player1SocketId === mySocketId) {
+    if (
+      level === LEVEL.CUSTOM_MAP &&
+      player1SocketId === mySocketId &&
+      !customMapStart
+    ) {
+      const customMapNodeList = location.state;
+      dispatch(setCustomNodeList(customMapNodeList));
+      setHasCreateGame(true);
+      setCustomMapStart(true);
+      return;
+    }
+    if (
+      currentGameState === CURRNET_GAME_STATE_OPTIONS.START &&
+      player1SocketId === mySocketId
+    ) {
       dispatch(createGame(level));
       setHasCreateGame(true);
     }
   }, [currentGameState]);
 
   useEffect(() => {
-    if (currentGameState === "start" && player1SocketId === mySocketId) {
+    if (
+      currentGameState === CURRNET_GAME_STATE_OPTIONS.START &&
+      player1SocketId === mySocketId
+    ) {
       const targetId = player2SocketId;
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       dispatch(

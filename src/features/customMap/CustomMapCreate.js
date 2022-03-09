@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
 
@@ -10,8 +10,10 @@ import ButtonSmall from "../../common/components/buttons/ButtonSmall";
 import Modal from "../../common/components/modal/Modal";
 import NavCustomMap from "../../common/components/nav/NavCustomMap";
 import { COLOR } from "../../common/util/constants";
+import { findMineralNodeIdList } from "../../common/util/game";
+import { setStateInitialization } from "./customMapSlice";
 
-const StyledCustomMap = styled.div`
+const StyledCustomMapCreate = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -33,7 +35,7 @@ const InputAndButtonContainer = styled.div`
   justify-content: space-evenly;
   font-size: 20px;
   background-color: ${COLOR.BROWN};
-  border: 0.1.5rem solid black;
+  border: 0.15rem solid black;
   border-radius: 4rem;
 
   .inputContainer {
@@ -54,10 +56,12 @@ const InputAndButtonContainer = styled.div`
   }
 `;
 
-function CustomMap() {
+function CustomMapCreate() {
   const navigate = useNavigate();
+  const dispatch = useDispatch();
   const nodeList = useSelector((state) => state.customMap.nodeList);
   const nickname = useSelector((state) => state.intro.nickname);
+  const isGoatOnBoard = useSelector((state) => state.customMap.isGoatOnBoard);
 
   const [showModal, setShowModal] = useState(false);
   const [modalContent, setModalContent] = useState("");
@@ -90,9 +94,44 @@ function CustomMap() {
       );
       return;
     }
+
+    if (!isGoatOnBoard) {
+      setContentAndShowModal(
+        <>
+          <div>염소위치를 정해주세요!</div>
+          <ButtonSmall
+            type="button"
+            onClick={() => {
+              setModalContent("");
+              setShowModal(false);
+            }}
+          >
+            확인
+          </ButtonSmall>
+        </>
+      );
+      return;
+    }
+    if (findMineralNodeIdList(nodeList).length < 2) {
+      setContentAndShowModal(
+        <>
+          <div>미네랄 갯수는 최소 2개 이상이어야 합니다.</div>
+          <ButtonSmall
+            type="button"
+            onClick={() => {
+              setModalContent("");
+              setShowModal(false);
+            }}
+          >
+            확인
+          </ButtonSmall>
+        </>
+      );
+      return;
+    }
     try {
       await saveCustomMap({ nodeList, mapName, nickname });
-
+      dispatch(setStateInitialization());
       setContentAndShowModal(
         <>
           <div>Custom Map 저장 완료!</div>
@@ -117,6 +156,7 @@ function CustomMap() {
           <ButtonSmall
             type="button"
             onClick={() => {
+              dispatch(setStateInitialization());
               setModalContent("");
               navigate(-1);
               setShowModal(false);
@@ -139,7 +179,7 @@ function CustomMap() {
   }
 
   return (
-    <StyledCustomMap>
+    <StyledCustomMapCreate>
       {showModal && (
         <Modal
           onModalCloseClick={() => {
@@ -167,8 +207,8 @@ function CustomMap() {
           <ButtonFluid onClick={handleEndButtonClick}>종료하기</ButtonFluid>
         </div>
       </InputAndButtonContainer>
-    </StyledCustomMap>
+    </StyledCustomMapCreate>
   );
 }
 
-export default CustomMap;
+export default CustomMapCreate;

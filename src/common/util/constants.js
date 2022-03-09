@@ -23,7 +23,7 @@ export const LEVEL = {
   EASY: "EASY",
   NORMAL: "NORMAL",
   HARD: "HARD",
-  CUSTOM_MAP: "CUSTOM MAP",
+  CUSTOM_MAP: "CUSTOM_MAP",
 };
 
 export const NODE_STATE = {

@@ -7,7 +7,7 @@ import Selector from "../selector/Selector";
 
 const StyledNavCustomMap = styled.div`
   width: 80%;
-  height: 15rem;
+  height: 8rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;

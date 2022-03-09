@@ -51,10 +51,22 @@ export const customMapSlice = createSlice({
 
       state.nodeList.byId[nodeId].nodeState = currentSelectorState;
     },
+    setStateInitialization: (state) => {
+      state.nodeList = {
+        byId: {},
+        allIds: [[]],
+      };
+      state.currentSelectorState = NODE_STATE.MINERAL;
+      state.isGoatOnBoard = false;
+    },
   },
 });
 
-export const { setCustomMap, setCurrnetSelectorState, setCurrnetNodeState } =
-  customMapSlice.actions;
+export const {
+  setCustomMap,
+  setCurrnetSelectorState,
+  setCurrnetNodeState,
+  setStateInitialization,
+} = customMapSlice.actions;
 
 export default customMapSlice.reducer;

@@ -1,6 +1,8 @@
 import React from "react";
 import styled from "styled-components";
 
+// import ButtonCustomMap from "../common/components/buttons/ButtonCustomMap";
+
 // import ButtonDefault from "../common/components/buttons/ButtonDefault";
 // import ButtonFluid from "../common/components/buttons/ButtonFluid";
 // import Input from "../common/components/inputs/Input";
@@ -8,8 +10,7 @@ import styled from "styled-components";
 // import NameCardPlayerInfo from "../common/components/nameCard/NameCardPlayerInfo";
 // import NameCardSmall from "../common/components/nameCard/NameCardSmall";
 // import Node from "../common/components/node/Node";
-import ButtonSmall from "../common/components/buttons/ButtonSmall";
-import Modal from "../common/components/modal/Modal";
+// import Modal from "../common/components/modal/Modal";
 // import Title from "../common/components/title/Title";
 // import { COLOR } from "../common/util/constants";
 
@@ -32,7 +33,7 @@ function sample() {
       <br />
       <ButtonDefault>여기에 내용</ButtonDefault>
       <Input label="여기에 라벨" inputTitle="여기에 인풋 타이틀" /> */}
-        <Modal>
+        {/* <Modal>
           <>
             <div>정말로 나가시겠습니까?</div>
             <div className="buttonsContainer">
@@ -44,7 +45,7 @@ function sample() {
               </ButtonSmall>
             </div>
           </>
-        </Modal>
+        </Modal> */}
         {/* <NameCardDefault label="닉네임 : ">닉</NameCardDefault>
       <ButtonFluid>칠드론</ButtonFluid>
       <Node />
