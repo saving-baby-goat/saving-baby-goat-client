@@ -2,9 +2,9 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import GOAT from "../../../assets/babyGoat.png";
-import MINERAL from "../../../assets/mineral.png";
-import ROCK from "../../../assets/rocks.svg";
+import GOAT_ASSET from "../../../assets/babyGoat.png";
+import MINERAL_ASSET from "../../../assets/mineral.png";
+import ROCK_ASSET from "../../../assets/rocks.svg";
 import { setCurrnetSelectorState } from "../../../features/customMap/customMapSlice";
 import { COLOR, NODE_STATE } from "../../util/constants";
 
@@ -82,7 +82,7 @@ function Selector() {
         role="button"
         tabIndex={0}
       >
-        <img id={NODE_STATE.GOAT} className="img" src={GOAT} alt="goat" />
+        <img id={NODE_STATE.GOAT} className="img" src={GOAT_ASSET} alt="goat" />
       </div>
       <div
         className={`option ${
@@ -100,7 +100,7 @@ function Selector() {
         <img
           id={NODE_STATE.MINERAL}
           className="img"
-          src={MINERAL}
+          src={MINERAL_ASSET}
           alt="mineral"
         />
       </div>
@@ -117,7 +117,12 @@ function Selector() {
         role="button"
         tabIndex={0}
       >
-        <img id={NODE_STATE.ROCK} className="img" src={ROCK} alt="mineral" />
+        <img
+          id={NODE_STATE.ROCK}
+          className="img"
+          src={ROCK_ASSET}
+          alt="mineral"
+        />
       </div>
       <div
         className={`option ${
