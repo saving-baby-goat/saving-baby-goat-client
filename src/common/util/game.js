@@ -35,7 +35,15 @@ export function findShortestPath(
       );
     }
 
-    if (!i) {
+    if (tempPath.includes(null)) {
+      tempPath = [];
+    }
+
+    if (!path.length && !tempPath.length) {
+      path = [];
+    }
+
+    if (!path.length && tempPath.length) {
       path = tempPath;
     }
 
@@ -175,8 +183,8 @@ export function aStarAlgorithm(nodeList, startNodeId, endNodeId) {
 }
 
 function heuristic(currentNode, targetNode) {
-  const { currentNodeY, currentNodeX } = currentNode.id.split("-").map(Number);
-  const { targetNodeY, targetNodeX } = targetNode.id.split("-").map(Number);
+  const [currentNodeY, currentNodeX] = currentNode.id.split("-").map(Number);
+  const [targetNodeY, targetNodeX] = targetNode.id.split("-").map(Number);
   return (
     Math.abs(currentNodeY - targetNodeY) + Math.abs(currentNodeX - targetNodeX)
   );

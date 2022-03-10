@@ -103,7 +103,9 @@ const socketMiddleware = () => {
     }
 
     if (action.type === socketActionType.disconnected) {
-      socket.disconnect();
+      if (socket) {
+        socket.disconnect();
+      }
     }
 
     if (action.type === socketActionType.emit) {
