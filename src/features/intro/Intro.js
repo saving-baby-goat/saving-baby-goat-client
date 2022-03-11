@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import styled from "styled-components";
@@ -57,6 +57,14 @@ function Intro() {
   const nickname = useSelector((state) => state.intro.nickname);
   const dispatch = useDispatch();
   const navigate = useNavigate();
+
+  useEffect(() => {
+    if (nickname) {
+      setStartButton(true);
+      setShowNickname(true);
+      setStartButtonClick(true);
+    }
+  }, []);
 
   function handleIntroStartButtonClick() {
     setStartButtonClick(true);
@@ -129,7 +137,7 @@ function Intro() {
       <div className="contents-container">
         {!startButtonClick && (
           <ButtonDefault onClick={handleIntroStartButtonClick}>
-            드 가 자 ~
+            출 발 !!
           </ButtonDefault>
         )}
         {showInput && (
