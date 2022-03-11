@@ -254,7 +254,6 @@ export const {
   updateMineralCount,
   updateCurrnetGameOver,
   setShortestPath,
-  setStartNodeAndGoatId,
   setMineralNodeIdList,
   userLeftGame,
   setStartNodeId,
