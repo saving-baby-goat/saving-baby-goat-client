@@ -48,9 +48,9 @@ const StyledGame = styled.div`
 `;
 
 function Game() {
+  const { level } = useParams();
   const navigate = useNavigate();
   const dispatch = useDispatch();
-  const { level } = useParams();
   const location = useLocation();
 
   const [showModal, setShowModal] = useState(false);
@@ -89,6 +89,7 @@ function Game() {
       setCustomMapStart(true);
       return;
     }
+
     if (
       currentGameState === CURRNET_GAME_STATE_OPTIONS.START &&
       player1SocketId === mySocketId
