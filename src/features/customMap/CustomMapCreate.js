@@ -118,7 +118,7 @@ function CustomMapCreate() {
     ) {
       setContentAndShowModal(
         <>
-          <div>미네랄 갯수는 최소 2개 이상,</div>
+          <div>미네랄 갯수는 최소 2개 이상</div>
           <div>최대 6개 이하 입니다.</div>
           <ButtonSmall
             type="button"

@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React from "react";
 import { useSelector } from "react-redux";
 import styled from "styled-components";
@@ -55,7 +56,7 @@ function Board() {
       </div>
       <div className="nodeList">
         {nodeList.allIds.map((row, index) => (
-          <div className="nodeListRow" key={row[index]}>
+          <div className="nodeListRow" key={index}>
             {row.map((nodeId) => (
               <Node nodeId={nodeId} key={nodeId} />
             ))}

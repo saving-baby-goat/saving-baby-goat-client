@@ -62,12 +62,12 @@ function Game() {
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const nodeList = useSelector((state) => state.game.nodeList);
+  const isGameOver = useSelector((state) => state.game.isGameOver);
+  const isGameConnected = useSelector((state) => state.game.isGameConnected);
   const player1SocketId = useSelector((state) => state.game.player1SocketId);
   const player2SocketId = useSelector((state) => state.game.player2SocketId);
   const player1Nickname = useSelector((state) => state.game.player1Nickname);
   const player2Nickname = useSelector((state) => state.game.player2Nickname);
-  const isGameOver = useSelector((state) => state.game.isGameOver);
-  const isGameConnected = useSelector((state) => state.game.isGameConnected);
   const mineralNodeIdList = useSelector(
     (state) => state.game.mineralNodeIdList
   );

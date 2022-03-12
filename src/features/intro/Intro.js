@@ -53,6 +53,7 @@ function Intro() {
   const [showLevelButton, setShowLevelButton] = useState(false);
   const [showNickname, setShowNickname] = useState(false);
   const [showModal, setShowModal] = useState(false);
+  const [modalContent, setModalContent] = useState("");
 
   const nickname = useSelector((state) => state.intro.nickname);
   const dispatch = useDispatch();
@@ -86,7 +87,15 @@ function Intro() {
     event.preventDefault();
 
     if (!usersInput || usersInput.length > 20) {
-      setShowModal(true);
+      setContentAndShowModal(
+        <>
+          <div>닉네임은 1 ~ 20자 입니다.</div>
+          <ButtonSmall type="button" onClick={handleModalCloseClick}>
+            확인
+          </ButtonSmall>
+        </>
+      );
+
       return;
     }
 
@@ -121,14 +130,21 @@ function Intro() {
     navigate(`/game/${level}`);
   }
 
+  function setContentAndShowModal(content) {
+    setShowModal(true);
+    setModalContent(content);
+  }
+
   return (
     <StyledIntro>
       {showModal && (
-        <Modal onModalCloseClick={handleModalCloseClick}>
-          닉네임은 1 ~ 20자 입니다.
-          <ButtonSmall type="button" onClick={handleModalCloseClick}>
-            확인
-          </ButtonSmall>
+        <Modal
+          onModalCloseClick={() => {
+            setModalContent("");
+            setShowModal(false);
+          }}
+        >
+          {modalContent}
         </Modal>
       )}
       <div className="title">

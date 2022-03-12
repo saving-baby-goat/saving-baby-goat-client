@@ -1,3 +1,4 @@
+/* eslint-disable react/no-array-index-key */
 import React, { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
@@ -37,7 +38,7 @@ function BoardCustomMap() {
     <StyledBoardCustomMap>
       <div className="nodeList">
         {nodeList.allIds.map((row, index) => (
-          <div className="nodeListRow" key={row[index]}>
+          <div className="nodeListRow" key={index}>
             {row.map((nodeId) => (
               <NodeCostom nodeId={nodeId} key={nodeId} />
             ))}
