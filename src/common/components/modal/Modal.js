@@ -8,53 +8,54 @@ import { COLOR } from "../../util/constants";
 
 const ModalWrapper = styled.div`
   z-index: 5;
+  overflow: hidden;
   position: absolute;
   top: 50%;
   left: 50%;
-  transform: translate(-50%, -50%);
-  width: 100%;
-
-  max-width: 50rem;
-  height: fit-content;
-  background-color: ${COLOR.BROWN};
-  border-radius: 0.5rem;
-  overflow: hidden;
-  text-align: center;
-  font-size: 1rem;
   display: flex;
   flex-direction: column;
   align-items: center;
+  text-align: center;
+  width: 100%;
+  max-width: 50rem;
+  height: fit-content;
   border: 0.5rem solid ${COLOR.BLACK};
+  border-radius: 0.5rem;
+  font-size: 1rem;
+  background-color: ${COLOR.BROWN};
+  transform: translate(-50%, -50%);
 
   .header {
-    width: 100%;
-    height: 3rem;
-    background-color: ${COLOR.BROWN};
     display: flex;
     justify-content: flex-end;
     align-items: center;
+    width: 100%;
+    height: 3rem;
+    background-color: ${COLOR.BROWN};
 
     .close-button {
-      width: 3rem;
-      height: 3rem;
-      color: black;
-      font-size: 1.2rem;
-      cursor: pointer;
-      margin-right: 0.5rem;
       display: flex;
       justify-content: center;
       align-items: center;
+      width: 3rem;
+      height: 3rem;
+      margin-right: 0.5rem;
+      color: black;
+      font-size: 1.2rem;
+
+      cursor: pointer;
     }
   }
 
   .body {
-    padding: 2rem 1rem 3rem 1rem;
-    min-height: 4rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    min-height: 4rem;
     gap: 1.5rem;
+    padding: 2rem 1rem 3rem 1rem;
+    font-size: 2.5rem;
   }
 `;
 
@@ -66,6 +67,7 @@ const Backdrop = styled.div`
   height: 100vh;
   background-color: rgba(72, 72, 72, 0.95);
   z-index: 2;
+
   cursor: default;
 `;
 

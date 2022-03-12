@@ -9,17 +9,17 @@ import { socketConnected } from "../../middlewares/socketMiddleware";
 import { COLOR, LEVEL } from "../../util/constants";
 
 const StyledButtonCustomMap = styled.button`
-  width: 40%;
-  height: 4.5rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
-  font-size: 1.5rem;
-  font-weight: bold;
-  background-color: ${COLOR.DARK_BROWN};
+  width: 40%;
+  height: 4.5rem;
+  margin: 1rem 4rem;
   border: 0.2rem solid black;
   border-radius: 2rem;
-  margin: 1rem 4rem;
+  background-color: ${COLOR.DARK_BROWN};
+  font-size: 1.5rem;
+  font-weight: bold;
 
   cursor: pointer;
 

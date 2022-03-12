@@ -1,11 +1,10 @@
-/* eslint-disable no-console */
 import PropTypes from "prop-types";
 import React, { useState, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import GOAT_ASSET from "../../../assets/babyGoat.png";
-import MINERAL_ASSET from "../../../assets/mineral.png";
+import GOAT_ASSET from "../../../assets/babyGoat.svg";
+import MINERAL_ASSET from "../../../assets/mineral.svg";
 import ROCK_ASSET from "../../../assets/rocks.svg";
 import { updateCurrnetGameOver } from "../../../features/game/gameSlice";
 import { socketEmitted } from "../../middlewares/socketMiddleware";
@@ -23,14 +22,14 @@ import {
 } from "../../util/node";
 
 const StyledNode = styled.div`
-  min-width: 40px;
-  min-height: 40px;
-  border-radius: 3px;
-  border: 1px solid ${COLOR.BLACK};
-  margin: 1px;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 40px;
+  min-height: 40px;
+  margin: 1px;
+  border-radius: 3px;
+  border: 1px solid ${COLOR.BLACK};
 
   &:hover {
     background-color: ${COLOR.LIGHT_GREY};
@@ -101,17 +100,14 @@ function Node({ nodeId }) {
       dispatch(socketEmitted("sendNodeList", { nodeList, targetId }));
       setIsCurrnetNodeChange(false);
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentMoveCount]);
 
   function handleNodeClick() {
     if (!isMyTurn) {
-      console.log("Not my turn");
       return;
     }
 
     if (!currentMoveCount) {
-      console.log("주사위 0");
       // 주사위 0일때
       return;
     }
@@ -141,8 +137,6 @@ function Node({ nodeId }) {
     }
 
     if (currentNodeState === NODE_STATE.MINERAL) {
-      console.log("미네랄!");
-
       clickedMineralNode(
         dispatch,
         nodeList,
@@ -156,8 +150,6 @@ function Node({ nodeId }) {
     }
 
     if (currentNodeState === NODE_STATE.BOMB) {
-      console.log("폭탄!!!");
-
       clickedBombNode(
         dispatch,
         nodeList,
@@ -174,8 +166,6 @@ function Node({ nodeId }) {
       currentNodeState === NODE_STATE.DEFAULT ||
       currentNodeState === NODE_STATE.EXPLODED_BOMB
     ) {
-      console.log("기본노드");
-
       clickedDefaultNode(
         dispatch,
         nodeList,
@@ -189,7 +179,6 @@ function Node({ nodeId }) {
     }
 
     if (isStart) {
-      console.log("currentGameState", currentGameState);
       dispatch(socketEmitted("sendStartNodeId", { nodeId, targetId }));
     }
 
