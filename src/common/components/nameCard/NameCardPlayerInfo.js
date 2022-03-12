@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React from "react";
 import styled from "styled-components";
 
-import MINERAL from "../../../assets/mineral.png";
+import MINERAL from "../../../assets/mineral.svg";
 
 const StyledNameCardPlayerInfo = styled.div`
   width: 10rem;

@@ -2,8 +2,8 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import GOAT_ASSET from "../../../assets/babyGoat.png";
-import MINERAL_ASSET from "../../../assets/mineral.png";
+import GOAT_ASSET from "../../../assets/babyGoat.svg";
+import MINERAL_ASSET from "../../../assets/mineral.svg";
 import ROCK_ASSET from "../../../assets/rocks.svg";
 import { setCurrnetSelectorState } from "../../../features/customMap/customMapSlice";
 import { COLOR, NODE_STATE } from "../../util/constants";
@@ -19,11 +19,11 @@ const StyledSelector = styled.div`
   border-radius: 4rem;
 
   .option {
-    width: 50px;
-    height: 50px;
     display: flex;
     align-items: center;
     justify-content: center;
+    width: 50px;
+    height: 50px;
 
     &:hover {
       border-radius: 5px;
@@ -45,14 +45,14 @@ const StyledSelector = styled.div`
   .bomb {
     width: 40px;
     height: 40px;
-    background-color: ${COLOR.RED};
     border-radius: 5px;
     border: 1px solid black;
+    background-color: ${COLOR.RED};
   }
 
   .clicked {
-    background-color: ${COLOR.HEAVY_GREY};
     border-radius: 5px;
+    background-color: ${COLOR.HEAVY_GREY};
   }
 `;
 

@@ -5,9 +5,7 @@ describe("introSlice", () => {
   let state = initialState;
 
   it("should has initial stste", () => {
-    expect(initialState).toEqual({
-      nickname: "",
-    });
+    expect(initialState).toEqual(initialState);
   });
 
   it("setNickname", () => {
