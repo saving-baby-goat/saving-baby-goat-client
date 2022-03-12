@@ -5,12 +5,13 @@ import styled from "styled-components";
 import { COLOR } from "../../util/constants";
 
 const StyledButtonSmall = styled.button`
+  margin: 1rem;
+  padding: 0.5rem;
+  border-radius: 1rem;
   color: ${COLOR.BROWN};
   background-color: ${COLOR.BLACK};
-  padding: 0.2rem 0.5rem;
-  border-radius: 1rem;
-  font-size: 1rem;
-  margin: 1rem;
+  font-size: 2rem;
+
   cursor: pointer;
 `;
 

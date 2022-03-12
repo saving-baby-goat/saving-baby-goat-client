@@ -12,9 +12,9 @@ const StyledBoard = styled.div`
   justify-content: space-around;
 
   .nodeList {
-    height: 100%;
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .nodeListRow {
@@ -25,11 +25,11 @@ const StyledBoard = styled.div`
   }
 
   .playerInfo {
-    height: 100%;
     display: flex;
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
+    height: 100%;
   }
 `;
 
@@ -50,13 +50,12 @@ function Board() {
         <NameCardPlayerInfo
           color={COLOR.BLUE}
           playerNickname={player1Nickname}
-          mineralCount={player1MineralCount}
+          mineralCount={`${player1MineralCount} / 2`}
         />
       </div>
       <div className="nodeList">
         {nodeList.allIds.map((row, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div className="nodeListRow" key={index}>
+          <div className="nodeListRow" key={row[index]}>
             {row.map((nodeId) => (
               <Node nodeId={nodeId} key={nodeId} />
             ))}
@@ -67,7 +66,7 @@ function Board() {
         <NameCardPlayerInfo
           color={COLOR.GREEN}
           playerNickname={player2Nickname}
-          mineralCount={player2MineralCount}
+          mineralCount={`${player2MineralCount} / 2`}
         />
       </div>
     </StyledBoard>

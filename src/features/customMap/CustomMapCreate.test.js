@@ -80,7 +80,7 @@ describe("Cusmtom Map Carete", () => {
     fireEvent.click(cusmtomMapSaveButtonElement);
 
     const test = await screen.findByText(
-      "미네랄 갯수는 최소 2개 이상이어야 합니다."
+      "미네랄 갯수는 최소 2개 이상, 최대 6개 이하 입니다."
     );
 
     expect(test).toBeInTheDocument();

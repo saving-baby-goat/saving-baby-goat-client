@@ -11,34 +11,34 @@ import NameCardDefault from "../nameCard/NameCardDefault";
 import NameCardSmall from "../nameCard/NameCardSmall";
 
 const StyledNav = styled.div`
-  height: 12rem;
   display: flex;
   justify-content: center;
   align-items: center;
+  height: 12rem;
 
   .section-one {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 
   .section-two {
-    width: 100%;
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-around;
     align-items: center;
+    width: 100%;
+    height: 100%;
   }
 
   .section-tree {
-    width: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
+    width: 100%;
   }
 `;
 

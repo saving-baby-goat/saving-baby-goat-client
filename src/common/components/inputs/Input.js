@@ -6,32 +6,32 @@ import { COLOR } from "../../util/constants";
 import ButtonSmall from "../buttons/ButtonSmall";
 
 const StyledInputDefault = styled.form`
-  width: 40%;
-  height: 20rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
   flex-direction: column;
-  background-color: #b47535;
-  color: ${COLOR.BLACK};
+  width: 40%;
+  height: 20rem;
   margin: 1rem;
   border: 0.3rem solid ${COLOR.BLACK};
   border-radius: 4rem;
+  background-color: #b47535;
+  color: ${COLOR.BLACK};
 
   .input-title {
-    font-size: 1.5rem;
+    font-size: 2rem;
   }
 
   .inputContainer {
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.5rem;
+    font-size: 2rem;
 
     input {
       margin-left: 1rem;
       margin-right: 1rem;
-      font-size: 1.5rem;
+      font-size: 2rem;
     }
   }
 `;

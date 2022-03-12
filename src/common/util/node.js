@@ -1,5 +1,3 @@
-/* eslint-disable no-console */
-
 import {
   setNodeState,
   updateMineralCount,
@@ -100,12 +98,10 @@ export function clickedDefaultNode(
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_1_TURN) {
     if (player1StartNodeId === "") {
       if (columnNumber !== 0) {
-        console.log("1p// 처음 시작인데, 0번째 아닐때");
         // 처음 시작인데, 0번째 아닐때
         return;
       }
       if (columnNumber === 0) {
-        console.log("1p// 처음 시작 + 0번째 일때");
         // 처음 시작 + 0번째 일떼
         dispatch(
           setNodeState({
@@ -123,12 +119,10 @@ export function clickedDefaultNode(
   if (currentGameState === CURRNET_GAME_STATE_OPTIONS.PLAYER_2_TURN) {
     if (player2StartNodeId === "") {
       if (columnNumber !== 30) {
-        console.log("2p// 처음 시작인데, 0번째 아닐때");
         // 처음 시작인데, 0번째 아닐때
         return;
       }
       if (columnNumber === 30) {
-        console.log("2p// 처음 시작 + 0번째 일떼");
         // 처음 시작 + 0번째 일떼
         dispatch(
           setNodeState({

@@ -12,9 +12,9 @@ const StyledBoardCustomMap = styled.div`
   margin-bottom: 2rem;
 
   .nodeList {
-    height: 100%;
     display: flex;
     flex-direction: column;
+    height: 100%;
   }
 
   .nodeListRow {
@@ -37,8 +37,7 @@ function BoardCustomMap() {
     <StyledBoardCustomMap>
       <div className="nodeList">
         {nodeList.allIds.map((row, index) => (
-          // eslint-disable-next-line react/no-array-index-key
-          <div className="nodeListRow" key={index}>
+          <div className="nodeListRow" key={row[index]}>
             {row.map((nodeId) => (
               <NodeCostom nodeId={nodeId} key={nodeId} />
             ))}

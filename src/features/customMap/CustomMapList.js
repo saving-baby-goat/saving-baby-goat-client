@@ -10,46 +10,46 @@ import Pagination from "../../common/components/pagenation/Pagenation";
 import { COLOR } from "../../common/util/constants";
 
 const StyledCustomMapList = styled.div`
-  height: 98vh;
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  height: 98vh;
 
   .customMapListContainer {
-    width: 80%;
-    height: 70%;
     display: flex;
     justify-content: space-between;
     align-content: center;
     flex-wrap: wrap;
     overflow: auto;
-    background-color: ${COLOR.BROWN};
+    width: 80%;
+    height: 70%;
+    margin-top: 1rem;
     border: 0.4rem solid black;
     border-radius: 4rem;
-    margin-top: 1rem;
+    background-color: ${COLOR.BROWN};
   }
 
   .customMapContainer {
-    width: 40%;
-    height: 4.5rem;
     display: flex;
     flex-direction: column;
     justify-content: center;
     align-items: center;
+    width: 40%;
+    height: 4.5rem;
     font-size: 1.5rem;
     font-weight: bold;
-    background-color: ${COLOR.DARK_BROWN};
     border: 0.2rem solid black;
     border-radius: 2rem;
     margin: 1rem 4rem;
+    background-color: ${COLOR.DARK_BROWN};
   }
 
   .options {
-    width: 80%;
     display: flex;
     align-items: center;
     justify-content: space-around;
+    width: 80%;
   }
 `;
 

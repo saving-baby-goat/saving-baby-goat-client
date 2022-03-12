@@ -20,23 +20,23 @@ const StyledCustomMapCreate = styled.div`
   align-items: center;
 
   .buttonContainer {
-    width: 50%;
     display: flex;
     justify-content: space-around;
     align-items: center;
+    width: 50%;
   }
 `;
 
 const InputAndButtonContainer = styled.div`
-  width: 70%;
-  height: 4rem;
   display: flex;
   align-items: center;
   justify-content: space-evenly;
-  font-size: 20px;
-  background-color: ${COLOR.BROWN};
+  width: 70%;
+  height: 4rem;
   border: 0.15rem solid black;
   border-radius: 4rem;
+  background-color: ${COLOR.BROWN};
+  font-size: 20px;
 
   .inputContainer {
     display: flex;
@@ -112,10 +112,14 @@ function CustomMapCreate() {
       );
       return;
     }
-    if (findMineralNodeIdList(nodeList).length < 2) {
+    if (
+      findMineralNodeIdList(nodeList).length < 2 ||
+      findMineralNodeIdList(nodeList).length > 6
+    ) {
       setContentAndShowModal(
         <>
-          <div>미네랄 갯수는 최소 2개 이상이어야 합니다.</div>
+          <div>미네랄 갯수는 최소 2개 이상,</div>
+          <div>최대 6개 이하 입니다.</div>
           <ButtonSmall
             type="button"
             onClick={() => {
@@ -129,6 +133,7 @@ function CustomMapCreate() {
       );
       return;
     }
+
     try {
       await saveCustomMap({ nodeList, mapName, nickname });
       dispatch(setStateInitialization());

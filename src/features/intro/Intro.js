@@ -15,33 +15,33 @@ import { setGameLevel } from "../game/gameSlice";
 import { setNickname } from "./introSlice";
 
 const StyledIntro = styled.div`
-  width: 100%;
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  width: 100%;
 
   .title {
-    height: 15rem;
     display: flex;
     justify-content: center;
     align-items: center;
+    height: 15rem;
   }
 
   .contents-container {
-    width: 100%;
-    height: 35rem;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    width: 100%;
+    height: 35rem;
   }
 
   .nickname-container {
-    width: 100%;
     position: absolute;
     top: 80%;
     left: 75%;
+    width: 100%;
   }
 `;
 
@@ -85,7 +85,7 @@ function Intro() {
   function handleNicknameSubmit(event) {
     event.preventDefault();
 
-    if (!usersInput || usersInput.length > 8) {
+    if (!usersInput || usersInput.length > 20) {
       setShowModal(true);
       return;
     }
@@ -125,7 +125,7 @@ function Intro() {
     <StyledIntro>
       {showModal && (
         <Modal onModalCloseClick={handleModalCloseClick}>
-          닉네임은 1 ~ 8자 입니다.
+          닉네임은 1 ~ 20자 입니다.
           <ButtonSmall type="button" onClick={handleModalCloseClick}>
             확인
           </ButtonSmall>

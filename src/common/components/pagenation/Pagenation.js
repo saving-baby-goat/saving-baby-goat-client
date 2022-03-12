@@ -1,4 +1,3 @@
-/* eslint-disable react/no-array-index-key */
 /* eslint-disable react/react-in-jsx-scope */
 import PropTypes from "prop-types";
 import styled from "styled-components";
@@ -54,7 +53,7 @@ function Pagination({ total, limit, page, setPage }) {
         .fill()
         .map((_, i) => (
           <Button
-            key={i + 1}
+            key={numPages}
             onClick={() => setPage(i + 1)}
             aria-current={page === i + 1 ? "page" : null}
           >
