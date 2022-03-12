@@ -28,55 +28,11 @@ describe("gameSlice", () => {
   let state = initialState;
 
   beforeEach(() => {
-    state = {
-      gameLevel: LEVEL.EASY,
-      isGameOver: false,
-      isGameConnected: false,
-      nodeList: {
-        byId: {},
-        allIds: [[]],
-      },
-      moveCount: 0,
-      isMyTurn: false,
-      mySocketId: "",
-      player1StartNodeId: "",
-      player2StartNodeId: "",
-      player1Nickname: "",
-      player2Nickname: "",
-      currentGameRoomId: "",
-      player1SocketId: "",
-      player2SocketId: "",
-      currentGameState: "",
-      player1MineralCount: 0,
-      player2MineralCount: 0,
-      mineralNodeIdList: [],
-    };
+    state = initialState;
   });
 
   it("should has initial stste", () => {
-    expect(state).toEqual({
-      gameLevel: LEVEL.EASY,
-      isGameOver: false,
-      isGameConnected: false,
-      nodeList: {
-        byId: {},
-        allIds: [[]],
-      },
-      moveCount: 0,
-      isMyTurn: false,
-      mySocketId: "",
-      player1StartNodeId: "",
-      player2StartNodeId: "",
-      player1Nickname: "",
-      player2Nickname: "",
-      currentGameRoomId: "",
-      player1SocketId: "",
-      player2SocketId: "",
-      currentGameState: "",
-      player1MineralCount: 0,
-      player2MineralCount: 0,
-      mineralNodeIdList: [],
-    });
+    expect(state).toEqual(initialState);
   });
 
   it("setGameLevel", () => {
