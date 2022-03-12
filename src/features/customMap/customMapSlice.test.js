@@ -11,25 +11,11 @@ describe("customMapSlice", () => {
   let state = initialState;
 
   beforeEach(() => {
-    state = {
-      nodeList: {
-        byId: {},
-        allIds: [[]],
-      },
-      currentSelectorState: NODE_STATE.MINERAL,
-      isGoatOnBoard: false,
-    };
+    state = initialState;
   });
 
   it("should has initial stste", () => {
-    expect(state).toEqual({
-      nodeList: {
-        byId: {},
-        allIds: [[]],
-      },
-      currentSelectorState: NODE_STATE.MINERAL,
-      isGoatOnBoard: false,
-    });
+    expect(state).toEqual(initialState);
   });
 
   it("setCustomMap", () => {
@@ -71,13 +57,6 @@ describe("customMapSlice", () => {
   it("setStateInitialization", () => {
     state = customMapReducer(state, setStateInitialization());
 
-    expect(state).toEqual({
-      nodeList: {
-        byId: {},
-        allIds: [[]],
-      },
-      currentSelectorState: NODE_STATE.MINERAL,
-      isGoatOnBoard: false,
-    });
+    expect(state).toEqual(initialState);
   });
 });
