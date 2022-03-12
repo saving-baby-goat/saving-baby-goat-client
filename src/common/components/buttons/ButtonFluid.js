@@ -10,10 +10,10 @@ const StyledButtonFluid = styled.button`
   display: flex;
   justify-content: center;
   align-items: center;
+  border-radius: 4rem;
+  background-color: ${(props) => props.color};
   font-size: 1.2rem;
   font-weight: bold;
-  background-color: ${(props) => props.color};
-  border-radius: 4rem;
   cursor: pointer;
 `;
 

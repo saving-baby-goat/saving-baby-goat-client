@@ -5,15 +5,16 @@ import styled from "styled-components";
 import { COLOR } from "../../util/constants";
 
 const StyledButtonDefault = styled.button`
-  width: 20rem;
-  height: 5rem;
   display: flex;
   justify-content: center;
   align-items: center;
-  font-size: 2rem;
-  background-color: ${COLOR.BROWN};
+  width: 20rem;
+  height: 5rem;
   border: 0.3rem solid black;
   border-radius: 4rem;
+  background-color: ${COLOR.BROWN};
+  font-size: 2rem;
+
   cursor: pointer;
 `;
 

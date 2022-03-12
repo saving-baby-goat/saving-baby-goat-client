@@ -3,21 +3,21 @@ import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import styled from "styled-components";
 
-import GOAT_ASSET from "../../../assets/babyGoat.png";
-import MINERAL_ASSET from "../../../assets/mineral.png";
+import GOAT_ASSET from "../../../assets/babyGoat.svg";
+import MINERAL_ASSET from "../../../assets/mineral.svg";
 import ROCK_ASSET from "../../../assets/rocks.svg";
 import { setCurrnetNodeState } from "../../../features/customMap/customMapSlice";
 import { COLOR, NODE_STATE } from "../../util/constants";
 
 const StyledNodeCustom = styled.div`
-  min-width: 40px;
-  min-height: 40px;
-  border-radius: 3px;
-  border: 1px solid ${COLOR.BLACK};
-  margin: 1px;
   display: flex;
   justify-content: center;
   align-items: center;
+  min-width: 40px;
+  min-height: 40px;
+  margin: 1px;
+  border-radius: 3px;
+  border: 1px solid ${COLOR.BLACK};
 
   &:hover {
     background-color: ${COLOR.LIGHT_GREY};

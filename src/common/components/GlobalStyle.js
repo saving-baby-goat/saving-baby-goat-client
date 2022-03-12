@@ -1,14 +1,14 @@
 import { createGlobalStyle } from "styled-components";
 
-import backgroundImg from "../../assets/background.png";
+import backgroundImg from "../../assets/background.svg";
 
 const GlobalStyle = createGlobalStyle`
   html {
-    width: 100vw;
-    height: 100vh;
     display: flex;
     flex-direction: column;
     align-items: center;
+    width: 100vw;
+    height: 100vh;
   }
 
   body {

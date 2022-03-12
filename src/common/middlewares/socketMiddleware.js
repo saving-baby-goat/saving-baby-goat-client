@@ -1,4 +1,3 @@
-/* eslint-disable import/no-cycle */
 import { io } from "socket.io-client";
 
 import {

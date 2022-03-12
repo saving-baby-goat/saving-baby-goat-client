@@ -68,7 +68,7 @@ describe("Cusmtom Map Carete", () => {
     expect(test).toBeInTheDocument();
   });
 
-  test("should show modal with message : 미네랄 갯수는 최소 2개 이상이어야 합니다.", async () => {
+  test("should show modal with message : 미네랄 갯수는 최소 2개 이상, 최대 6개 이하 입니다.", async () => {
     const cusmtomMapSaveButtonElement = screen.getByText("SAVE");
     const goatButton = screen.getByAltText("goat");
     const input = screen.getByPlaceholderText("20자 이내로 입력해 주세요");
@@ -79,10 +79,10 @@ describe("Cusmtom Map Carete", () => {
     fireEvent.click(goatPosition);
     fireEvent.click(cusmtomMapSaveButtonElement);
 
-    const test = await screen.findByText(
-      "미네랄 갯수는 최소 2개 이상이어야 합니다."
-    );
+    const test = await screen.findByText("미네랄 갯수는 최소 2개 이상");
+    const test2 = await screen.findByText("최대 6개 이하 입니다.");
 
     expect(test).toBeInTheDocument();
+    expect(test2).toBeInTheDocument();
   });
 });

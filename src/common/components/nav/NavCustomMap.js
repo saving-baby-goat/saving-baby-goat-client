@@ -6,19 +6,19 @@ import NameCardDefault from "../nameCard/NameCardDefault";
 import Selector from "../selector/Selector";
 
 const StyledNavCustomMap = styled.div`
-  width: 80%;
-  height: 8rem;
   display: flex;
   justify-content: space-evenly;
   align-items: center;
+  width: 80%;
+  height: 8rem;
   padding: 10px;
 
   .optionButton {
-    height: 100%;
     display: flex;
     flex-direction: column;
     justify-content: space-evenly;
     align-items: center;
+    height: 100%;
   }
 `;
 

@@ -96,7 +96,6 @@ export const gameSlice = createSlice({
         }
       }
 
-      // 확인 : 0초과 아니어도 되는지
       if (state.moveCount > 0) {
         state.moveCount--;
       }

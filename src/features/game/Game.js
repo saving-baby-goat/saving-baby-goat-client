@@ -17,19 +17,20 @@ import { CURRNET_GAME_STATE_OPTIONS, LEVEL } from "../../common/util/constants";
 import {
   changeCurrentGameState,
   createGame,
+  onRollDice,
   setCustomNodeList,
   setShortestPath,
 } from "./gameSlice";
 
 const StyledGame = styled.div`
-  width: 100%;
-  height: 100%;
   display: flex;
   flex-direction: column;
+  width: 100%;
+  height: 100%;
 
   .GGButtonContainer {
     display: flex;
-    justify-content: center;
+    justify-content: space-evenly;
     align-items: center;
     margin: 1rem 0;
   }
@@ -40,10 +41,10 @@ const StyledGame = styled.div`
   }
 
   .buttonsContainer {
-    width: 100%;
     display: flex;
     align-items: center;
     justify-content: space-evenly;
+    width: 100%;
   }
 `;
 
@@ -61,12 +62,12 @@ function Game() {
   const currentGameState = useSelector((state) => state.game.currentGameState);
   const mySocketId = useSelector((state) => state.game.mySocketId);
   const nodeList = useSelector((state) => state.game.nodeList);
+  const isGameOver = useSelector((state) => state.game.isGameOver);
+  const isGameConnected = useSelector((state) => state.game.isGameConnected);
   const player1SocketId = useSelector((state) => state.game.player1SocketId);
   const player2SocketId = useSelector((state) => state.game.player2SocketId);
   const player1Nickname = useSelector((state) => state.game.player1Nickname);
   const player2Nickname = useSelector((state) => state.game.player2Nickname);
-  const isGameOver = useSelector((state) => state.game.isGameOver);
-  const isGameConnected = useSelector((state) => state.game.isGameConnected);
   const mineralNodeIdList = useSelector(
     (state) => state.game.mineralNodeIdList
   );
@@ -132,6 +133,27 @@ function Game() {
     setModalContent(content);
   }
 
+  function handleAcceptCheatingButton() {
+    dispatch(onRollDice(999));
+    setShowModal(false);
+  }
+
+  function handleCheatingButton() {
+    setContentAndShowModal(
+      <>
+        <div>치트키....</div>
+        <div className="buttonsContainer">
+          <ButtonSmall type="button" onClick={handleAcceptCheatingButton}>
+            적용
+          </ButtonSmall>
+          <ButtonSmall type="button" onClick={handleModalCloseClick}>
+            취소
+          </ButtonSmall>
+        </div>
+      </>
+    );
+  }
+
   function handleGGButtonClick() {
     setContentAndShowModal(
       <>
@@ -174,7 +196,8 @@ function Game() {
       <Nav />
       <Board />
       <div className="GGButtonContainer">
-        <ButtonFluid onClick={handleGGButtonClick}>G G</ButtonFluid>
+        <ButtonFluid onClick={handleCheatingButton}>치트키</ButtonFluid>
+        <ButtonFluid onClick={handleGGButtonClick}>나가기</ButtonFluid>
       </div>
     </StyledGame>
   );
