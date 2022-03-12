@@ -6,7 +6,7 @@ const StyledNameCardDefault = styled.div`
   z-index: 3;
   position: absolute;
   width: 80rem;
-  height: 12rem;
+  height: 9rem;
   display: flex;
   justify-content: center;
   align-items: center;

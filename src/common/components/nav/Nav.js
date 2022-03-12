@@ -1,3 +1,4 @@
+import PropTypes from "prop-types";
 import React, { useEffect, useState } from "react";
 import Dice from "react-dice-roll";
 import { useDispatch, useSelector } from "react-redux";
@@ -15,6 +16,7 @@ const StyledNav = styled.div`
   justify-content: center;
   align-items: center;
   height: 12rem;
+  visibility: ${(props) => (props.showNav ? "hidden" : null)};
 
   .section-one {
     display: flex;
@@ -42,7 +44,7 @@ const StyledNav = styled.div`
   }
 `;
 
-function Nav() {
+function Nav({ isGameOver }) {
   const dispatch = useDispatch();
   const gameLevel = useSelector((state) => state.game.gameLevel);
   const currentMoveCount = useSelector((state) => state.game.moveCount);
@@ -101,7 +103,7 @@ function Nav() {
   }
 
   return (
-    <StyledNav>
+    <StyledNav showNav={isGameOver}>
       <div className="section-one">
         <NameCardDefault>{gameLevel}</NameCardDefault>
         <ButtonFluid onClick={handleEndOfTrurnClick}>턴 종 료</ButtonFluid>
@@ -124,5 +126,9 @@ function Nav() {
     </StyledNav>
   );
 }
+
+Nav.propTypes = {
+  isGameOver: PropTypes.bool.isRequired,
+};
 
 export default Nav;
