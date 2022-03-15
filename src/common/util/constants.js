@@ -3,6 +3,11 @@ export const ROCK_PERCENTAGE = 0.3;
 export const BOMB_PERCENTAGE = 0.1;
 export const DECIMAL = 10;
 
+export const MINIMUM_MINERAL_COUNT = 2;
+export const MAXIMUM_MINERAL_COUNT = 10;
+
+export const MAXIMUM_MAP_NAME_LENGTH = 20;
+
 export const VICTORY_MINERAL_COUNT = 2;
 
 export const COLOR = {

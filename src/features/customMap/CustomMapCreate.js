@@ -9,7 +9,12 @@ import ButtonFluid from "../../common/components/buttons/ButtonFluid";
 import ButtonSmall from "../../common/components/buttons/ButtonSmall";
 import Modal from "../../common/components/modal/Modal";
 import NavCustomMap from "../../common/components/nav/NavCustomMap";
-import { COLOR } from "../../common/util/constants";
+import {
+  COLOR,
+  MAXIMUM_MAP_NAME_LENGTH,
+  MAXIMUM_MINERAL_COUNT,
+  MINIMUM_MINERAL_COUNT,
+} from "../../common/util/constants";
 import { findMineralNodeIdList } from "../../common/util/game";
 import { setStateInitialization } from "./customMapSlice";
 
@@ -77,7 +82,7 @@ function CustomMapCreate() {
   }
 
   async function handleSaveButtonClick() {
-    if (!mapName || mapName.length > 20) {
+    if (!mapName || mapName.length > MAXIMUM_MAP_NAME_LENGTH) {
       setContentAndShowModal(
         <>
           <div>맵 이름은 1 ~ 20자 입니다.</div>
@@ -113,13 +118,13 @@ function CustomMapCreate() {
       return;
     }
     if (
-      findMineralNodeIdList(nodeList).length < 2 ||
-      findMineralNodeIdList(nodeList).length > 6
+      findMineralNodeIdList(nodeList).length < MINIMUM_MINERAL_COUNT ||
+      findMineralNodeIdList(nodeList).length > MAXIMUM_MINERAL_COUNT
     ) {
       setContentAndShowModal(
         <>
           <div>미네랄 갯수는 최소 2개 이상</div>
-          <div>최대 6개 이하 입니다.</div>
+          <div>최대 10개 이하 입니다.</div>
           <ButtonSmall
             type="button"
             onClick={() => {
