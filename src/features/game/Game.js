@@ -193,7 +193,7 @@ function Game() {
       {showModal && (
         <Modal onModalCloseClick={handleModalCloseClick}>{modalContent}</Modal>
       )}
-      <Nav />
+      <Nav isGameOver={isGameOver} />
       <Board />
       <div className="GGButtonContainer">
         <ButtonFluid onClick={handleCheatingButton}>치트키</ButtonFluid>
