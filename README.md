@@ -1,5 +1,17 @@
 # 염소를 구해라 (Saving Baby Goat)
 
+![React](https://img.shields.io/badge/react-%2320232a.svg?style=for-the-badge&logo=react&logoColor=%2361DAFB)
+![Redux](https://img.shields.io/badge/redux-%23593d88.svg?style=for-the-badge&logo=redux&logoColor=white)
+![Socket.io](https://img.shields.io/badge/Socket.io-black?style=for-the-badge&logo=socket.io&badgeColor=010101)
+![NodeJS](https://img.shields.io/badge/node.js-6DA55F?style=for-the-badge&logo=node.js&logoColor=white)
+![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)  
+![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
+![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)
+![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)
+
+[![Netlify Status](https://api.netlify.com/api/v1/badges/397e5e5a-09a1-4444-8e9e-2a5d78a21eaf/deploy-status)](https://app.netlify.com/sites/savingbabygoat/deploys)
+![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
+
 ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FqvndM%2Fbtrv4myCwGa%2FuWoC3TY3SfyWPsrton2Okk%2Fimg.png)
 
 영양분을 섭취 하기 위해 고산지대의 염소들은 위험한 절벽에 매달려 돌을 핥아 먹습니다. 위험에 빠진 아기염소를 먼저 구하는 보드게임 형식의 웹 게임 입니다. 주사위를 굴려 미네랄을 얻고, 다이너마이트를 피해 먼저 염소를 구하면 승리 합니다.
