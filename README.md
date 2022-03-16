@@ -7,8 +7,7 @@
 ![MongoDB](https://img.shields.io/badge/MongoDB-%234ea94b.svg?style=for-the-badge&logo=mongodb&logoColor=white)  
 ![Jest](https://img.shields.io/badge/-jest-%23C21325?style=for-the-badge&logo=jest&logoColor=white)
 ![Mocha](https://img.shields.io/badge/-mocha-%238D6748?style=for-the-badge&logo=mocha&logoColor=white)
-![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)
-
+![Testing-Library](https://img.shields.io/badge/-TestingLibrary-%23E33332?style=for-the-badge&logo=testing-library&logoColor=white)  
 [![Netlify Status](https://api.netlify.com/api/v1/badges/397e5e5a-09a1-4444-8e9e-2a5d78a21eaf/deploy-status)](https://app.netlify.com/sites/savingbabygoat/deploys)
 ![AWS](https://img.shields.io/badge/AWS-%23FF9900.svg?style=for-the-badge&logo=amazon-aws&logoColor=white)
 
@@ -68,10 +67,10 @@
 
 ### A Start search
 
-출발 지점에서 목표 지점까지 가는 최단 경로를 찾는 알고리즘으로,[Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) 알고리즘 에서 h(n)(휴리스틱)을 추가한 알고리즘 입니다.
+출발 지점에서 목표 지점까지 가는 최단 경로를 찾는 알고리즘으로, [Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) 알고리즘 에서 h(n)(휴리스틱)을 추가한 알고리즘 입니다.
 
 ```
-A* 알고리즘
+A Star 알고리즘
 
 f(n) = g(n) + h(n)
 
@@ -87,7 +86,7 @@ Closed-Set : Open-Set에서 목적지 까지 가는데에 가장 짧은 거리�
 
 1. 출발 노드를 선택한다.
 2. 출발 노드 를 Open-Set 에 추가 한다.
-3. Open-Set이 []이 되거나 가장 비용이 작은 노드가 목표 노드가 될때까지 다음을 반복한다.  
+3. Open-Set이 '0'이 되거나 가장 비용이 작은 노드가 목표 노드가 될때까지 다음을 반복한다.  
    a. Open-Set에서 가장 거리가 f(n) 같이 짧은 노드를 검색 (최초에는 시작 노드)  
    b. 현재 노드를 Closed-Set에 추가 하고 Open-Set에서 제거  
    c. Closed-Set의 상하좌우 4방향을 탐색하고 Open-Set에 추가 (이동할 수 없는 노드이면 제외)  
