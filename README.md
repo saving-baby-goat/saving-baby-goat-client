@@ -2,24 +2,17 @@
 
 ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FqvndM%2Fbtrv4myCwGa%2FuWoC3TY3SfyWPsrton2Okk%2Fimg.png)
 
-<br/>
-
-## ✅ 프로젝트 소개
-
-
 영양분을 섭취 하기 위해 고산지대의 염소들은 위험한 절벽에 매달려 돌을 핥아 먹습니다. 위험에 빠진 아기염소를 먼저 구하는 보드게임 형식의 웹 게임 입니다. 주사위를 굴려 미네랄을 얻고, 다이너마이트를 피해 먼저 염소를 구하면 승리 합니다.
 
 <br/>
 
-## 🔍 프로젝트 동기
-
+## 🔍 Motivation
 
 처음 프로젝트를 구상할 때부터 알고리즘에 대한 관심이 많았습니다. 알고리즘을 이용하여 게임을 만들고 싶었고, 프로젝트를 구상하던 중 보드게임에서 아이디어를 얻어 프로젝트를 기획하게 되었습니다.
 
 <br/>
 
-## 🐐 Saving Baby Goat 게임 소개 및 기능 소개
-
+## 🐐 Introduce & 🕹 Feature
 
 ### 게임 주소
 
@@ -33,6 +26,7 @@
 - 바위로 막힌 길은 지나 갈 수 없습니다.
 - 다이너마이트는 밟으면 폭발하고 이동횟수가 1 감소합니다.
 - 게임에서 승리하게되면 승리한 플레이어의 시작점에서 부터, 미네랄 2개를 획득하고, 염소까지의 최단거리가 화면에 표시됩니다.
+
   ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdpjPal%2Fbtrv5mx7k8X%2FH72FXyp2LKA6xVLC3YfjsK%2Fimg.png)
 
 ### 게임 난이도
@@ -42,15 +36,15 @@
 | 미네랄 2개 이상 획득하고 염소를 먼저 찾으면 승리합니다.                                                                                                               | 막힌 길(바위)를 피해 미네랄 2개이상 획득하고 염소를 먼저 찾으면 승리합니다                                                                                             |
 | ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlFyXA%2Fbtrv5mx7leq%2FQYDWKQ29jNQ6nInCBFOi1K%2Fimg.png) | ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FdxsBgL%2Fbtrv0PBNPcb%2FhYEkHypvdKgoZlnOo725DK%2Fimg.png) |
 
-| HARD                                                                                                                                                                                  | CUSTOM                                                                                                                                                                 |
-| :------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
-| - 숨겨진 다이너마이트를 밟게 되면 이동횟수가 1 감소 합니다. <br> - 터진 다이어마이트는 빨간색으로 표시되며 다시 클릭하면 지나갈 수 있습니다. <br> 나머지 Rule은 Normal 과 동일합니다. | - 사용자가 자율적으로 맵을 만들어 플레이 할수 있습니다.<br> - Rule은 Hard 모드와 동일합니다.                                                                           |
-| ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F1gkHD%2Fbtrv119PcLz%2FonrB902mn8O9Uw89kf1GS1%2Fimg.png)                 | ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb0SsKk%2Fbtrv5opaDk4%2F9sUK0PwsYjOoPqNY1vOyGk%2Fimg.png) |
+| HARD                                                                                                                                                                                          | CUSTOM                                                                                                                                                                 |
+| :-------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | :--------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| - 숨겨진 다이너마이트를 밟게 되면 이동횟수가 1 감소 합니다. <br> - 터진 다이어마이트는 빨간색으로 표시됩니다. <br>- 다시 클릭하면 지나갈 수 있습니다. <br> - 이외 Rule은 Normal과 동일합니다. | - 사용자가 자율적으로 맵을 만들어 플레이 할수 있습니다.<br> - Rule은 Hard 모드와 동일합니다.                                                                           |
+| ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F1gkHD%2Fbtrv119PcLz%2FonrB902mn8O9Uw89kf1GS1%2Fimg.png)                         | ![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2Fb0SsKk%2Fbtrv5opaDk4%2F9sUK0PwsYjOoPqNY1vOyGk%2Fimg.png) |
 
 ### CUSTOM MAP
 
-![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGgyZu%2Fbtrv6d3AB76%2FJ7e0BLyHDMxiQPoAyTKNYk%2Fimg.png)   
-![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FUsRBa%2Fbtrv6eBpTlE%2F7K4IlCguK3LQaSgsMKb4Tk%2Fimg.png)   
+![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGgyZu%2Fbtrv6d3AB76%2FJ7e0BLyHDMxiQPoAyTKNYk%2Fimg.png)  
+![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FUsRBa%2Fbtrv6eBpTlE%2F7K4IlCguK3LQaSgsMKb4Tk%2Fimg.png)
 
 - 사용자들이 직접 맵을 만들어 플레이 할 수 있습니다.
 - 염소는 필수로 있어야 하며, 미네랄은 최소 2개 최대 10개 입니다.
@@ -58,8 +52,39 @@
 
 <br/>
 
-## 🗓 작업 기간
+## ♾ Algorithm
 
+### A Start search
+
+출발 지점에서 목표 지점까지 가는 최단 경로를 찾는 알고리즘으로,[Dijkstra](https://en.wikipedia.org/wiki/Dijkstra%27s_algorithm) 알고리즘 에서 h(n)(휴리스틱)을 추가한 알고리즘 입니다.
+
+```
+A* 알고리즘
+
+f(n) = g(n) + h(n)
+
+g(n) : 출발노드에서 현재(n)노드까지의 거리
+h(n) : 현재(n)노드에서 목적지 노드 까지의 예상 거리 (manhattan distance 이용)
+
+Open-Set : 길찾기 진행시 거리를 고려하게되는 노드들의 목록
+Closed-Set : Open-Set에서 목적지 까지 가는데에 가장 짧은 거리를 가진 노드들의 목록
+
+```
+
+알고리즘 진행은 다음과 같습니다.
+
+1. 출발 노드를 선택한다.
+2. 출발 노드 를 Open-Set 에 추가 한다.
+3. Open-Set이 []이 되거나 가장 비용이 작은 노드가 목표 노드가 될때까지 다음을 반복한다.  
+   a. Open-Set에서 가장 거리가 f(n) 같이 짧은 노드를 검색 (최초에는 시작 노드)  
+   b. 현재 노드를 Closed-Set에 추가 하고 Open-Set에서 제거  
+   c. Closed-Set의 상하좌우 4방향을 탐색하고 Open-Set에 추가 (이동할 수 없는 노드이면 제외)  
+   d. Closed-Set에 있다면 제외
+
+[A Start serch 알고리즘 WIKI](https://en.wikipedia.org/wiki/A*_search_algorithm)  
+[Manhattan Distance](https://ko.wikipedia.org/wiki/%EB%A7%A8%ED%95%B4%ED%8A%BC_%EA%B1%B0%EB%A6%AC)
+
+## 🗓 Schedule
 
 #### 1주차 기획 📝
 
@@ -87,8 +112,7 @@
 
 <br/>
 
-## 🪄 사용 기술 스택
-
+## 🪄 Tech Stack
 
 ### Client
 
@@ -131,8 +155,7 @@
 
 <br/>
 
-## 🗒 프로젝트 후기
-
+## 📓 프로젝트 후기
 
 ### 나 왜 게임 만든다고 했지...?
 
@@ -147,3 +170,34 @@
 - 첫 프로젝트를 팀 프로젝트로 진행했었고, 혼자서 프로젝트를 시작하게 되니 많은 압박과 두려움이 앞섰습니다. 기획 단계에서 부터 혼자 고민하고 결정해야 하는 부분에서 어려움을 많이 느꼈습니다. 개발을 할때는 좀 더 간단한 로직과 풀이방법이 있을것 같은데 피드백을 받지 못하고 스스로 해결을 해야는 부분이 제일 힘들었습니다.
 - 프로젝트의 완성도를 최대한 끌어올리지 못한것이 제일 많이 아쉬운 점입니다. 개발 도중 Redux 상태값들을 싹 갈아엎고 처음부터 다시 작성하였기도 했고, Socket을 이용한 실시간 통신 로직도 몇번이고 수정을 하였습니다. 이에 따라 시간이 많이 딜레이 되어 시간에 쫓겨 개발을 하였습니다.
 - 이번 개인 프로젝트를 진행하면서 어려움이 많았지만, 내가 구현한 로직으로 게임이 실행되고 결과가 나온다는 과정에서 다시 한번 개발에 재미를 느끼게 되었고 많은 것을 배울 수 있었던 프로젝트였습니다.
+
+<br/>
+
+## ⚙️ Installation
+
+Saving Baby Goat는 배포가 되어 사용가능합니다.  
+로컬에서 구동을 원하실 경우 아래의 .env파일 설정이 필요합니다.
+
+### client
+
+```
+REACT_APP_AXIOS_BASE_URL=http://localhost:8000
+```
+
+### Server
+
+```
+DB_URL="Your mongoDB URL"
+
+TEST_DB_LOCAL_URL=mongodb://127.0.0.1/test
+
+CORS_ORIGIN_URL=http://localhost:3000
+```
+
+## 🧪 TEST
+
+Test 명령은 Client, Server 동일합니다.
+
+```
+$ npm test
+```
