@@ -6,7 +6,6 @@
 
 ## ✅ 프로젝트 소개
 
----
 
 영양분을 섭취 하기 위해 고산지대의 염소들은 위험한 절벽에 매달려 돌을 핥아 먹습니다. 위험에 빠진 아기염소를 먼저 구하는 보드게임 형식의 웹 게임 입니다. 주사위를 굴려 미네랄을 얻고, 다이너마이트를 피해 먼저 염소를 구하면 승리 합니다.
 
@@ -14,7 +13,6 @@
 
 ## 🔍 프로젝트 동기
 
----
 
 처음 프로젝트를 구상할 때부터 알고리즘에 대한 관심이 많았습니다. 알고리즘을 이용하여 게임을 만들고 싶었고, 프로젝트를 구상하던 중 보드게임에서 아이디어를 얻어 프로젝트를 기획하게 되었습니다.
 
@@ -22,7 +20,6 @@
 
 ## 🐐 Saving Baby Goat 게임 소개 및 기능 소개
 
----
 
 ### 게임 주소
 
@@ -52,8 +49,8 @@
 
 ### CUSTOM MAP
 
-![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2F9JZG1%2Fbtrv3hj0DdT%2FZmqsPFhXlxaHKR2rr8WUf1%2Fimg.png)
-![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FmZeKo%2Fbtrv3gk6257%2FSs9aZUCB0C7Hqom94svI5K%2Fimg.png)
+![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FGgyZu%2Fbtrv6d3AB76%2FJ7e0BLyHDMxiQPoAyTKNYk%2Fimg.png)   
+![title](https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FUsRBa%2Fbtrv6eBpTlE%2F7K4IlCguK3LQaSgsMKb4Tk%2Fimg.png)   
 
 - 사용자들이 직접 맵을 만들어 플레이 할 수 있습니다.
 - 염소는 필수로 있어야 하며, 미네랄은 최소 2개 최대 10개 입니다.
@@ -63,7 +60,6 @@
 
 ## 🗓 작업 기간
 
----
 
 #### 1주차 기획 📝
 
@@ -93,7 +89,6 @@
 
 ## 🪄 사용 기술 스택
 
----
 
 ### Client
 
@@ -138,7 +133,6 @@
 
 ## 🗒 프로젝트 후기
 
----
 
 ### 나 왜 게임 만든다고 했지...?
 
